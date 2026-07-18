@@ -1,10 +1,6 @@
 // Serene Steps — data model.
 //
-// Local dev uses SQLite (portable, no server needed). Production uses Postgres
-// (Neon): change `provider` to "postgresql" and point DATABASE_URL at Neon.
-// The schema avoids provider-specific features so it works on both unchanged —
-// `status` is a plain String ("DRAFT" | "PUBLISHED") rather than a Postgres enum,
-// enforced in the app via Zod (see src/lib/validation.ts).
+// Postgres (Neon), shared by local dev and production via DATABASE_URL.
 
 generator client {
   provider = "prisma-client-js"
@@ -12,7 +8,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
