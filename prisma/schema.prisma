@@ -1,0 +1,72 @@
+// Serene Steps — data model.
+//
+// Local dev uses SQLite (portable, no server needed). Production uses Postgres
+// (Neon): change `provider` to "postgresql" and point DATABASE_URL at Neon.
+// The schema avoids provider-specific features so it works on both unchanged —
+// `status` is a plain String ("DRAFT" | "PUBLISHED") rather than a Postgres enum,
+// enforced in the app via Zod (see src/lib/validation.ts).
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String // bcrypt hash
+  name      String?
+  createdAt DateTime @default(now())
+}
+
+model Post {
+  id             String    @id @default(cuid())
+  title          String
+  slug           String    @unique
+  excerpt        String?
+  content        String // HTML from Tiptap
+  coverImage     String?
+  category       String?
+  status         String    @default("DRAFT") // "DRAFT" | "PUBLISHED"
+  seoTitle       String?
+  seoDescription String?
+  publishedAt    DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+model Faq {
+  id        String   @id @default(cuid())
+  question  String
+  answer    String
+  category  String?
+  order     Int      @default(0)
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  name      String
+  role      String?
+  quote     String
+  order     Int      @default(0)
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+model ContactSubmission {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  concern   String? // "Children & Teens" | "Individual" | "Couples & Family" | "Other"
+  message   String
+  handled   Boolean  @default(false)
+  createdAt DateTime @default(now())
+}

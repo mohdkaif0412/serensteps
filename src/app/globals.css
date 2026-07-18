@@ -1,0 +1,198 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ */
+/* Serene Steps — design tokens                                        */
+/* Warm, editorial, non-clinical. Most of the page is paper + pine +   */
+/* sage; honey is reserved for accents, active states, step-markers.   */
+/* ------------------------------------------------------------------ */
+@theme {
+  --color-paper: #f6f3ec;
+  --color-pine: #24352f;
+  --color-sage: #dce4d6;
+  --color-sage-deep: #8da290;
+  --color-honey: #e3a857;
+  /* Darkened from the brief's #6B7A70 to reach WCAG AA (4.5:1) on --paper for
+     body/secondary text; keeps the soft sage-gray character. */
+  --color-muted: #5e6e64;
+
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", sans-serif;
+  --font-display: var(--font-newsreader), ui-serif, Georgia, "Times New Roman",
+    serif;
+
+  /* Soft, warm shadows tuned for the paper background */
+  --shadow-soft: 0 1px 2px rgba(36, 53, 47, 0.04),
+    0 8px 24px -12px rgba(36, 53, 47, 0.14);
+  --shadow-lift: 0 2px 4px rgba(36, 53, 47, 0.05),
+    0 18px 40px -18px rgba(36, 53, 47, 0.22);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 6rem; /* keep anchored sections clear of sticky header */
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-pine);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.012em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Accessible, on-brand focus ring everywhere */
+  :focus-visible {
+    outline: 2px solid var(--color-honey);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background-color: color-mix(in srgb, var(--color-honey) 30%, transparent);
+    color: var(--color-pine);
+  }
+}
+
+/* Skip-to-content link for keyboard users */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  background: var(--color-pine);
+  color: var(--color-paper);
+  padding: 0.75rem 1.25rem;
+  border-radius: 0 0 0.5rem 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.skip-link:focus {
+  left: 0;
+}
+
+/* Article / legal prose — a small, dependency-free typography style for
+   Tiptap HTML (blog) and static legal pages. */
+.prose-serene {
+  color: var(--color-muted);
+  font-size: 1.075rem;
+  line-height: 1.85;
+}
+.prose-serene > * + * {
+  margin-top: 1.25em;
+}
+.prose-serene h2 {
+  font-family: var(--font-display);
+  color: var(--color-pine);
+  font-size: 1.6rem;
+  line-height: 1.3;
+  margin-top: 1.9em;
+}
+.prose-serene h3 {
+  font-family: var(--font-display);
+  color: var(--color-pine);
+  font-size: 1.3rem;
+  line-height: 1.35;
+  margin-top: 1.6em;
+}
+.prose-serene a {
+  color: var(--color-pine);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--color-sage-deep);
+}
+.prose-serene a:hover {
+  text-decoration-color: var(--color-honey);
+}
+.prose-serene strong {
+  color: var(--color-pine);
+  font-weight: 600;
+}
+.prose-serene ul,
+.prose-serene ol {
+  padding-left: 0;
+  list-style: none;
+}
+.prose-serene ul > li,
+.prose-serene ol > li {
+  position: relative;
+  padding-left: 1.6rem;
+}
+.prose-serene li + li {
+  margin-top: 0.5rem;
+}
+.prose-serene ul > li::before {
+  content: "";
+  position: absolute;
+  left: 0.2rem;
+  top: 0.72em;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 9999px;
+  background: var(--color-honey);
+}
+.prose-serene ol {
+  counter-reset: item;
+}
+.prose-serene ol > li::before {
+  counter-increment: item;
+  content: counter(item);
+  position: absolute;
+  left: 0;
+  top: 0.05em;
+  font-size: 0.85em;
+  font-weight: 600;
+  color: var(--color-honey);
+}
+.prose-serene blockquote {
+  border-left: 3px solid var(--color-sage-deep);
+  padding-left: 1.25rem;
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--color-pine);
+}
+
+/* Tiptap editor (admin) */
+.ProseMirror:focus {
+  outline: none;
+}
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: var(--color-muted);
+  opacity: 0.55;
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Honor reduced-motion globally as an accessibility floor.
+   Framer Motion is also gated on useReducedMotion() in components. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

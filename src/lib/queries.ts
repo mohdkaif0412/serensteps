@@ -1,0 +1,132 @@
+import { prisma } from "@/lib/db";
+import { postCover } from "@/lib/images";
+import { readingMinutes } from "@/lib/utils";
+import type { Post as DbPost } from "@/generated/prisma";
+
+// ─── View models the public components consume ───────────────────
+
+export type PublicPost = {
+  slug: string;
+  title: string;
+  excerpt: string;
+  category: string;
+  coverImage: string;
+  coverAlt: string;
+  publishedAt: string; // ISO
+  readingMinutes: number;
+  content: string; // HTML
+  seoTitle: string | null;
+  seoDescription: string | null;
+};
+
+export type PublicTestimonial = {
+  name: string;
+  role: string | null;
+  quote: string;
+};
+
+export type PublicFaqGroup = {
+  category: string;
+  items: { question: string; answer: string }[];
+};
+
+function toPublicPost(post: DbPost): PublicPost {
+  return {
+    slug: post.slug,
+    title: post.title,
+    excerpt: post.excerpt ?? "",
+    category: post.category ?? "Journal",
+    coverImage: post.coverImage || postCover(post.slug),
+    coverAlt: `Cover image for “${post.title}”`,
+    publishedAt: (post.publishedAt ?? post.createdAt).toISOString(),
+    readingMinutes: readingMinutes(post.content),
+    content: post.content,
+    seoTitle: post.seoTitle,
+    seoDescription: post.seoDescription,
+  };
+}
+
+const PUBLISHED = { status: "PUBLISHED" as const };
+
+// ─── Posts ───────────────────────────────────────────────────────
+
+export const BLOG_PAGE_SIZE = 9;
+
+export async function getPublishedPosts({
+  page = 1,
+  pageSize = BLOG_PAGE_SIZE,
+}: { page?: number; pageSize?: number } = {}) {
+  const [total, posts] = await Promise.all([
+    prisma.post.count({ where: PUBLISHED }),
+    prisma.post.findMany({
+      where: PUBLISHED,
+      orderBy: { publishedAt: "desc" },
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+    }),
+  ]);
+  return {
+    posts: posts.map(toPublicPost),
+    total,
+    totalPages: Math.max(1, Math.ceil(total / pageSize)),
+    page,
+  };
+}
+
+export async function getLatestPosts(take = 3): Promise<PublicPost[]> {
+  const posts = await prisma.post.findMany({
+    where: PUBLISHED,
+    orderBy: { publishedAt: "desc" },
+    take,
+  });
+  return posts.map(toPublicPost);
+}
+
+export async function getPublishedPostBySlug(
+  slug: string,
+): Promise<PublicPost | null> {
+  const post = await prisma.post.findFirst({ where: { slug, ...PUBLISHED } });
+  return post ? toPublicPost(post) : null;
+}
+
+export async function getAllPublishedSlugs() {
+  const posts = await prisma.post.findMany({
+    where: PUBLISHED,
+    select: { slug: true },
+  });
+  return posts.map((p) => p.slug);
+}
+
+// ─── FAQs ────────────────────────────────────────────────────────
+
+export async function getPublishedFaqGroups(): Promise<PublicFaqGroup[]> {
+  const faqs = await prisma.faq.findMany({
+    where: { published: true },
+    orderBy: { order: "asc" },
+  });
+  const groups: PublicFaqGroup[] = [];
+  for (const faq of faqs) {
+    const category = faq.category ?? "General";
+    let group = groups.find((g) => g.category === category);
+    if (!group) {
+      group = { category, items: [] };
+      groups.push(group);
+    }
+    group.items.push({ question: faq.question, answer: faq.answer });
+  }
+  return groups;
+}
+
+// ─── Testimonials ────────────────────────────────────────────────
+
+export async function getPublishedTestimonials(): Promise<PublicTestimonial[]> {
+  const testimonials = await prisma.testimonial.findMany({
+    where: { published: true },
+    orderBy: { order: "asc" },
+  });
+  return testimonials.map((t) => ({
+    name: t.name,
+    role: t.role,
+    quote: t.quote,
+  }));
+}
