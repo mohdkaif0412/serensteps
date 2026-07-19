@@ -1,9 +1,11 @@
 import type { ElementType, ReactNode } from "react";
 import { Reveal } from "@/components/ui/Reveal";
+import { Eyebrow } from "@/components/ui/Eyebrow";
 import { cn } from "@/lib/utils";
 
 type SectionHeadingProps = {
   eyebrow?: string;
+  /** Pass <em>…</em> around a phrase to set it in Newsreader italic. */
   title: ReactNode;
   intro?: ReactNode;
   align?: "left" | "center";
@@ -32,20 +34,11 @@ export function SectionHeading({
       )}
     >
       {eyebrow && (
-        <p
-          className={cn(
-            "mb-4 inline-flex items-center gap-2 text-sm font-medium uppercase tracking-[0.18em]",
-            onPine ? "text-sage" : "text-muted",
-            align === "center" && "justify-center",
-          )}
-        >
-          <span className="size-1.5 rounded-full bg-honey" aria-hidden="true" />
-          {eyebrow}
-        </p>
+        <Eyebrow tone={onPine ? "light" : "dark"}>{eyebrow}</Eyebrow>
       )}
       <Tag
         className={cn(
-          "font-display text-3xl leading-tight sm:text-4xl",
+          "font-display text-[clamp(2rem,4.2vw,2.9rem)] leading-[1.1]",
           onPine ? "text-paper" : "text-pine",
         )}
       >
@@ -54,8 +47,9 @@ export function SectionHeading({
       {intro && (
         <p
           className={cn(
-            "mt-4 text-lg leading-relaxed",
+            "mt-5 max-w-[62ch] text-lg leading-[1.75]",
             onPine ? "text-sage/85" : "text-muted",
+            align === "center" && "mx-auto",
           )}
         >
           {intro}

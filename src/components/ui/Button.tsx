@@ -5,15 +5,19 @@ import { cn } from "@/lib/utils";
 type Variant = "primary" | "accent" | "outline" | "ghost";
 type Size = "sm" | "md" | "lg";
 
+// Warm hover-lift + a satisfying press (settles back down and in slightly).
 const base =
-  "group inline-flex items-center justify-center gap-2 rounded-full font-medium tracking-tight transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-honey disabled:opacity-60 disabled:pointer-events-none cursor-pointer";
+  "group inline-flex items-center justify-center gap-2 rounded-full font-medium tracking-tight transition-all duration-300 ease-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-honey disabled:opacity-60 disabled:pointer-events-none cursor-pointer active:translate-y-0 active:scale-[0.985] active:shadow-soft";
 
 const variants: Record<Variant, string> = {
   // Deep, grounding green — the workhorse dark CTA
-  primary: "bg-pine text-paper hover:bg-pine/90 shadow-soft hover:shadow-lift",
-  // Warm accent — hope. Use sparingly (hero, final CTA).
-  accent: "bg-honey text-pine hover:brightness-[1.04] shadow-soft hover:shadow-lift",
-  outline: "border border-sage-deep/60 text-pine hover:border-pine hover:bg-sage/50",
+  primary:
+    "bg-pine text-paper shadow-soft hover:-translate-y-0.5 hover:bg-pine-deep hover:shadow-lift",
+  // Warm honey — hope. Reserved for the key CTA moments (hero, final band).
+  accent:
+    "bg-honey text-pine shadow-soft hover:-translate-y-0.5 hover:shadow-lift hover:brightness-[1.05]",
+  outline:
+    "border border-sage-deep/60 text-pine hover:-translate-y-0.5 hover:border-pine hover:bg-sage-mist",
   ghost: "text-pine hover:bg-sage/60",
 };
 

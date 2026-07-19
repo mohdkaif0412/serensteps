@@ -58,3 +58,13 @@ const BLOG_COVERS: Record<string, string> = {
 
 export const postCover = (slug: string, w = 1200, h = 800) =>
   `https://picsum.photos/id/${BLOG_COVERS[slug] ?? "1015"}/${w}/${h}`;
+
+/**
+ * Shared blur-up placeholder: a tiny sage-to-paper gradient SVG so every photo
+ * resolves softly out of the brand palette instead of popping in from blank.
+ */
+export const BLUR_DATA_URL =
+  "data:image/svg+xml;charset=utf-8," +
+  encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#dce4d6"/><stop offset="1" stop-color="#efe8da"/></linearGradient></defs><rect width="8" height="8" fill="url(#g)"/></svg>`,
+  );

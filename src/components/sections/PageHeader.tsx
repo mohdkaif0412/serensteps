@@ -1,42 +1,44 @@
 import type { ReactNode } from "react";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
+import { Eyebrow } from "@/components/ui/Eyebrow";
 import { cn } from "@/lib/utils";
 
+/**
+ * Editorial page opener: left-aligned by default, confident display scale,
+ * with a soft honey wash behind the composition.
+ */
 export function PageHeader({
   eyebrow,
   title,
   intro,
-  align = "center",
+  align = "left",
 }: {
   eyebrow?: string;
+  /** Pass <em>…</em> around a phrase for a Newsreader-italic accent. */
   title: ReactNode;
   intro?: ReactNode;
   align?: "center" | "left";
 }) {
   const centered = align === "center";
   return (
-    <section className="pb-4 pt-10 sm:pt-16">
-      <Container size="prose">
-        <Reveal className={cn(centered && "mx-auto text-center")}>
+    <section className="relative overflow-hidden pb-6 pt-12 sm:pb-8 sm:pt-16">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-40 -top-32 h-[24rem] w-[24rem] rounded-full bg-honey/10 blur-3xl"
+      />
+      <Container>
+        <Reveal className={cn("max-w-3xl", centered && "mx-auto text-center")}>
           {eyebrow && (
-            <p
-              className={cn(
-                "mb-4 inline-flex items-center gap-2 text-sm font-medium uppercase tracking-[0.18em] text-muted",
-                centered && "justify-center",
-              )}
-            >
-              <span className="size-1.5 rounded-full bg-honey" aria-hidden="true" />
-              {eyebrow}
-            </p>
+            <Eyebrow className={cn(centered && "justify-center")}>{eyebrow}</Eyebrow>
           )}
-          <h1 className="font-display text-4xl leading-[1.08] text-pine sm:text-5xl">
+          <h1 className="font-display text-[clamp(2.5rem,5.4vw,3.9rem)] leading-[1.05] text-pine">
             {title}
           </h1>
           {intro && (
             <p
               className={cn(
-                "mt-5 max-w-2xl text-lg leading-relaxed text-muted",
+                "mt-6 max-w-[60ch] text-lg leading-[1.75] text-muted",
                 centered && "mx-auto",
               )}
             >

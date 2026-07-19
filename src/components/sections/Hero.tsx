@@ -1,86 +1,98 @@
-import Image from "next/image";
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
+import { Eyebrow } from "@/components/ui/Eyebrow";
+import { Photo } from "@/components/ui/Photo";
+import { Parallax } from "@/components/ui/Parallax";
 import { img } from "@/lib/images";
+import { bookingCta } from "@/lib/site";
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden pb-16 pt-8 sm:pb-24 sm:pt-14">
-      {/* soft warm glow behind the hero */}
+    <section className="relative overflow-hidden pb-20 pt-8 sm:pb-28 sm:pt-14">
+      {/* Soft washes of warmth behind the composition */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-honey/10 blur-3xl"
+        className="pointer-events-none absolute -right-40 top-8 h-[30rem] w-[30rem] rounded-full bg-honey/10 blur-3xl"
       />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -left-48 -top-24 h-[26rem] w-[26rem] rounded-full bg-sage/50 blur-3xl"
+      />
+
       <Container>
-        <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
-          <div>
+        <div className="grid items-center gap-14 lg:grid-cols-12 lg:gap-8">
+          {/* Copy — deliberately wider than half, so the composition is off-center */}
+          <div className="relative z-10 lg:col-span-7">
             <Reveal>
-              <span className="inline-flex items-center gap-2 rounded-full border border-sage-deep/40 bg-sage/50 px-4 py-1.5 text-xs font-medium text-pine/80 sm:text-sm">
-                <span className="size-1.5 rounded-full bg-honey" aria-hidden="true" />
-                A gentle place to begin
-              </span>
+              <Eyebrow>A gentle place to begin</Eyebrow>
             </Reveal>
 
-            <Reveal delay={0.06}>
-              <h1 className="mt-6 font-display text-[2.6rem] leading-[1.05] text-pine sm:text-5xl lg:text-[3.75rem]">
+            <Reveal delay={0.05}>
+              <h1 className="font-display text-[clamp(2.6rem,5.4vw,4.3rem)] leading-[1.04] text-pine">
                 Healing isn&rsquo;t about fixing what&rsquo;s broken.
-                <span className="mt-2 block italic text-pine/90">
+                {/* The italic line steps inward — an editorial indent, not a centered stack */}
+                <em className="mt-3 block pl-6 font-light text-pine/90 sm:pl-14">
                   It&rsquo;s discovering the strength already inside you.
-                </span>
+                </em>
               </h1>
             </Reveal>
 
-            <Reveal delay={0.12}>
-              <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted">
+            <Reveal delay={0.1}>
+              <p className="mt-7 max-w-[52ch] pl-6 text-lg leading-[1.75] text-muted sm:pl-14">
                 At Serene Steps, mental wellness isn&rsquo;t a destination — it&rsquo;s a
                 journey. We&rsquo;re just here to help you find the way, one step at a time.
               </p>
             </Reveal>
 
-            <Reveal delay={0.18}>
-              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-                <Button href="/contact" variant="accent" size="lg">
-                  Take a step forward — Book Now
+            <Reveal delay={0.15}>
+              <div className="mt-10 flex flex-col items-start gap-5 pl-6 sm:flex-row sm:items-center sm:pl-14">
+                <Button href={bookingCta.href} variant="accent" size="lg">
+                  Take a step forward — {bookingCta.label}
                   <ArrowRight
-                    className="size-4 transition-transform duration-200 group-hover:translate-x-0.5"
+                    className="size-4 transition-transform duration-300 group-hover:translate-x-0.5"
                     aria-hidden="true"
                   />
                 </Button>
-                <Button href="/services" variant="outline" size="lg">
+                <Link
+                  href="/services"
+                  className="link-underline text-[0.95rem] font-medium text-pine"
+                >
                   Explore our services
-                </Button>
+                </Link>
               </div>
             </Reveal>
           </div>
 
-          {/* Not wrapped in Reveal: this image is the LCP element and must
-              paint immediately (no opacity gate) for good performance. */}
-          <div className="relative">
-            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[2rem] shadow-lift">
-              <Image
-                src={img.hero.src}
-                alt={img.hero.alt}
-                fill
+          {/* Image — arched like a doorway, layered on a tilted sand panel.
+              Not wrapped in Reveal: this is the LCP element and must paint
+              immediately (no opacity gate). Parallax drifts subtly on scroll. */}
+          <div className="relative mx-auto w-full max-w-md lg:col-span-5 lg:max-w-none">
+            <div
+              aria-hidden="true"
+              className="absolute -inset-x-5 bottom-6 top-14 -rotate-2 rounded-[2.5rem] bg-sand"
+            />
+            <Parallax range={18} className="relative">
+              <Photo
+                image={img.hero}
+                mask="arch"
                 priority
-                sizes="(max-width: 1024px) 100vw, 45vw"
-                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 42vw"
+                className="aspect-[4/5] w-full shadow-lift"
               />
-              <div
-                aria-hidden="true"
-                className="absolute inset-0 bg-gradient-to-t from-pine/25 via-transparent to-transparent"
-              />
-            </div>
+            </Parallax>
 
-            {/* Floating philosophy card */}
-            <div className="absolute -bottom-6 -left-4 max-w-[16rem] rounded-2xl border border-sage-deep/20 bg-paper/95 p-5 shadow-lift backdrop-blur sm:-left-8">
+            {/* Floating philosophy card, breaking the image's left margin */}
+            <div className="absolute -bottom-8 -left-4 max-w-[16.5rem] rounded-2xl border border-sage-deep/20 bg-cream p-5 shadow-float sm:-left-10">
               <p className="font-display text-lg italic leading-snug text-pine">
                 &ldquo;One step at a time.&rdquo;
               </p>
-              <p className="mt-1.5 text-sm text-muted">
+              <p className="mt-1.5 text-sm leading-relaxed text-muted">
                 Every journey begins with a single, gentle step forward.
               </p>
+              <span aria-hidden="true" className="mt-3 block h-px w-8 bg-honey" />
             </div>
           </div>
         </div>

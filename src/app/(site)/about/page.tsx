@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { Compass, Heart, Clock, Sprout } from "lucide-react";
 import { StepsPath } from "@/components/ui/StepsPath";
 import { PageHeader } from "@/components/sections/PageHeader";
@@ -7,6 +6,8 @@ import { FinalCta } from "@/components/sections/FinalCta";
 import { Section } from "@/components/ui/Section";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
+import { Eyebrow } from "@/components/ui/Eyebrow";
+import { Photo } from "@/components/ui/Photo";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { img } from "@/lib/images";
 
@@ -44,37 +45,42 @@ export default function AboutPage() {
     <StepsPath steps={4}>
       <PageHeader
         eyebrow="About Serene Steps"
-        title="A gentle, human place to heal and grow"
+        title={
+          <>
+            A gentle, human place to <em>heal and grow</em>
+          </>
+        }
         intro="We're a warm, non-clinical practice built around one belief: the strength to heal is already inside you. Our role is simply to help you find the way."
       />
 
-      <Section spacing="md">
+      {/* Our story — portrait in the brand treatment, letter-like text with a drop cap */}
+      <Section spacing="lg">
         <Container>
-          <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-            <Reveal>
-              <div className="relative mx-auto aspect-[4/5] w-full max-w-md overflow-hidden rounded-[2rem] shadow-lift">
-                <Image
-                  src={img.about.src}
-                  alt={img.about.alt}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 45vw"
-                  className="object-cover"
+          <div className="grid items-center gap-14 lg:grid-cols-12">
+            <Reveal className="mx-auto w-full max-w-md lg:col-span-5 lg:mx-0">
+              <div className="relative">
+                <div
+                  aria-hidden="true"
+                  className="absolute -inset-x-5 bottom-6 top-16 rotate-2 rounded-[2.5rem] bg-sand"
+                />
+                <Photo
+                  image={img.about}
+                  mask="arch"
+                  sizes="(max-width: 1024px) 100vw, 40vw"
+                  className="relative aspect-[4/5] w-full shadow-lift"
                 />
               </div>
             </Reveal>
-            <div>
+            <div className="lg:col-span-6 lg:col-start-7">
               <Reveal>
-                <p className="mb-4 inline-flex items-center gap-2 text-sm font-medium uppercase tracking-[0.18em] text-muted">
-                  <span className="size-1.5 rounded-full bg-honey" aria-hidden="true" />
-                  Our story
-                </p>
-                <h2 className="font-display text-3xl leading-tight text-pine sm:text-4xl">
-                  We walk alongside you, step by step
+                <Eyebrow>Our story</Eyebrow>
+                <h2 className="font-display text-[clamp(2rem,4.2vw,2.9rem)] leading-[1.12] text-pine">
+                  We walk <em>alongside</em> you, step by step
                 </h2>
               </Reveal>
               <Reveal delay={0.08}>
-                <div className="mt-6 space-y-4 text-lg leading-relaxed text-muted">
-                  <p>
+                <div className="mt-7 max-w-[58ch] space-y-5 text-lg leading-[1.8] text-muted">
+                  <p className="dropcap">
                     I&rsquo;m Serene Steps — here to help you move forward with clarity,
                     confidence, and balance, and to navigate life&rsquo;s challenges with
                     guidance and evidence-based support.
@@ -92,37 +98,57 @@ export default function AboutPage() {
                     by step.
                   </p>
                 </div>
+                <span aria-hidden="true" className="mt-7 block h-px w-12 bg-honey" />
               </Reveal>
             </div>
           </div>
         </Container>
       </Section>
 
-      <Section surface="sage">
+      {/* Beliefs as a designed sequence — numbered steps down the page, not a card grid */}
+      <Section surface="mist" spacing="lg">
         <Container>
-          <SectionHeading
-            align="center"
-            eyebrow="What we believe"
-            title="The values that guide every session"
-            className="mx-auto"
-          />
-          <div className="mt-12 grid gap-6 sm:grid-cols-2">
-            {beliefs.map((belief, i) => {
-              const Icon = belief.icon;
-              return (
-                <Reveal key={belief.title} delay={i * 0.05} className="h-full">
-                  <div className="flex h-full gap-4 rounded-3xl border border-sage-deep/20 bg-paper p-6 shadow-soft">
-                    <span className="grid size-11 shrink-0 place-items-center rounded-full bg-sage text-pine">
-                      <Icon className="size-5" strokeWidth={1.75} aria-hidden="true" />
+          <div className="grid gap-12 lg:grid-cols-12">
+            <SectionHeading
+              eyebrow="What we believe"
+              title={
+                <>
+                  The values that guide <em>every session</em>
+                </>
+              }
+              className="lg:col-span-4 lg:sticky lg:top-28 lg:self-start"
+            />
+            <ol className="relative space-y-0 border-l border-dashed border-sage-deep/40 pl-10 lg:col-span-7 lg:col-start-6">
+              {beliefs.map((belief, i) => {
+                const Icon = belief.icon;
+                return (
+                  <Reveal
+                    as="li"
+                    key={belief.title}
+                    delay={i * 0.05}
+                    className="relative border-b border-sage-deep/20 py-8 last:border-b-0 lg:py-9"
+                  >
+                    <span
+                      className="absolute -left-10 top-8 grid size-8 -translate-x-1/2 place-items-center rounded-full border border-honey bg-paper font-display text-sm text-honey-deep shadow-soft lg:top-9"
+                      aria-hidden="true"
+                    >
+                      {i + 1}
                     </span>
-                    <div>
-                      <h3 className="font-display text-lg text-pine">{belief.title}</h3>
-                      <p className="mt-1.5 leading-relaxed text-muted">{belief.text}</p>
+                    <div className="flex items-start gap-5">
+                      <span className="grid size-11 shrink-0 place-items-center rounded-full bg-sage text-pine">
+                        <Icon className="size-5" strokeWidth={1.75} aria-hidden="true" />
+                      </span>
+                      <div>
+                        <h3 className="font-display text-2xl text-pine">{belief.title}</h3>
+                        <p className="mt-2 max-w-[52ch] leading-[1.75] text-muted">
+                          {belief.text}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                </Reveal>
-              );
-            })}
+                  </Reveal>
+                );
+              })}
+            </ol>
           </div>
         </Container>
       </Section>

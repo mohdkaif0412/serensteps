@@ -79,7 +79,10 @@ Changes appear on the public site immediately after saving.
 
 All of these are optional — the site works without them, degrading gracefully.
 
-- **Cal.com booking:** set `NEXT_PUBLIC_CALCOM_LINK` to your `username/event` link. Without it, the contact page shows a friendly "booking coming soon" card with an email fallback. (Swappable for Calendly by editing `src/components/ui/CalEmbed.tsx`.)
+- **Booking calendar:** connect a calendar and the contact page shows a live inline booking widget, and every "Book" button reads **"Book Now"** and jumps to it. Leave it unconfigured and those buttons instead read **"Request a session"** and route to the contact form — so nothing implies instant booking that isn't there.
+  - **Cal.com:** set `NEXT_PUBLIC_CALCOM_LINK` to your `username/event` link (from your Cal.com event URL).
+  - **Calendly:** set `NEXT_PUBLIC_CALENDLY_URL` to your full event URL instead.
+  - (If both are set, Cal.com wins.)
 - **Cloudinary uploads:** set `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME` + an unsigned `NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET`. Without it, the post editor lets you paste an image URL instead.
 - **Resend email:** set `RESEND_API_KEY` and `CONTACT_FROM` (an address on a domain you've verified in Resend). Without it, contact submissions are still saved and visible in the admin — just no email is sent.
 
@@ -111,14 +114,15 @@ Use only royalty-free sources (Unsplash / Pexels / Pixabay) that allow free comm
    - `DATABASE_URL` → your Neon connection string
    - `AUTH_SECRET` → a fresh secret (`npx auth secret`)
    - `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `ADMIN_NAME`
-   - plus any optional integrations (Cal.com / Cloudinary / Resend)
+   - `NEXT_PUBLIC_SITE_URL` → your live domain (used for canonical URLs, sitemap, robots, JSON-LD)
+   - plus any optional integrations (booking / Cloudinary / Resend) and `NEXT_PUBLIC_CONTACT_EMAIL` / social links
 5. **Deploy.** `prisma generate` runs automatically on install.
 6. **Initialize the production database** (once), from your machine with the production `DATABASE_URL` set locally:
    ```bash
    npx prisma db push     # create the tables
    npm run db:seed        # create the admin user + sample content
    ```
-7. Update `site.url` in `src/lib/site.ts` and the practice's contact details / social links there.
+7. Contact email, social links, and the site URL are all env vars (see `.env.example`) — no code edit needed to update them. Sample blog posts, FAQs, and testimonials can be edited or deleted anytime from **`/admin`**.
 
 ---
 

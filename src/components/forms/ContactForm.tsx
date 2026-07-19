@@ -13,8 +13,10 @@ import {
 import { submitContact } from "@/actions/contact";
 import { cn } from "@/lib/utils";
 
+// Soft-filled, tactile inputs: a whisper of sage at rest, warming to cream
+// with a honey ring on focus. (The form itself sits on a cream sheet.)
 const fieldStyles =
-  "w-full rounded-xl border border-sage-deep/40 bg-paper px-4 py-3 text-pine placeholder:text-muted/60 transition-colors focus:border-honey focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-honey/40";
+  "w-full rounded-xl border border-sage-deep/35 bg-sage-mist/70 px-4 py-3 text-pine placeholder:text-muted/50 shadow-[inset_0_1px_2px_rgba(26,39,35,0.04)] transition-all duration-200 focus:border-honey focus:bg-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-honey/35";
 
 export function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
@@ -51,8 +53,8 @@ export function ContactForm() {
 
   if (submitted) {
     return (
-      <div className="rounded-3xl border border-sage-deep/25 bg-sage/40 p-8 text-center">
-        <div className="mx-auto grid size-14 place-items-center rounded-full bg-honey text-pine">
+      <div className="rounded-[1.5rem] border border-honey/30 bg-honey-soft/50 p-8 text-center">
+        <div className="mx-auto grid size-14 place-items-center rounded-full bg-honey text-pine shadow-soft">
           <Check className="size-7" aria-hidden="true" />
         </div>
         <h3 className="mt-5 font-display text-2xl text-pine">
@@ -167,7 +169,7 @@ export function ContactForm() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="inline-flex items-center justify-center gap-2 rounded-full bg-pine px-7 py-3.5 font-medium text-paper shadow-soft transition hover:bg-pine/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-honey disabled:opacity-70"
+          className="inline-flex items-center justify-center gap-2 rounded-full bg-pine px-8 py-3.5 font-medium text-paper shadow-soft transition-all duration-300 ease-soft hover:-translate-y-0.5 hover:bg-pine-deep hover:shadow-lift focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-honey active:translate-y-0 active:scale-[0.985] disabled:opacity-70"
         >
           {isSubmitting ? (
             <>

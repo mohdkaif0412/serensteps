@@ -2,7 +2,7 @@
 
 import { useId, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { Plus, Minus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export type AccordionItem = {
@@ -13,6 +13,7 @@ export type AccordionItem = {
 /**
  * Accessible single-open disclosure list. Keyboard operable (native buttons),
  * proper aria-expanded / aria-controls wiring, reduced-motion aware.
+ * One icon, one gesture: the plus rotates into a close mark.
  */
 export function Accordion({
   items,
@@ -32,7 +33,7 @@ export function Accordion({
         const buttonId = `${baseId}-button-${i}`;
         const panelId = `${baseId}-panel-${i}`;
         return (
-          <div key={i}>
+          <div key={i} className={cn("transition-colors duration-300", isOpen && "bg-cream/60")}>
             <h3 className="m-0">
               <button
                 id={buttonId}
@@ -40,24 +41,26 @@ export function Accordion({
                 aria-expanded={isOpen}
                 aria-controls={panelId}
                 onClick={() => setOpen(isOpen ? null : i)}
-                className="group flex w-full items-center justify-between gap-5 py-5 text-left"
+                className="group flex w-full items-center justify-between gap-5 px-1 py-6 text-left sm:px-2"
               >
-                <span className="font-display text-lg text-pine sm:text-xl">
+                <span
+                  className={cn(
+                    "font-display text-lg leading-snug transition-colors duration-300 sm:text-xl",
+                    isOpen ? "italic text-pine" : "text-pine group-hover:text-pine-soft",
+                  )}
+                >
                   {item.question}
                 </span>
                 <span
                   className={cn(
-                    "grid size-8 shrink-0 place-items-center rounded-full border transition-colors",
+                    "grid size-9 shrink-0 place-items-center rounded-full border transition-all duration-300 ease-soft",
                     isOpen
-                      ? "border-honey bg-honey/15 text-pine"
-                      : "border-sage-deep/40 text-muted group-hover:border-pine group-hover:text-pine",
+                      ? "rotate-45 border-honey bg-honey text-pine shadow-soft"
+                      : "border-sage-deep/40 text-muted group-hover:border-honey group-hover:text-pine",
                   )}
+                  aria-hidden="true"
                 >
-                  {isOpen ? (
-                    <Minus className="size-4" aria-hidden="true" />
-                  ) : (
-                    <Plus className="size-4" aria-hidden="true" />
-                  )}
+                  <Plus className="size-4" strokeWidth={2} />
                 </span>
               </button>
             </h3>
@@ -71,10 +74,10 @@ export function Accordion({
                   initial={reduceMotion ? false : { height: 0, opacity: 0 }}
                   animate={{ height: "auto", opacity: 1 }}
                   exit={reduceMotion ? { opacity: 0 } : { height: 0, opacity: 0 }}
-                  transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                   className="overflow-hidden"
                 >
-                  <p className="max-w-2xl pb-6 pr-6 leading-relaxed text-muted sm:pr-12">
+                  <p className="max-w-[62ch] px-1 pb-7 pr-8 leading-[1.8] text-muted sm:px-2 sm:pr-14">
                     {item.answer}
                   </p>
                 </motion.div>

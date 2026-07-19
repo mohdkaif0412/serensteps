@@ -25,11 +25,21 @@ export default async function BlogPage({
   const page = Math.max(1, Number(pageParam) || 1);
   const { posts, totalPages } = await getPublishedPosts({ page });
 
+  // Magazine front: the newest piece leads full-width on page one,
+  // the rest settle into a staggered grid.
+  const [lead, ...rest] = posts;
+  const showFeature = page === 1 && posts.length > 1;
+  const gridPosts = showFeature ? rest : posts;
+
   return (
     <>
       <PageHeader
         eyebrow="The journal"
-        title="Gentle reads for the journey"
+        title={
+          <>
+            Gentle reads <em>for the journey</em>
+          </>
+        }
         intro="Honest, practical reflections on the things we carry — and small, kind ways to feel a little lighter."
       />
 
@@ -37,9 +47,19 @@ export default async function BlogPage({
         <Container>
           {posts.length ? (
             <>
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {posts.map((post, i) => (
-                  <Reveal key={post.slug} delay={(i % 3) * 0.06} className="h-full">
+              {showFeature && (
+                <Reveal className="mb-12">
+                  <PostCard post={lead} variant="feature" />
+                </Reveal>
+              )}
+
+              <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                {gridPosts.map((post, i) => (
+                  <Reveal
+                    key={post.slug}
+                    delay={(i % 3) * 0.06}
+                    className={cn("h-full", i % 3 === 1 && "lg:translate-y-8")}
+                  >
                     <PostCard post={post} />
                   </Reveal>
                 ))}
@@ -47,7 +67,7 @@ export default async function BlogPage({
 
               {totalPages > 1 && (
                 <nav
-                  className="mt-12 flex items-center justify-center gap-2"
+                  className="mt-16 flex items-center justify-center gap-2"
                   aria-label="Blog pagination"
                 >
                   <PageLink
@@ -79,7 +99,7 @@ export default async function BlogPage({
               )}
             </>
           ) : (
-            <div className="rounded-3xl border border-dashed border-sage-deep/40 bg-paper/70 p-12 text-center">
+            <div className="rounded-[2rem] border border-dashed border-sage-deep/40 bg-cream p-12 text-center">
               <h2 className="font-display text-2xl text-pine">
                 New writing is on its way
               </h2>
@@ -109,10 +129,10 @@ function PageLink({
   children: React.ReactNode;
 } & Omit<React.ComponentProps<typeof Link>, "href" | "children">) {
   const classes = cn(
-    "inline-flex size-10 items-center justify-center rounded-full text-sm font-medium transition-colors",
+    "inline-flex size-10 items-center justify-center rounded-full text-sm font-medium transition-all duration-300 ease-soft",
     active
-      ? "bg-pine text-paper"
-      : "border border-sage-deep/40 text-pine hover:bg-sage/60",
+      ? "bg-pine text-paper shadow-soft"
+      : "border border-sage-deep/40 text-pine hover:-translate-y-0.5 hover:border-honey hover:bg-honey-soft",
     disabled && "pointer-events-none opacity-40",
   );
   if (disabled) {

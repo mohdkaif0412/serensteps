@@ -25,16 +25,25 @@ export default async function FaqPage() {
       <JsonLd data={faqPageJsonLd(groups)} />
       <PageHeader
         eyebrow="Questions & answers"
-        title="Questions, gently answered"
+        title={
+          <>
+            Questions, <em>gently answered</em>
+          </>
+        }
         intro="It's completely normal to have questions before you begin. Here are some of the ones we hear most — and if yours isn't here, we'd love to hear from you."
       />
 
-      <Section spacing="md">
+      <Section spacing="lg">
         <Container size="prose">
-          <div className="space-y-12">
+          <div className="space-y-16">
             {groups.map((group, groupIndex) => (
               <Reveal key={group.category}>
-                <h2 className="mb-1 font-display text-2xl text-pine">
+                {/* Group opener: numbered small-caps label + display heading */}
+                <p className="flex items-center gap-3 text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-honey-deep">
+                  <span aria-hidden="true">0{groupIndex + 1}</span>
+                  <span className="inline-block h-px w-8 bg-honey" aria-hidden="true" />
+                </p>
+                <h2 className="mb-5 mt-2 font-display text-[1.65rem] leading-tight text-pine sm:text-3xl">
                   {group.category}
                 </h2>
                 <Accordion
@@ -49,24 +58,30 @@ export default async function FaqPage() {
           </div>
 
           <Reveal>
-            <div className="mt-14 rounded-3xl border border-sage-deep/25 bg-sage/40 p-8 text-center">
-              <h2 className="font-display text-2xl text-pine">
-                Still have a question?
-              </h2>
-              <p className="mx-auto mt-2 max-w-md leading-relaxed text-muted">
-                There&rsquo;s no such thing as a silly question when it comes to your
-                wellbeing. Reach out and we&rsquo;ll answer honestly.
-              </p>
-              <Link
-                href="/contact"
-                className="group mt-5 inline-flex items-center gap-2 rounded-full bg-pine px-6 py-3 text-sm font-medium text-paper shadow-soft transition hover:bg-pine/90"
-              >
-                Get in touch
-                <ArrowRight
-                  className="size-4 transition-transform duration-200 group-hover:translate-x-1"
-                  aria-hidden="true"
-                />
-              </Link>
+            <div className="relative mt-20 overflow-hidden rounded-[2rem] bg-sand p-8 sm:p-10">
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-honey/15 blur-2xl"
+              />
+              <div className="relative max-w-md">
+                <h2 className="font-display text-2xl leading-tight text-pine sm:text-[1.75rem]">
+                  Still have a <em>question?</em>
+                </h2>
+                <p className="mt-3 leading-[1.75] text-muted">
+                  There&rsquo;s no such thing as a silly question when it comes to your
+                  wellbeing. Reach out and we&rsquo;ll answer honestly.
+                </p>
+                <Link
+                  href="/contact"
+                  className="group mt-6 inline-flex items-center gap-2 rounded-full bg-pine px-6 py-3 text-sm font-medium text-paper shadow-soft transition-all duration-300 ease-soft hover:-translate-y-0.5 hover:bg-pine-deep hover:shadow-lift active:translate-y-0 active:scale-[0.985]"
+                >
+                  Get in touch
+                  <ArrowRight
+                    className="size-4 transition-transform duration-300 group-hover:translate-x-1"
+                    aria-hidden="true"
+                  />
+                </Link>
+              </div>
             </div>
           </Reveal>
         </Container>

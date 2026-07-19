@@ -2,29 +2,48 @@
 
 /* ------------------------------------------------------------------ */
 /* Serene Steps — design tokens                                        */
-/* Warm, editorial, non-clinical. Most of the page is paper + pine +   */
-/* sage; honey is reserved for accents, active states, step-markers.   */
+/* Warm, editorial, non-clinical. A layered surface system: paper is   */
+/* the page, cream lifts cards, sand & sage-mist tint panels; pine     */
+/* grounds, pine-deep closes; honey is reserved for moments of warmth  */
+/* (active states, key CTAs, the steps motif) — never everywhere.      */
 /* ------------------------------------------------------------------ */
 @theme {
+  /* Light surfaces */
   --color-paper: #f6f3ec;
-  --color-pine: #24352f;
+  --color-cream: #fbf8f1; /* lifted card surface, one step above paper */
+  --color-sand: #efe8da; /* warm tinted panel behind imagery/cards */
   --color-sage: #dce4d6;
+  --color-sage-mist: #e9eee2; /* whisper-soft band between paper and sage */
+
+  /* Deep surfaces */
+  --color-pine: #24352f;
+  --color-pine-deep: #1a2723; /* footer, closing bands */
+  --color-pine-soft: #40564c; /* soft pine for quiet large display text */
+
+  /* Accents & text */
   --color-sage-deep: #8da290;
   --color-honey: #e3a857;
-  /* Darkened from the brief's #6B7A70 to reach WCAG AA (4.5:1) on --paper for
-     body/secondary text; keeps the soft sage-gray character. */
-  --color-muted: #5e6e64;
+  --color-honey-deep: #b97f2e; /* decorative numerals & icons on light (large only) */
+  --color-honey-soft: #f5e3c3; /* honey wash for chips and glows */
+  /* 5.6:1 on paper, 5.2:1 on sand — AA for body/secondary text on every
+     light surface while keeping the soft sage-gray character. */
+  --color-muted: #566459;
 
   --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, -apple-system,
     "Segoe UI", sans-serif;
   --font-display: var(--font-newsreader), ui-serif, Georgia, "Times New Roman",
     serif;
 
-  /* Soft, warm shadows tuned for the paper background */
-  --shadow-soft: 0 1px 2px rgba(36, 53, 47, 0.04),
-    0 8px 24px -12px rgba(36, 53, 47, 0.14);
-  --shadow-lift: 0 2px 4px rgba(36, 53, 47, 0.05),
-    0 18px 40px -18px rgba(36, 53, 47, 0.22);
+  /* Soft, realistic shadows tuned for the warm paper background —
+     a tight contact shadow plus a wide, low-opacity ambient one. */
+  --shadow-soft: 0 1px 2px rgba(26, 39, 35, 0.05),
+    0 10px 30px -12px rgba(26, 39, 35, 0.12);
+  --shadow-lift: 0 2px 6px rgba(26, 39, 35, 0.06),
+    0 24px 48px -20px rgba(26, 39, 35, 0.24);
+  --shadow-float: 0 2px 8px rgba(26, 39, 35, 0.07),
+    0 36px 72px -28px rgba(26, 39, 35, 0.3);
+
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @layer base {
@@ -32,6 +51,24 @@
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
     scroll-padding-top: 6rem; /* keep anchored sections clear of sticky header */
+    /* ONE scrollbar: the native one, styled to the brand (Firefox). */
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-sage-deep) transparent;
+  }
+
+  /* Native scrollbar, brand-styled (Chrome/Safari/Edge). The page scrolls on
+     the root only — no nested scroll containers, no custom overlay bar. */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-sage-deep);
+    border-radius: 999px;
+    border: 2px solid var(--color-paper);
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
   }
 
   body {
@@ -42,6 +79,20 @@
     text-rendering: optimizeLegibility;
   }
 
+  /* Fine paper-grain across the whole site: a tiny tiled SVG noise at very
+     low opacity on a fixed, non-interactive overlay. One cheap composited
+     layer — no repaint on scroll. */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    pointer-events: none;
+    opacity: 0.045;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 160px 160px;
+  }
+
   h1,
   h2,
   h3,
@@ -49,8 +100,17 @@
   h5 {
     font-family: var(--font-display);
     font-weight: 400;
-    letter-spacing: -0.012em;
+    letter-spacing: -0.015em;
     text-wrap: balance;
+  }
+
+  /* Newsreader italic as a deliberate design element inside display type. */
+  h1 em,
+  h2 em,
+  h3 em,
+  blockquote em {
+    font-style: italic;
+    font-weight: inherit;
   }
 
   p {
@@ -87,12 +147,44 @@
   left: 0;
 }
 
-/* Article / legal prose — a small, dependency-free typography style for
-   Tiptap HTML (blog) and static legal pages. */
+/* ------------------------------------------------------------------ */
+/* Editorial helpers                                                   */
+/* ------------------------------------------------------------------ */
+
+/* Animated underline for quiet text links — draws in from the left. */
+.link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 1px;
+  transition: background-size 0.35s var(--ease-soft);
+  padding-bottom: 2px;
+}
+.link-underline:hover,
+.link-underline:focus-visible {
+  background-size: 100% 1px;
+}
+
+/* Oversized editorial drop cap — first letter of a marked paragraph. */
+.dropcap::first-letter {
+  float: left;
+  font-family: var(--font-display);
+  font-size: 3.4em;
+  line-height: 0.82;
+  padding-right: 0.14em;
+  margin-top: 0.08em;
+  color: var(--color-pine);
+}
+
+/* ------------------------------------------------------------------ */
+/* Article / legal prose — dependency-free typography for Tiptap HTML  */
+/* (blog) and static legal pages.                                      */
+/* ------------------------------------------------------------------ */
 .prose-serene {
   color: var(--color-muted);
   font-size: 1.075rem;
   line-height: 1.85;
+  max-width: 68ch;
 }
 .prose-serene > * + * {
   margin-top: 1.25em;
@@ -100,15 +192,15 @@
 .prose-serene h2 {
   font-family: var(--font-display);
   color: var(--color-pine);
-  font-size: 1.6rem;
-  line-height: 1.3;
-  margin-top: 1.9em;
+  font-size: 1.7rem;
+  line-height: 1.25;
+  margin-top: 2em;
 }
 .prose-serene h3 {
   font-family: var(--font-display);
   color: var(--color-pine);
-  font-size: 1.3rem;
-  line-height: 1.35;
+  font-size: 1.35rem;
+  line-height: 1.3;
   margin-top: 1.6em;
 }
 .prose-serene a {
@@ -158,13 +250,34 @@
   top: 0.05em;
   font-size: 0.85em;
   font-weight: 600;
-  color: var(--color-honey);
+  color: var(--color-honey-deep);
 }
+/* Blockquotes read as set pull-quotes, not indented asides. */
 .prose-serene blockquote {
-  border-left: 3px solid var(--color-sage-deep);
-  padding-left: 1.25rem;
+  border-left: 2px solid var(--color-honey);
+  margin-left: -1.25rem;
+  padding-left: 1.85rem;
   font-family: var(--font-display);
   font-style: italic;
+  font-size: 1.3em;
+  line-height: 1.55;
+  color: var(--color-pine);
+}
+@media (max-width: 640px) {
+  .prose-serene blockquote {
+    margin-left: 0;
+    padding-left: 1.25rem;
+  }
+}
+
+/* Blog article variant: a drop cap opens the piece. */
+.prose-article > p:first-of-type::first-letter {
+  float: left;
+  font-family: var(--font-display);
+  font-size: 3.4em;
+  line-height: 0.82;
+  padding-right: 0.14em;
+  margin-top: 0.08em;
   color: var(--color-pine);
 }
 
