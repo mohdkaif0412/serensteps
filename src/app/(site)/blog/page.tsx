@@ -48,7 +48,7 @@ export default async function BlogPage({
           {posts.length ? (
             <>
               {showFeature && (
-                <Reveal className="mb-12">
+                <Reveal className="mb-10">
                   <PostCard post={lead} variant="feature" />
                 </Reveal>
               )}
@@ -67,7 +67,7 @@ export default async function BlogPage({
 
               {totalPages > 1 && (
                 <nav
-                  className="mt-16 flex items-center justify-center gap-2"
+                  className="mt-12 flex items-center justify-center gap-2"
                   aria-label="Blog pagination"
                 >
                   <PageLink

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2, Check, AlertCircle } from "lucide-react";
 import Link from "next/link";
@@ -11,6 +11,7 @@ import {
   type ContactInput,
 } from "@/lib/validation";
 import { submitContact } from "@/actions/contact";
+import { Select } from "@/components/ui/Select";
 import { cn } from "@/lib/utils";
 
 // Soft-filled, tactile inputs: a whisper of sage at rest, warming to cream
@@ -24,6 +25,7 @@ export function ContactForm() {
 
   const {
     register,
+    control,
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
@@ -130,21 +132,23 @@ export function ContactForm() {
           htmlFor="concern"
           error={errors.concern?.message}
         >
-          <select
-            id="concern"
-            defaultValue=""
-            className={cn(fieldStyles, "appearance-none bg-[right_1rem_center] pr-10")}
-            {...register("concern")}
-          >
-            <option value="" disabled>
-              Choose one…
-            </option>
-            {CONCERN_OPTIONS.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
+          <Controller
+            name="concern"
+            control={control}
+            render={({ field }) => (
+              <Select
+                id="concern"
+                options={CONCERN_OPTIONS}
+                value={field.value}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+                placeholder="Choose one…"
+                invalid={Boolean(errors.concern)}
+                describedBy={errors.concern ? "concern-error" : undefined}
+                buttonClassName={fieldStyles}
+              />
+            )}
+          />
         </Field>
       </div>
 
@@ -210,7 +214,11 @@ function Field({
       </label>
       {children}
       {error && (
-        <span className="mt-1.5 block text-sm text-red-700" role="alert">
+        <span
+          id={`${htmlFor}-error`}
+          className="mt-1.5 block text-sm text-red-700"
+          role="alert"
+        >
           {error}
         </span>
       )}

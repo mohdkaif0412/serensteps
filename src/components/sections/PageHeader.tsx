@@ -22,7 +22,7 @@ export function PageHeader({
 }) {
   const centered = align === "center";
   return (
-    <section className="relative overflow-hidden pb-6 pt-12 sm:pb-8 sm:pt-16">
+    <section className="relative overflow-hidden pb-4 pt-8 sm:pb-6 sm:pt-12">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute -right-40 -top-32 h-[24rem] w-[24rem] rounded-full bg-honey/10 blur-3xl"
@@ -38,7 +38,7 @@ export function PageHeader({
           {intro && (
             <p
               className={cn(
-                "mt-6 max-w-[60ch] text-lg leading-[1.75] text-muted",
+                "mt-5 max-w-[60ch] text-lg leading-[1.75] text-muted",
                 centered && "mx-auto",
               )}
             >

@@ -11,7 +11,7 @@ import { bookingCta } from "@/lib/site";
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden pb-20 pt-8 sm:pb-28 sm:pt-14">
+    <section className="relative overflow-hidden pb-16 pt-6 sm:pb-20 sm:pt-10">
       {/* Soft washes of warmth behind the composition */}
       <div
         aria-hidden="true"
@@ -41,18 +41,18 @@ export function Hero() {
             </Reveal>
 
             <Reveal delay={0.1}>
-              <p className="mt-7 max-w-[52ch] pl-6 text-lg leading-[1.75] text-muted sm:pl-14">
+              <p className="mt-6 max-w-[52ch] pl-6 text-lg leading-[1.75] text-muted sm:pl-14">
                 At Serene Steps, mental wellness isn&rsquo;t a destination — it&rsquo;s a
                 journey. We&rsquo;re just here to help you find the way, one step at a time.
               </p>
             </Reveal>
 
             <Reveal delay={0.15}>
-              <div className="mt-10 flex flex-col items-start gap-5 pl-6 sm:flex-row sm:items-center sm:pl-14">
+              <div className="mt-8 flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:pl-14">
                 <Button href={bookingCta.href} variant="accent" size="lg">
                   Take a step forward — {bookingCta.label}
                   <ArrowRight
-                    className="size-4 transition-transform duration-300 group-hover:translate-x-0.5"
+                    className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 hidden sm:inline-block"
                     aria-hidden="true"
                   />
                 </Button>

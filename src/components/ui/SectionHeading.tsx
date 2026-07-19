@@ -47,7 +47,7 @@ export function SectionHeading({
       {intro && (
         <p
           className={cn(
-            "mt-5 max-w-[62ch] text-lg leading-[1.75]",
+            "mt-4 max-w-[62ch] text-lg leading-[1.75]",
             onPine ? "text-sage/85" : "text-muted",
             align === "center" && "mx-auto",
           )}

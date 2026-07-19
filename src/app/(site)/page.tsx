@@ -4,7 +4,7 @@ import { WelcomeLetter } from "@/components/sections/WelcomeLetter";
 import { ServicesPreview } from "@/components/sections/ServicesPreview";
 import { ApproachBand } from "@/components/sections/ApproachBand";
 import { ReflectionQuote } from "@/components/sections/ReflectionQuote";
-import { TestimonialsStrip } from "@/components/sections/TestimonialsStrip";
+import { TestimonialsShowcase } from "@/components/sections/Testimonials";
 import { LatestPosts } from "@/components/sections/LatestPosts";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { getLatestPosts, getPublishedTestimonials } from "@/lib/queries";
@@ -22,7 +22,7 @@ export default async function Home() {
       <ServicesPreview />
       <ApproachBand />
       <ReflectionQuote />
-      <TestimonialsStrip items={testimonials} />
+      <TestimonialsShowcase items={testimonials} />
       <LatestPosts posts={latest} />
       <FinalCta />
     </StepsPath>

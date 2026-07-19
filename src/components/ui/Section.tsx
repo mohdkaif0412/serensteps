@@ -23,12 +23,13 @@ const surfaces: Record<Surface, string> = {
   "pine-deep": "bg-pine-deep text-paper",
 };
 
-// Enough breathing room to feel editorial without leaving near-empty
-// viewports between content blocks.
+// The sitewide vertical-rhythm scale. Deliberately compact: calm and
+// composed, never sparse — adjacent sections should read as one flowing
+// page, not islands separated by blank bands.
 const spacings = {
-  sm: "py-10 sm:py-14",
-  md: "py-14 sm:py-20",
-  lg: "py-16 sm:py-28",
+  sm: "py-8 sm:py-10",
+  md: "py-10 sm:py-14",
+  lg: "py-12 sm:py-18",
 } as const;
 
 export function Section({

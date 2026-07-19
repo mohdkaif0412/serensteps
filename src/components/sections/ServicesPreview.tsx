@@ -29,12 +29,12 @@ export function ServicesPreview() {
           intro="Whoever you are and whatever you're facing, there's a gentle place to begin. We offer therapy across three areas of life."
         />
 
-        <div className="mt-14">
+        <div className="mt-10">
           {services.map((service, i) => (
             <Reveal key={service.slug} delay={i * 0.05} className={cn(stepIndent[i])}>
               <Link
                 href={`/services#${service.slug}`}
-                className="group grid items-center gap-x-8 gap-y-4 border-t border-sage-deep/25 py-8 transition-colors duration-300 last:border-b sm:grid-cols-[auto_1fr_auto] sm:py-9"
+                className="group grid items-center gap-x-8 gap-y-4 border-t border-sage-deep/25 py-6 transition-colors duration-300 last:border-b sm:grid-cols-[auto_1fr_auto] sm:py-7"
               >
                 {/* Index numeral + thumbnail */}
                 <div className="flex items-center gap-6">
@@ -67,7 +67,7 @@ export function ServicesPreview() {
                   className="grid size-11 shrink-0 place-items-center justify-self-start rounded-full border border-sage-deep/40 text-pine transition-all duration-300 ease-soft group-hover:border-honey group-hover:bg-honey group-hover:shadow-soft sm:justify-self-end"
                   aria-hidden="true"
                 >
-                  <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+                  <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 hidden sm:inline-block" />
                 </span>
               </Link>
             </Reveal>

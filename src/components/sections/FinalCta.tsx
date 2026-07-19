@@ -15,7 +15,7 @@ import { bookingCta } from "@/lib/site";
  */
 export function FinalCta() {
   return (
-    <section className="relative mt-6">
+    <section className="relative">
       <WaveEdge className="-mb-px text-pine" />
       <div className="relative overflow-hidden bg-pine">
         <Image
@@ -30,21 +30,21 @@ export function FinalCta() {
         {/* Scrim keeps paper-on-pine text comfortably AA over the photo */}
         <div aria-hidden="true" className="absolute inset-0 bg-pine/60" />
 
-        <Container className="relative py-16 sm:py-24">
+        <Container className="relative py-12 sm:py-18">
           <Reveal className="max-w-2xl">
             <h2 className="font-display text-[clamp(2.1rem,4.6vw,3.3rem)] leading-[1.1] text-paper">
               Your journey can begin with a{" "}
               <em className="text-honey">single step</em>.
             </h2>
-            <p className="mt-6 max-w-[52ch] text-lg leading-[1.75] text-sage/85">
+            <p className="mt-4 max-w-[52ch] text-lg leading-[1.75] text-sage/85">
               Whenever you&rsquo;re ready, we&rsquo;re here. Book a first session and
               let&rsquo;s take that step together.
             </p>
-            <div className="mt-9 flex flex-col items-start gap-5 sm:flex-row sm:items-center">
+            <div className="mt-7 flex flex-col items-start gap-5 sm:flex-row sm:items-center">
               <Button href={bookingCta.href} variant="accent" size="lg">
                 {bookingCta.label}
                 <ArrowRight
-                  className="size-4 transition-transform duration-300 group-hover:translate-x-0.5"
+                  className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 hidden sm:inline-block"
                   aria-hidden="true"
                 />
               </Button>

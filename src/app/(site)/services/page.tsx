@@ -9,7 +9,9 @@ import { Reveal } from "@/components/ui/Reveal";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Photo } from "@/components/ui/Photo";
 import { Button } from "@/components/ui/Button";
+import { TestimonialDuo } from "@/components/sections/Testimonials";
 import { services, type Service } from "@/lib/content/services";
+import { getPublishedTestimonials } from "@/lib/queries";
 import { bookingCta } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -22,7 +24,11 @@ export const metadata: Metadata = {
 // Each audience gets its own surface so consecutive sections never share a shape.
 const surfaces = ["paper", "mist", "paper"] as const;
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const testimonials = await getPublishedTestimonials();
+  // Voices that speak to these audiences (couple + parent when available).
+  const voices = testimonials.length > 2 ? testimonials.slice(1, 3) : testimonials.slice(0, 2);
+
   return (
     <StepsPath steps={3}>
       <PageHeader
@@ -35,7 +41,7 @@ export default function ServicesPage() {
         intro="Whoever you are and whatever you're carrying, there's a gentle place to begin. Here's a closer look at how we can help — and remember, these lists are a starting point, not a checklist you must fit."
       />
 
-      <div className="mt-6">
+      <div>
         {services.map((service, i) => (
           <ServiceSection
             key={service.slug}
@@ -46,6 +52,8 @@ export default function ServicesPage() {
           />
         ))}
       </div>
+
+      <TestimonialDuo items={voices} />
 
       <FinalCta />
     </StepsPath>
@@ -65,19 +73,20 @@ function ServiceSection({
 }) {
   return (
     <Section id={service.slug} surface={surface} spacing="lg" className="overflow-hidden">
-      {/* Oversized watermark numeral — quiet editorial depth, clipped by the section */}
-      <span
-        aria-hidden="true"
-        className={cn(
-          "pointer-events-none absolute -top-10 select-none font-display text-[11rem] italic leading-none text-sage-deep/15 sm:text-[15rem]",
-          reversed ? "left-4 sm:left-10" : "right-4 sm:right-10",
-        )}
-      >
-        0{index + 1}
-      </span>
-
       <Container className="relative">
-        <div className="grid items-center gap-14 lg:grid-cols-12">
+        {/* Oversized watermark numeral — anchored to the content column (never
+            the viewport edge) so the glyph is always fully visible; scales
+            down fluidly on small screens. Sits behind the content. */}
+        <span
+          aria-hidden="true"
+          className={cn(
+            "pointer-events-none absolute -top-8 z-0 select-none font-display text-[clamp(5.5rem,13vw,11rem)] italic leading-none text-sage-deep/15 sm:-top-12",
+            reversed ? "left-0" : "right-0",
+          )}
+        >
+          0{index + 1}
+        </span>
+        <div className="relative z-10 grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
           <Reveal
             className={cn(
               "mx-auto w-full max-w-md lg:mx-0 lg:max-w-none",
@@ -119,7 +128,7 @@ function ServiceSection({
             </Reveal>
 
             <Reveal delay={0.08}>
-              <p className="mt-8 flex items-center gap-3 text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-pine/70">
+              <p className="mt-6 flex items-center gap-3 text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-pine/70">
                 <span className="inline-block h-px w-8 bg-honey" aria-hidden="true" />
                 What we help with
               </p>
@@ -138,7 +147,7 @@ function ServiceSection({
             </Reveal>
 
             <Reveal delay={0.12}>
-              <div className="mt-9">
+              <div className="mt-7">
                 <Button href={bookingCta.href} variant="primary">
                   Book a first session
                 </Button>

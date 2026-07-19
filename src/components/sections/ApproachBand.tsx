@@ -33,9 +33,9 @@ export function ApproachBand() {
   return (
     <section className="relative scroll-mt-24">
       <WaveEdge className="-mb-px text-pine" />
-      <div className="bg-pine py-16 text-paper sm:py-24">
+      <div className="bg-pine py-12 text-paper sm:py-18">
         <Container>
-          <div className="grid items-center gap-14 lg:grid-cols-12">
+          <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
             <Reveal className="mx-auto w-full max-w-md lg:col-span-5 lg:mx-0">
               <Photo
                 image={img.approach}
@@ -58,7 +58,7 @@ export function ApproachBand() {
               />
 
               {/* The pillars as steps on a drawn path */}
-              <ol className="relative mt-10 space-y-9 border-l border-dashed border-sage/30 pl-8">
+              <ol className="relative mt-8 space-y-7 border-l border-dashed border-sage/30 pl-8">
                 {pillars.map((pillar, i) => {
                   const Icon = pillar.icon;
                   return (

@@ -35,7 +35,7 @@ export default async function FaqPage() {
 
       <Section spacing="lg">
         <Container size="prose">
-          <div className="space-y-16">
+          <div className="space-y-11">
             {groups.map((group, groupIndex) => (
               <Reveal key={group.category}>
                 {/* Group opener: numbered small-caps label + display heading */}
@@ -58,7 +58,7 @@ export default async function FaqPage() {
           </div>
 
           <Reveal>
-            <div className="relative mt-20 overflow-hidden rounded-[2rem] bg-sand p-8 sm:p-10">
+            <div className="relative mt-12 overflow-hidden rounded-[2rem] bg-sand p-8 sm:p-10">
               <div
                 aria-hidden="true"
                 className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-honey/15 blur-2xl"

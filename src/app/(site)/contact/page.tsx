@@ -35,7 +35,11 @@ const reassurances = [
   },
 ];
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  // const testimonials = await getPublishedTestimonials();
+  // // One quiet reassurance beside the form, easing the moment of reaching out.
+  // const whisper = testimonials.at(-1);
+
   return (
     <>
       <PageHeader
@@ -50,7 +54,7 @@ export default function ContactPage() {
 
       <Section id="enquiry" spacing="md">
         <Container>
-          <div className="grid gap-12 lg:grid-cols-12 lg:gap-10">
+          <div className="grid gap-10 lg:grid-cols-12">
             {/* The form — an elevated sheet of paper */}
             <Reveal className="order-2 lg:order-1 lg:col-span-7">
               <div className="relative rounded-[2rem] border border-sage-deep/20 bg-cream p-6 shadow-lift sm:p-9">
@@ -61,7 +65,7 @@ export default function ContactPage() {
                 <h2 className="font-display text-2xl text-pine sm:text-[1.7rem]">
                   Send a message
                 </h2>
-                <p className="mb-7 mt-2 text-sm leading-relaxed text-muted">
+                <p className="mb-6 mt-2 text-sm leading-relaxed text-muted">
                   Fields marked as optional can be left blank.
                 </p>
                 <ContactForm />
@@ -78,7 +82,7 @@ export default function ContactPage() {
                   Taking the first step can feel big. Here&rsquo;s what happens after
                   you reach out.
                 </p>
-                <ul className="relative mt-9 space-y-8 border-l border-dashed border-sage-deep/40 pl-8">
+                <ul className="relative mt-7 space-y-6 border-l border-dashed border-sage-deep/40 pl-8">
                   {reassurances.map((item, i) => {
                     const Icon = item.icon;
                     const body = item.href ? (
@@ -131,7 +135,7 @@ export default function ContactPage() {
             }
             intro="Choose a time that works for you and we'll take it from there."
           />
-          <Reveal className="mt-10 max-w-4xl">
+          <Reveal className="mt-8 max-w-4xl">
             {site.booking.configured ? (
               <div className="overflow-hidden rounded-[2rem] border border-sage-deep/20 bg-cream shadow-lift">
                 {site.booking.provider === "calcom" ? (

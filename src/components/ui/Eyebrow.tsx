@@ -18,7 +18,7 @@ export function Eyebrow({
   return (
     <p
       className={cn(
-        "mb-4 inline-flex items-center gap-3 text-[0.72rem] font-semibold uppercase tracking-[0.24em]",
+        "mb-3 inline-flex items-center gap-3 text-[0.72rem] font-semibold uppercase tracking-[0.24em]",
         tone === "light" ? "text-sage" : "text-muted",
         className,
       )}

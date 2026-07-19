@@ -16,7 +16,7 @@ export function WelcomeLetter() {
   return (
     <Section spacing="lg">
       <Container>
-        <div className="grid items-center gap-14 lg:grid-cols-12">
+        <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
           <Reveal className="order-2 mx-auto w-full max-w-md lg:order-1 lg:col-span-5 lg:mx-0">
             <div className="relative">
               <div
@@ -40,7 +40,7 @@ export function WelcomeLetter() {
               </h2>
             </Reveal>
             <Reveal delay={0.08}>
-              <div className="mt-7 max-w-[58ch] space-y-5 text-lg leading-[1.8] text-muted">
+              <div className="mt-5 max-w-[58ch] space-y-4 text-lg leading-[1.8] text-muted">
                 <p className="dropcap">
                   If you&rsquo;ve found your way here, chances are you or someone you
                   love is navigating a heavy season. Maybe you&rsquo;re carrying the
@@ -53,14 +53,14 @@ export function WelcomeLetter() {
                   you don&rsquo;t have to walk it alone.
                 </p>
               </div>
-              <span aria-hidden="true" className="mt-7 block h-px w-12 bg-honey" />
+              <span aria-hidden="true" className="mt-6 block h-px w-12 bg-honey" />
             </Reveal>
             <Reveal delay={0.14}>
-              <div className="mt-8">
+              <div className="mt-6">
                 <Button href={bookingCta.href} variant="accent">
                   Take a step forward — book your first session
                   <ArrowRight
-                    className="size-4 transition-transform duration-300 group-hover:translate-x-0.5"
+                    className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 hidden sm:inline-block"
                     aria-hidden="true"
                   />
                 </Button>

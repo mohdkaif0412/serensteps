@@ -27,7 +27,7 @@ export function ReflectionQuote() {
           <blockquote className="mt-4 font-display text-[clamp(1.35rem,2.7vw,1.85rem)] italic leading-[1.65] text-pine">
             {FITZGERALD}
           </blockquote>
-          <div className="mt-8 flex items-center gap-4">
+          <div className="mt-6 flex items-center gap-4">
             <span aria-hidden="true" className="h-px w-10 bg-honey" />
             <cite className="text-[0.78rem] font-semibold uppercase not-italic tracking-[0.2em] text-muted">
               F. Scott Fitzgerald

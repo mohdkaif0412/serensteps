@@ -9,6 +9,8 @@ import { Reveal } from "@/components/ui/Reveal";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Photo } from "@/components/ui/Photo";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { FeaturedTestimonial } from "@/components/sections/Testimonials";
+import { getPublishedTestimonials } from "@/lib/queries";
 import { img } from "@/lib/images";
 
 export const metadata: Metadata = {
@@ -40,7 +42,11 @@ const beliefs = [
   },
 ];
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const testimonials = await getPublishedTestimonials();
+  // A steady, trust-forward voice to close the story (last one reads best here).
+  const featured = testimonials.length > 3 ? testimonials[3] : testimonials[0];
+
   return (
     <StepsPath steps={4}>
       <PageHeader
@@ -54,9 +60,9 @@ export default function AboutPage() {
       />
 
       {/* Our story — portrait in the brand treatment, letter-like text with a drop cap */}
-      <Section spacing="lg">
+      <Section spacing="lg" className="overflow-hidden">
         <Container>
-          <div className="grid items-center gap-14 lg:grid-cols-12">
+          <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
             <Reveal className="mx-auto w-full max-w-md lg:col-span-5 lg:mx-0">
               <div className="relative">
                 <div
@@ -79,7 +85,7 @@ export default function AboutPage() {
                 </h2>
               </Reveal>
               <Reveal delay={0.08}>
-                <div className="mt-7 max-w-[58ch] space-y-5 text-lg leading-[1.8] text-muted">
+                <div className="mt-5 max-w-[58ch] space-y-4 text-lg leading-[1.8] text-muted">
                   <p className="dropcap">
                     I&rsquo;m Serene Steps — here to help you move forward with clarity,
                     confidence, and balance, and to navigate life&rsquo;s challenges with
@@ -98,7 +104,7 @@ export default function AboutPage() {
                     by step.
                   </p>
                 </div>
-                <span aria-hidden="true" className="mt-7 block h-px w-12 bg-honey" />
+                <span aria-hidden="true" className="mt-6 block h-px w-12 bg-honey" />
               </Reveal>
             </div>
           </div>
@@ -108,7 +114,7 @@ export default function AboutPage() {
       {/* Beliefs as a designed sequence — numbered steps down the page, not a card grid */}
       <Section surface="mist" spacing="lg">
         <Container>
-          <div className="grid gap-12 lg:grid-cols-12">
+          <div className="grid gap-10 lg:grid-cols-12">
             <SectionHeading
               eyebrow="What we believe"
               title={
@@ -126,10 +132,10 @@ export default function AboutPage() {
                     as="li"
                     key={belief.title}
                     delay={i * 0.05}
-                    className="relative border-b border-sage-deep/20 py-8 last:border-b-0 lg:py-9"
+                    className="relative border-b border-sage-deep/20 py-6 last:border-b-0 lg:py-7"
                   >
                     <span
-                      className="absolute -left-10 top-8 grid size-8 -translate-x-1/2 place-items-center rounded-full border border-honey bg-paper font-display text-sm text-honey-deep shadow-soft lg:top-9"
+                      className="absolute -left-10 top-6 grid size-8 -translate-x-1/2 place-items-center rounded-full border border-honey bg-paper font-display text-sm text-honey-deep shadow-soft lg:top-7"
                       aria-hidden="true"
                     >
                       {i + 1}
@@ -152,6 +158,8 @@ export default function AboutPage() {
           </div>
         </Container>
       </Section>
+
+      <FeaturedTestimonial item={featured} />
 
       <FinalCta />
     </StepsPath>

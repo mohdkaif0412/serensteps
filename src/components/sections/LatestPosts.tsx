@@ -45,7 +45,7 @@ export function LatestPosts({ posts }: { posts: PublicPost[] }) {
           </Reveal>
         </div>
 
-        <div className="mt-12 grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:gap-14">
+        <div className="mt-9 grid gap-8 lg:grid-cols-[1.2fr_1fr] lg:gap-12">
           <Reveal className="h-full">
             <PostCard post={lead} />
           </Reveal>
