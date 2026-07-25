@@ -175,6 +175,105 @@
 }
 
 /* ------------------------------------------------------------------ */
+/* Motion — entrance choreography                                      */
+/*                                                                     */
+/* These are CSS animations, deliberately not Framer Motion. Anything   */
+/* above the fold has to animate from the *first paint*: gating the LCP  */
+/* heading behind a JS reveal means it stays invisible until the bundle  */
+/* has downloaded and hydrated. Below the fold we still use <Reveal>,   */
+/* which genuinely needs a scroll observer.                             */
+/*                                                                     */
+/* Only transform and opacity are animated — both GPU-composited, and   */
+/* neither can cause layout shift.                                      */
+/*                                                                     */
+/* prefers-reduced-motion needs no per-rule handling here: the global    */
+/* floor at the bottom of this file collapses every animation to ~0ms,   */
+/* so each of these has an instant, static fallback for free.           */
+/* ------------------------------------------------------------------ */
+
+/* Starts at 0.1, not 0, for the same reason as `word-rise` below: Chrome drops
+   fully-transparent elements from LCP candidacy, so an intro paragraph animating
+   from 0 *becomes* the LCP element and reports at the end of its animation
+   rather than at first paint. Lighthouse caught exactly that on /resources. At
+   0.1 the fade is visually indistinguishable and the paint counts immediately. */
+@keyframes rise-in {
+  from {
+    opacity: 0.1;
+    transform: translateY(14px);
+  }
+}
+
+/* A settle for an above-the-fold block. Pair with a rise-delay-* class. */
+.rise-in {
+  animation: rise-in 0.66s var(--ease-soft) backwards;
+}
+.rise-delay-1 {
+  animation-delay: 0.07s;
+}
+.rise-delay-2 {
+  animation-delay: 0.14s;
+}
+.rise-delay-3 {
+  animation-delay: 0.22s;
+}
+.rise-delay-4 {
+  animation-delay: 0.3s;
+}
+
+/* Per-word heading reveal — see components/ui/RevealText.tsx.
+   Words rise from a low opacity rather than out of a clipping mask: a fully
+   clipped word paints nothing, which would push LCP out to the end of the
+   stagger. At 0.1 the heading is on screen from the first frame and still
+   arrives as a wave of words. `--rise-delay` is set per word. */
+@keyframes word-rise {
+  from {
+    opacity: 0.1;
+    transform: translateY(0.3em);
+  }
+}
+.word-rise {
+  display: inline-block;
+  animation: word-rise 0.62s var(--ease-soft) backwards;
+  animation-delay: var(--rise-delay, 0s);
+}
+
+/* Route transitions — one calm cross-fade, applied by (site)/template.tsx,
+   which React re-mounts on every navigation.
+
+   Fill mode is `backwards`, not `both`: the transform is gone once the
+   animation finishes, so no permanent containing block is left behind for
+   fixed-position descendants. Opacity starts at 0.3 rather than 0 so the page
+   is painted (and LCP-eligible) on the very first frame. */
+@keyframes page-enter {
+  from {
+    opacity: 0.3;
+    transform: translateY(10px);
+  }
+}
+.page-enter {
+  animation: page-enter 0.42s var(--ease-soft) backwards;
+}
+
+/* Ambient hero washes, drifting almost imperceptibly. Desktop only — the
+   effect is invisible at phone sizes and not worth the compositing there. */
+@keyframes wash-drift {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(-2%, 2.5%, 0) scale(1.06);
+  }
+}
+@media (min-width: 1024px) {
+  .wash-drift {
+    animation: wash-drift 26s var(--ease-soft) infinite alternate;
+  }
+  .wash-drift-slow {
+    animation: wash-drift 34s var(--ease-soft) infinite alternate-reverse;
+  }
+}
+
+/* ------------------------------------------------------------------ */
 /* Editorial helpers                                                   */
 /* ------------------------------------------------------------------ */
 

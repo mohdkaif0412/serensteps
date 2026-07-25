@@ -37,8 +37,24 @@ name from `site.name` rather than hardcoding it.
   green-duotoned by `Photo`; artwork the client already supplied on-brand passes
   `toned` to skip the grade.
 - Reusable primitives live in `src/components/ui`: `Button`, `Container`, `Section`,
-  `Reveal` (scroll wrapper), `Logo`, `Tabs`, `StepsPath` (the wave-of-faces
-  journey motif), `Accordion`.
+  `Reveal` (scroll wrapper), `RevealText`/`RiseIn` (CSS entrance), `Logo`, `Tabs`,
+  `StepsPath` (the wave-of-faces journey motif), `WaveEdge`, `WaveMark`,
+  `Magnetic`, `Accordion`.
+- **Above the fold animates in CSS; below the fold animates in JS.** A Framer
+  Motion reveal can't start until the bundle hydrates, which keeps the LCP
+  heading invisible until then — so the hero and `PageHeader` use `RevealText` /
+  `.rise-in` (zero JS, starts at first paint) and everything further down uses
+  `Reveal`. Animate only transform and opacity. Never start an above-the-fold
+  element at `opacity: 0` or behind a clipping mask: Chrome excludes those from
+  LCP candidacy, which defers LCP to the end of the animation.
+- Content copy lives in `src/lib/content/*` and is the single source for the
+  pages, the JSON-LD, and the generated `llms.txt` / `llms-full.txt`. Edit copy
+  there, never in a component — the plain-text documents are built from it, so
+  they can't drift.
+- Anything that reads the database from a public page goes through
+  `withDbFallback` (`src/lib/db.ts`), so `next build` succeeds with no database.
+  Pages that read content carry a short `revalidate` so a database-less build
+  self-heals.
 - Sections/blocks in `src/components/sections`; layout in `src/components/layout`.
 - Zod schemas in `src/lib`; infer types from them (`z.infer`). Validate every form.
 - Respect `prefers-reduced-motion` everywhere (see `Reveal` and `globals.css`).

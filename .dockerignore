@@ -1,0 +1,46 @@
+# Node / build artefacts — reinstalled and rebuilt inside the image
+node_modules
+.next
+out
+build
+coverage
+*.tsbuildinfo
+
+# VCS & CI
+.git
+.gitignore
+.gitattributes
+.github
+
+# Secrets — the container gets its config from the environment
+.env
+.env.*
+!.env.example
+
+# Local database files (this project runs on Postgres in Docker)
+prisma/*.db
+prisma/*.db-journal
+
+# Generated Prisma client — regenerated in the builder stage
+src/generated
+
+# Editor / OS noise
+.vscode
+.idea
+.DS_Store
+*.log
+npm-debug.log*
+
+# Docs and container config that don't belong in the build context
+README.md
+AGENTS.md
+CLAUDE.md
+Dockerfile
+.dockerignore
+docker-compose.yml
+
+# Vercel
+.vercel
+
+# Local dev tooling
+_shot.mjs

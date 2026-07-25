@@ -1,8 +1,9 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Newsreader, Plus_Jakarta_Sans } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
 import { site } from "@/lib/site";
+import { Analytics } from "@/components/seo/Analytics";
 
 // Display / headings — a gentle literary serif for the reflective copy.
 const newsreader = Newsreader({
@@ -24,24 +25,29 @@ const jakarta = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.name} — ${site.tagline}`,
+    // With a service area configured, the home title leads with the local
+    // search intent; without one it leads with the brand promise.
+    default: site.serviceArea
+      ? `${site.name} — Counselling & Therapy in ${site.serviceArea}`
+      : `${site.name} — ${site.tagline}`,
     template: `%s — ${site.name}`,
   },
   description: site.description,
   applicationName: site.name,
+  // One list of subjects, shared with `knowsAbout` in JSON-LD — see site.topics.
   keywords: [
-    "therapy",
-    "counselling",
-    "mental wellness",
-    "anxiety",
-    "couples therapy",
-    "child and teen therapy",
-    "psychometric testing",
-    "career counselling",
-    "astrology reading",
-    "tarot guidance",
+    ...site.topics.map((topic) => topic.toLowerCase()),
+    ...(site.serviceArea ? [`therapist in ${site.serviceArea}`] : []),
     "Serene Step",
   ],
+  manifest: "/manifest.webmanifest",
+  // Search Console / Bing Webmaster verification, set per environment.
+  verification: {
+    google: site.verification.google || undefined,
+    other: site.verification.bing
+      ? { "msvalidate.01": site.verification.bing }
+      : undefined,
+  },
   icons: {
     icon: [
       { url: "/icon.svg", type: "image/svg+xml" },
@@ -65,6 +71,19 @@ export const metadata: Metadata = {
   },
 };
 
+/**
+ * The browser chrome takes the brand forest, so the page doesn't end at a strip
+ * of system grey. Declared here rather than in `metadata` — Next wants
+ * theme-color and viewport in their own export.
+ */
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f6f3ec" },
+    { media: "(prefers-color-scheme: dark)", color: "#174238" },
+  ],
+  colorScheme: "light",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -77,6 +96,7 @@ export default function RootLayout({
     >
       <body className="flex min-h-dvh flex-col bg-paper text-forest">
         {children}
+        <Analytics />
         <Toaster
           position="top-center"
           toastOptions={{

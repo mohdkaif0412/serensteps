@@ -11,6 +11,8 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Photo } from "@/components/ui/Photo";
 import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbJsonLd } from "@/lib/structured-data";
 import { FeaturedTestimonial } from "@/components/sections/Testimonials";
 import { getPublishedTestimonials } from "@/lib/queries";
 import { aboutIntro, ourStory } from "@/lib/content/about";
@@ -21,7 +23,12 @@ export const metadata: Metadata = {
   title: "About Us",
   description:
     "Serene Step is a warm, non-clinical practice built on one belief: the strength to heal is already inside you. Read our story and the six values that shape every session.",
+  alternates: { canonical: "/about" },
 };
+
+// Safety net for a build that ran without a database — see the note in
+// src/app/(site)/page.tsx.
+export const revalidate = 300;
 
 export default async function AboutPage() {
   const testimonials = await getPublishedTestimonials();
@@ -30,6 +37,7 @@ export default async function AboutPage() {
 
   return (
     <StepsPath steps={5}>
+      <JsonLd data={breadcrumbJsonLd([{ name: "About", path: "/about" }])} />
       <PageHeader
         eyebrow={`About ${site.name}`}
         title={
@@ -88,7 +96,10 @@ export default async function AboutPage() {
       <Section spacing="lg" className="overflow-hidden">
         <Container>
           <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
-            <Reveal className="mx-auto w-full max-w-md lg:col-span-5 lg:mx-0">
+            {/* Not wrapped in <Reveal>, and `priority`: on a desktop viewport
+                this portrait is the LCP element, so it must neither be
+                lazy-loaded nor sit behind an opacity gate. */}
+            <div className="mx-auto w-full max-w-md lg:col-span-5 lg:mx-0">
               <div className="relative">
                 <div
                   aria-hidden="true"
@@ -97,11 +108,12 @@ export default async function AboutPage() {
                 <Photo
                   image={img.about}
                   mask="arch"
+                  priority
                   sizes="(max-width: 1024px) 100vw, 40vw"
                   className="relative aspect-[4/5] w-full shadow-lift"
                 />
               </div>
-            </Reveal>
+            </div>
             <div className="lg:col-span-6 lg:col-start-7">
               <Reveal>
                 <Eyebrow>Our story</Eyebrow>

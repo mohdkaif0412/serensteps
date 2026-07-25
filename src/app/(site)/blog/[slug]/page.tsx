@@ -15,9 +15,14 @@ import { Photo } from "@/components/ui/Photo";
 import { PostCard } from "@/components/ui/PostCard";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { articleJsonLd } from "@/lib/structured-data";
+import { blogPostingJsonLd, breadcrumbJsonLd } from "@/lib/structured-data";
+import { site } from "@/lib/site";
 
 type Params = { params: Promise<{ slug: string }> };
+
+// Safety net for a build that ran without a database: generateStaticParams
+// returns [] there, so posts render on demand instead — see src/lib/db.ts.
+export const revalidate = 300;
 
 export async function generateStaticParams() {
   const slugs = await getAllPublishedSlugs();
@@ -41,6 +46,9 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
       description,
       url: `/blog/${post.slug}`,
       publishedTime: post.publishedAt,
+      modifiedTime: post.updatedAt,
+      section: post.category,
+      authors: [site.practitioner?.name ?? site.name],
       images: [{ url: post.coverImage, alt: post.coverAlt }],
     },
     twitter: {
@@ -63,7 +71,13 @@ export default async function PostPage({ params }: Params) {
 
   return (
     <article className="pt-10">
-      <JsonLd data={articleJsonLd(post)} />
+      <JsonLd data={blogPostingJsonLd(post)} />
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Journal", path: "/blog" },
+          { name: post.title, path: `/blog/${post.slug}` },
+        ])}
+      />
 
       {/* Article opener — set like a well-composed title page */}
       <Container size="prose">
@@ -90,6 +104,19 @@ export default async function PostPage({ params }: Params) {
           </span>
           <span>{post.readingMinutes} min read</span>
         </div>
+
+        {/* A named, credentialed author is the single strongest trust signal on
+            a health article — shown only once the real name is configured, so
+            the byline and the BlogPosting author never disagree. */}
+        {site.practitioner && (
+          <p className="mt-4 text-sm text-muted">
+            By{" "}
+            <span className="font-semibold text-forest">
+              {site.practitioner.name}
+            </span>
+            {site.practitioner.jobTitle && `, ${site.practitioner.jobTitle}`}
+          </p>
+        )}
 
         <h1 className="mt-5 font-display text-[clamp(2.3rem,5vw,3.4rem)] leading-[1.08] text-forest">
           {post.title}

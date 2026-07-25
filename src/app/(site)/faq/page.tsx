@@ -8,7 +8,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { Accordion } from "@/components/ui/Accordion";
 import { getPublishedFaqGroups } from "@/lib/queries";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { faqPageJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, faqPageJsonLd } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
   title: "FAQ",
@@ -17,12 +17,17 @@ export const metadata: Metadata = {
   alternates: { canonical: "/faq" },
 };
 
+// Safety net for a build that ran without a database — see the note in
+// src/app/(site)/page.tsx.
+export const revalidate = 300;
+
 export default async function FaqPage() {
   const groups = await getPublishedFaqGroups();
 
   return (
     <>
       <JsonLd data={faqPageJsonLd(groups)} />
+      <JsonLd data={breadcrumbJsonLd([{ name: "FAQ", path: "/faq" }])} />
       <PageHeader
         eyebrow="Questions & answers"
         title={

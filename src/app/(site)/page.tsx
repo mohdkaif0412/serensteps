@@ -9,6 +9,11 @@ import { LatestPosts } from "@/components/sections/LatestPosts";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { getLatestPosts, getPublishedTestimonials } from "@/lib/queries";
 
+// Static-fast, but self-healing: admin edits already push through instantly via
+// revalidatePath, and this is the safety net for a build that ran without a
+// database (Docker/CI) — the DB-backed strips fill in on their own.
+export const revalidate = 300;
+
 export default async function Home() {
   const [latest, testimonials] = await Promise.all([
     getLatestPosts(3),

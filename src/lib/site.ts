@@ -14,9 +14,20 @@
  *   NEXT_PUBLIC_CALENDLY_URL   Calendly URL (alternative to Cal.com).
  *   NEXT_PUBLIC_INSTAGRAM_URL  Social links. Leave a var unset to hide its icon.
  *   NEXT_PUBLIC_FACEBOOK_URL
+ *
+ * Real-world facts for local SEO and Person/author schema live here too, and
+ * every one of them is *omitted* rather than guessed when unset — see the
+ * `practitioner` and `location` blocks below.
  */
 
 const fromEnv = (value: string | undefined) => value?.trim() ?? "";
+
+/** Split a comma-separated env var into a clean list. */
+const listFromEnv = (value: string | undefined) =>
+  fromEnv(value)
+    .split(",")
+    .map((part) => part.trim())
+    .filter(Boolean);
 
 const siteUrl = fromEnv(process.env.NEXT_PUBLIC_SITE_URL) || "https://serenesteps.net";
 // NOTE: the display name is "Serene Step" (singular, per the logo) while the
@@ -40,11 +51,71 @@ const bookingProvider: "calcom" | "calendly" | null = calcomLink
     ? "calendly"
     : null;
 
+/**
+ * The named practitioner, for Person / article-author schema.
+ *
+ * Google and the answer engines both reward a health site that names a real,
+ * credentialed expert — but a *guessed* name would be worse than none, so every
+ * Person-shaped signal is skipped until NEXT_PUBLIC_PRACTITIONER_NAME is set.
+ * Credentials are a comma-separated list, e.g. "M.Phil Clinical Psychology,
+ * RCI-registered".
+ */
+const practitionerName = fromEnv(process.env.NEXT_PUBLIC_PRACTITIONER_NAME);
+const practitioner = practitionerName
+  ? {
+      name: practitionerName,
+      jobTitle:
+        fromEnv(process.env.NEXT_PUBLIC_PRACTITIONER_TITLE) ||
+        "Counselling Psychologist",
+      credentials: listFromEnv(process.env.NEXT_PUBLIC_PRACTITIONER_CREDENTIALS),
+    }
+  : null;
+
+/**
+ * Physical location, for LocalBusiness rich results and local search.
+ * A postal address is only emitted once the locality (city) is known — a
+ * half-filled address is worse for local SEO than none at all. Leave unset for
+ * an online-only practice; `areaServed` then carries the reach on its own.
+ */
+const addressLocality = fromEnv(process.env.NEXT_PUBLIC_ADDRESS_LOCALITY);
+const location = addressLocality
+  ? {
+      street: fromEnv(process.env.NEXT_PUBLIC_ADDRESS_STREET),
+      locality: addressLocality,
+      region: fromEnv(process.env.NEXT_PUBLIC_ADDRESS_REGION),
+      postalCode: fromEnv(process.env.NEXT_PUBLIC_ADDRESS_POSTAL_CODE),
+      /** ISO 3166-1 alpha-2. */
+      country: fromEnv(process.env.NEXT_PUBLIC_ADDRESS_COUNTRY) || "IN",
+      latitude: fromEnv(process.env.NEXT_PUBLIC_GEO_LAT),
+      longitude: fromEnv(process.env.NEXT_PUBLIC_GEO_LNG),
+      mapUrl: fromEnv(process.env.NEXT_PUBLIC_MAP_URL),
+    }
+  : null;
+
+/**
+ * Opening hours as `Day-Day HH:MM-HH:MM` entries, comma-separated —
+ * e.g. "Mo-Fr 10:00-18:00, Sa 10:00-14:00". Omitted entirely when unset.
+ */
+const openingHours = listFromEnv(process.env.NEXT_PUBLIC_OPENING_HOURS);
+
+/**
+ * Where the practice works. Set NEXT_PUBLIC_SERVICE_AREA to a city or region
+ * ("Srinagar, Jammu & Kashmir") and the location flows into the description,
+ * page titles, keywords, the footer NAP block and JSON-LD in one move — which is
+ * exactly the consistency local search rewards. Blank keeps everything
+ * reach-neutral.
+ */
+const serviceArea = fromEnv(process.env.NEXT_PUBLIC_SERVICE_AREA);
+
+const baseDescription =
+  "Serene Step is a warm, human mental-wellness practice offering counselling and psychological testing for children & teens, individuals, and couples & families — plus optional reflective guidance through astrology and tarot. We walk alongside you, one gentle step at a time.";
+
 export const site = {
   name: "Serene Step",
   tagline: "Step into your light",
-  description:
-    "Serene Step is a warm, human mental-wellness practice offering counselling and psychological testing for children & teens, individuals, and couples & families — plus optional reflective guidance through astrology and tarot. We walk alongside you, one gentle step at a time.",
+  description: serviceArea
+    ? `${baseDescription} Based in ${serviceArea}, with sessions online and in person.`
+    : baseDescription,
   url: siteUrl,
   email: contactEmail,
   phone: {
@@ -84,10 +155,63 @@ export const site = {
     instagram: fromEnv(process.env.NEXT_PUBLIC_INSTAGRAM_URL),
     facebook: fromEnv(process.env.NEXT_PUBLIC_FACEBOOK_URL),
   },
+  /** The named expert behind the practice, or `null` until confirmed. */
+  practitioner,
+  /** Postal address + geo, or `null` for an online-only practice. */
+  location,
+  openingHours,
+  serviceArea,
+  /** Schema.org priceRange, e.g. "₹₹". Omitted from JSON-LD when blank. */
+  priceRange: fromEnv(process.env.NEXT_PUBLIC_PRICE_RANGE),
+  /**
+   * Search-console ownership tokens. Server-only vars: they end up in a `<meta>`
+   * tag rendered on the server, so they don't need the NEXT_PUBLIC_ prefix.
+   */
+  verification: {
+    google: fromEnv(process.env.GOOGLE_SITE_VERIFICATION),
+    bing: fromEnv(process.env.BING_SITE_VERIFICATION),
+  },
+  /**
+   * Privacy-friendly analytics. Set NEXT_PUBLIC_PLAUSIBLE_DOMAIN to switch the
+   * (cookieless, no-personal-data) script on; leave it blank and nothing at all
+   * is loaded. Self-hosters can point NEXT_PUBLIC_PLAUSIBLE_SRC at their own
+   * instance — an Umami script URL works here too.
+   */
+  analytics: {
+    plausibleDomain: fromEnv(process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN),
+    plausibleSrc:
+      fromEnv(process.env.NEXT_PUBLIC_PLAUSIBLE_SRC) ||
+      "https://plausible.io/js/script.js",
+  },
+  /**
+   * The practice's subject matter — one list, shared by root metadata keywords,
+   * `knowsAbout` in JSON-LD, and blog keyword derivation.
+   */
+  topics: [
+    "Therapy",
+    "Counselling",
+    "Anxiety",
+    "Overthinking",
+    "Depression",
+    "Relationships",
+    "Couples counselling",
+    "Family counselling",
+    "Trauma",
+    "Grief and loss",
+    "Boundaries",
+    "Burnout",
+    "Self-esteem",
+    "Mental wellness",
+    "Child and adolescent therapy",
+    "Career counselling",
+    "Psychometric and career assessment",
+    "Astrology and tarot as reflective tools",
+  ],
   nav: [
     { href: "/", label: "Home" },
     { href: "/about", label: "About" },
     { href: "/services", label: "Services" },
+    { href: "/resources", label: "Resources" },
     { href: "/blog", label: "Blog" },
     { href: "/faq", label: "FAQ" },
     { href: "/contact", label: "Contact" },

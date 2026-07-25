@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
 import { WaveEdge } from "@/components/ui/WaveEdge";
+import { Magnetic } from "@/components/ui/Magnetic";
 import { BLUR_DATA_URL, img } from "@/lib/images";
 import { bookingCta } from "@/lib/site";
 
@@ -42,13 +43,15 @@ export function FinalCta() {
               let&rsquo;s take that step together.
             </p>
             <div className="mt-7 flex flex-col items-start gap-5 sm:flex-row sm:items-center">
-              <Button href={bookingCta.href} variant="accent" size="lg">
-                {bookingCta.label}
-                <ArrowRight
-                  className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 hidden sm:inline-block"
-                  aria-hidden="true"
-                />
-              </Button>
+              <Magnetic>
+                <Button href={bookingCta.href} variant="accent" size="lg">
+                  {bookingCta.label}
+                  <ArrowRight
+                    className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 hidden sm:inline-block"
+                    aria-hidden="true"
+                  />
+                </Button>
+              </Magnetic>
               <Link
                 href="/services"
                 className="link-underline text-[0.95rem] font-medium text-paper"

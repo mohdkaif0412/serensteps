@@ -1,0 +1,74 @@
+# Serene Step — local dev/prod parity.
+#
+#   cp .env.example .env      # then set AUTH_SECRET (npx auth secret)
+#   docker compose up --build
+#   → http://localhost:3000  (admin at /admin)
+#
+# Values in the `environment:` blocks are read by the *server* at runtime.
+# NEXT_PUBLIC_* variables are inlined into the browser bundle at BUILD time, so
+# they are passed as build args too — change one and rebuild (`--build`).
+
+name: serene-step
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-serene}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-serene}
+      POSTGRES_DB: ${POSTGRES_DB:-serenesteps}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      # Exposed so `npx prisma studio` / psql can reach it from the host.
+      - "${POSTGRES_PORT:-5432}:5432"
+    healthcheck:
+      test:
+        ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-serene} -d ${POSTGRES_DB:-serenesteps}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        # Baked into the client bundle — see the note at the top of this file.
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
+        NEXT_PUBLIC_CONTACT_EMAIL: ${NEXT_PUBLIC_CONTACT_EMAIL:-}
+        NEXT_PUBLIC_CONTACT_PHONE: ${NEXT_PUBLIC_CONTACT_PHONE:-}
+        NEXT_PUBLIC_PHONE_COUNTRY: ${NEXT_PUBLIC_PHONE_COUNTRY:-}
+        NEXT_PUBLIC_CALCOM_LINK: ${NEXT_PUBLIC_CALCOM_LINK:-}
+        NEXT_PUBLIC_CALENDLY_URL: ${NEXT_PUBLIC_CALENDLY_URL:-}
+        NEXT_PUBLIC_INSTAGRAM_URL: ${NEXT_PUBLIC_INSTAGRAM_URL:-}
+        NEXT_PUBLIC_FACEBOOK_URL: ${NEXT_PUBLIC_FACEBOOK_URL:-}
+        NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: ${NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME:-}
+        NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET: ${NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET:-}
+        NEXT_PUBLIC_PLAUSIBLE_DOMAIN: ${NEXT_PUBLIC_PLAUSIBLE_DOMAIN:-}
+        NEXT_PUBLIC_PLAUSIBLE_SRC: ${NEXT_PUBLIC_PLAUSIBLE_SRC:-}
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-serene}:${POSTGRES_PASSWORD:-serene}@db:5432/${POSTGRES_DB:-serenesteps}?schema=public
+      # Auth.js v5 needs this off-Vercel, behind Docker's proxy/network.
+      AUTH_SECRET: ${AUTH_SECRET:?AUTH_SECRET is required — generate one with `npx auth secret`}
+      AUTH_TRUST_HOST: "true"
+      NEXTAUTH_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
+      # Server-only integrations (all optional; blank simply disables them).
+      RESEND_API_KEY: ${RESEND_API_KEY:-}
+      CONTACT_NOTIFY_TO: ${CONTACT_NOTIFY_TO:-}
+      CONTACT_FROM: ${CONTACT_FROM:-}
+      CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY:-}
+      CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET:-}
+      GOOGLE_SITE_VERIFICATION: ${GOOGLE_SITE_VERIFICATION:-}
+      BING_SITE_VERIFICATION: ${BING_SITE_VERIFICATION:-}
+    ports:
+      - "${WEB_PORT:-3000}:3000"
+
+volumes:
+  db-data:

@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { Mail, Phone, ArrowRight, HeartHandshake } from "lucide-react";
+import { Mail, Phone, ArrowRight, HeartHandshake, MapPin, Clock } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { WaveEdge } from "@/components/ui/WaveEdge";
 import { Logo } from "@/components/ui/Logo";
+import { WaveMark } from "@/components/ui/WaveMark";
 import {
   InstagramIcon,
   FacebookIcon,
@@ -25,10 +26,15 @@ export function Footer() {
         <Container className="pb-12 pt-10 sm:pb-14 sm:pt-12">
           {/* Closing moment: one quiet, confident line. */}
           <div className="flex flex-col gap-8 border-b border-sage/10 pb-12 lg:flex-row lg:items-end lg:justify-between">
-            <p className="max-w-xl font-display text-[clamp(1.7rem,3.4vw,2.5rem)] leading-[1.2]">
-              Mental wellness isn&rsquo;t a destination —{" "}
-              <em className="text-mint">it&rsquo;s a journey.</em>
-            </p>
+            <div className="max-w-xl">
+              <p className="font-display text-[clamp(1.7rem,3.4vw,2.5rem)] leading-[1.2]">
+                Mental wellness isn&rsquo;t a destination —{" "}
+                <em className="text-mint">it&rsquo;s a journey.</em>
+              </p>
+              {/* The mark drawing itself, once — the journey the sentence
+                  describes, traced out beneath it. */}
+              <WaveMark className="mt-6 h-12 text-mint/60" />
+            </div>
             <Link
               href={bookingCta.href}
               className="group inline-flex w-fit shrink-0 items-center gap-2 rounded-full bg-mint px-6 py-3 text-sm font-medium text-forest shadow-soft transition-all duration-300 ease-soft hover:-translate-y-0.5 hover:shadow-lift active:translate-y-0 active:scale-[0.985]"
@@ -144,6 +150,65 @@ export function Footer() {
                     <span className="link-underline">WhatsApp us</span>
                   </a>
                 </li>
+                {/* NAP: the name, address and phone here must read exactly the
+                    same as the JSON-LD, a Google Business Profile, and any
+                    directory listing — that consistency is what local search
+                    matches on. All of it comes from site.ts, so there's one
+                    source of truth. Hidden entirely until an address is
+                    configured; see `location` in src/lib/site.ts. */}
+                {site.location && (
+                  <li>
+                    <address className="flex items-start gap-2.5 not-italic text-sage/85">
+                      <MapPin
+                        className="mt-1 size-4 shrink-0 text-mint"
+                        strokeWidth={1.75}
+                        aria-hidden="true"
+                      />
+                      <span>
+                        <span className="block font-medium text-paper">
+                          {site.name}
+                        </span>
+                        {[
+                          site.location.street,
+                          site.location.locality,
+                          site.location.region,
+                          site.location.postalCode,
+                        ]
+                          .filter(Boolean)
+                          .join(", ")}
+                        {site.location.mapUrl && (
+                          <>
+                            {" "}
+                            <a
+                              href={site.location.mapUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="link-underline whitespace-nowrap text-mint-pale"
+                            >
+                              View map
+                            </a>
+                          </>
+                        )}
+                      </span>
+                    </address>
+                  </li>
+                )}
+                {site.openingHours.length > 0 && (
+                  <li className="flex items-start gap-2.5 text-sage/85">
+                    <Clock
+                      className="mt-1 size-4 shrink-0 text-mint"
+                      strokeWidth={1.75}
+                      aria-hidden="true"
+                    />
+                    <span>
+                      {site.openingHours.map((slot) => (
+                        <span key={slot} className="block">
+                          {slot}
+                        </span>
+                      ))}
+                    </span>
+                  </li>
+                )}
               </ul>
             </div>
           </div>

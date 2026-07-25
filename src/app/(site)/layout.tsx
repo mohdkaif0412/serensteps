@@ -1,7 +1,7 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { medicalBusinessJsonLd } from "@/lib/structured-data";
+import { siteGraphJsonLd } from "@/lib/structured-data";
 
 export default function SiteLayout({
   children,
@@ -10,7 +10,9 @@ export default function SiteLayout({
 }) {
   return (
     <>
-      <JsonLd data={medicalBusinessJsonLd()} />
+      {/* Organization + MedicalBusiness + WebSite (+ Person, once named) —
+          one graph, one business entity, on every public page. */}
+      <JsonLd data={siteGraphJsonLd()} />
       <a href="#main" className="skip-link">
         Skip to content
       </a>

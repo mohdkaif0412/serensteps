@@ -99,7 +99,9 @@ export function Header() {
             />
           </Link>
 
-          <nav className="hidden items-center gap-1 md:flex" aria-label="Primary">
+          {/* Seven items + logo + CTA is too much for 768px, so the inline nav
+              starts at lg and the hamburger covers md. */}
+          <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary">
             {site.nav.map((item) => (
               <Link
                 key={item.href}
@@ -129,7 +131,7 @@ export function Header() {
             ))}
           </nav>
 
-          <div className="hidden md:block">
+          <div className="hidden lg:block">
             <Button href={bookingCta.href} variant="primary" size="sm">
               {bookingCta.label}
             </Button>
@@ -138,7 +140,7 @@ export function Header() {
           <button
             ref={toggleRef}
             type="button"
-            className="inline-flex size-10 items-center justify-center rounded-full text-forest transition-colors hover:bg-sage/60 md:hidden"
+            className="inline-flex size-10 items-center justify-center rounded-full text-forest transition-colors hover:bg-sage/60 lg:hidden"
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
             aria-controls="mobile-menu"
@@ -156,8 +158,8 @@ export function Header() {
         ref={menuRef}
         inert={!open}
         className={cn(
-          "overflow-hidden border-sage-deep/15 bg-paper/95 backdrop-blur-md transition-[max-height,opacity] duration-300 ease-soft md:hidden",
-          open ? "max-h-[480px] border-b opacity-100 shadow-soft" : "max-h-0 opacity-0",
+          "overflow-hidden border-sage-deep/15 bg-paper/95 backdrop-blur-md transition-[max-height,opacity] duration-300 ease-soft lg:hidden",
+          open ? "max-h-[560px] border-b opacity-100 shadow-soft" : "max-h-0 opacity-0",
         )}
       >
         <Container>

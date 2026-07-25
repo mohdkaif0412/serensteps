@@ -7,14 +7,36 @@ import { Section } from "@/components/ui/Section";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
 import { PostCard } from "@/components/ui/PostCard";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { blogJsonLd, breadcrumbJsonLd } from "@/lib/structured-data";
 import { getPublishedPosts } from "@/lib/queries";
+import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
-export const metadata: Metadata = {
-  title: "Journal",
-  description:
-    "Gentle, practical writing on anxiety, relationships, parenting, starting therapy, and reflective practice — from the Serene Step journal.",
-};
+const DESCRIPTION =
+  "Gentle, practical writing on anxiety, relationships, parenting, starting therapy, and reflective practice — from the Serene Step journal.";
+
+/**
+ * Self-referencing canonicals on paginated pages (page 2 shouldn't claim to be
+ * page 1), plus the RSS feed advertised as an alternate so readers and content
+ * ingesters can find it.
+ */
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }>;
+}): Promise<Metadata> {
+  const { page: pageParam } = await searchParams;
+  const page = Math.max(1, Number(pageParam) || 1);
+  return {
+    title: page > 1 ? `Journal — page ${page}` : "Journal",
+    description: DESCRIPTION,
+    alternates: {
+      canonical: page > 1 ? `/blog?page=${page}` : "/blog",
+      types: { "application/rss+xml": `${site.url}/blog/feed.xml` },
+    },
+  };
+}
 
 export default async function BlogPage({
   searchParams,
@@ -33,6 +55,8 @@ export default async function BlogPage({
 
   return (
     <>
+      <JsonLd data={blogJsonLd(posts)} />
+      <JsonLd data={breadcrumbJsonLd([{ name: "Journal", path: "/blog" }])} />
       <PageHeader
         eyebrow="The journal"
         title={

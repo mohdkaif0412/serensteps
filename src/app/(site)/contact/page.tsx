@@ -9,12 +9,15 @@ import { ContactForm } from "@/components/forms/ContactForm";
 import { CalEmbed } from "@/components/ui/CalEmbed";
 import { CalendlyEmbed } from "@/components/ui/CalendlyEmbed";
 import { InstagramIcon, WhatsAppIcon } from "@/components/ui/BrandIcons";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbJsonLd } from "@/lib/structured-data";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Contact & Booking",
   description:
     "Reach out to Serene Step by email, phone, or WhatsApp — or book your first session. Take a step forward; we're here whenever you're ready.",
+  alternates: { canonical: "/contact" },
 };
 
 const reassurances = [
@@ -33,6 +36,7 @@ const reassurances = [
 export default async function ContactPage() {
   return (
     <>
+      <JsonLd data={breadcrumbJsonLd([{ name: "Contact", path: "/contact" }])} />
       <PageHeader
         eyebrow="Contact & booking"
         title={

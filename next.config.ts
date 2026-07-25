@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Emit a self-contained server bundle (`.next/standalone`) so the Docker
+  // runner stage can ship without node_modules. Harmless on Vercel.
+  output: "standalone",
   images: {
     remotePatterns: [
       // Instant dev placeholders

@@ -42,7 +42,7 @@ export function PostCard({
     return (
       <Link
         href={`/blog/${post.slug}`}
-        className="group grid overflow-hidden rounded-[2rem] border border-sage-deep/20 bg-cream shadow-soft transition-all duration-500 ease-soft hover:-translate-y-1 hover:shadow-lift md:grid-cols-[1.15fr_1fr]"
+        className="group grid overflow-hidden rounded-[2rem] border border-sage-deep/20 bg-cream shadow-soft transition-all duration-500 ease-soft hover:-translate-y-1 hover:border-mint-deep/25 hover:shadow-float md:grid-cols-[1.15fr_1fr]"
       >
         <div className="relative min-h-64 overflow-hidden md:min-h-full">
           <Photo
@@ -100,7 +100,7 @@ export function PostCard({
   return (
     <Link
       href={`/blog/${post.slug}`}
-      className="group flex h-full flex-col overflow-hidden rounded-[1.75rem] border border-sage-deep/20 bg-cream shadow-soft transition-all duration-500 ease-soft hover:-translate-y-1 hover:shadow-lift"
+      className="group flex h-full flex-col overflow-hidden rounded-[1.75rem] border border-sage-deep/20 bg-cream shadow-soft transition-all duration-500 ease-soft hover:-translate-y-1 hover:border-mint-deep/25 hover:shadow-float"
     >
       <div className="relative overflow-hidden">
         <Photo

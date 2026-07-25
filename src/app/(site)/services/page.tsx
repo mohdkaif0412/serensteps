@@ -11,6 +11,8 @@ import { Photo } from "@/components/ui/Photo";
 import { Button } from "@/components/ui/Button";
 import { Tabs, type TabItem } from "@/components/ui/Tabs";
 import { TestimonialDuo } from "@/components/sections/Testimonials";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbJsonLd, servicesJsonLd } from "@/lib/structured-data";
 import {
   services,
   astrologyServices,
@@ -31,7 +33,12 @@ export const metadata: Metadata = {
   title: "Services",
   description:
     "Counselling and psychological testing for children & teens, individuals, and couples & families — plus optional reflective guidance through astrology and tarot. Explore how Serene Step can support you, one step at a time.",
+  alternates: { canonical: "/services" },
 };
+
+// Safety net for a build that ran without a database — see the note in
+// src/app/(site)/page.tsx.
+export const revalidate = 300;
 
 // Each audience gets its own surface so consecutive sections never share a shape.
 const surfaces = ["paper", "mist", "paper"] as const;
@@ -79,6 +86,10 @@ export default async function ServicesPage() {
 
   return (
     <StepsPath steps={4}>
+      {/* One Service / MedicalTherapy node per audience, plus the reflective
+          offering — mirrors the two tabs and every sub-service below them. */}
+      <JsonLd data={servicesJsonLd()} />
+      <JsonLd data={breadcrumbJsonLd([{ name: "Services", path: "/services" }])} />
       <PageHeader
         eyebrow="Our services"
         title={
