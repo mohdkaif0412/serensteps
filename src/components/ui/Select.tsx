@@ -211,7 +211,7 @@ export function Select({
         className={cn(
           "flex items-center justify-between gap-3 text-left",
           buttonClassName,
-          !value && "text-muted/50",
+          !value && "text-hint",
         )}
       >
         <span className="truncate">{value || placeholder}</span>
@@ -219,7 +219,7 @@ export function Select({
           aria-hidden="true"
           className={cn(
             "size-4 shrink-0 text-muted transition-transform duration-300 ease-soft",
-            open && "-rotate-180 text-honey-deep",
+            open && "-rotate-180 text-mint-deep",
           )}
         />
       </button>
@@ -251,8 +251,8 @@ export function Select({
                     commit(i);
                   }}
                   className={cn(
-                    "flex cursor-pointer items-center justify-between gap-3 rounded-lg px-3.5 py-2.5 text-[0.95rem] text-pine transition-colors duration-150",
-                    active && "bg-honey-soft",
+                    "flex cursor-pointer items-center justify-between gap-3 rounded-lg px-3.5 py-2.5 text-[0.95rem] text-forest transition-colors duration-150",
+                    active && "bg-mint-soft",
                     selected && "font-medium",
                   )}
                 >
@@ -260,7 +260,7 @@ export function Select({
                   {selected && (
                     <Check
                       aria-hidden="true"
-                      className="size-4 shrink-0 text-honey-deep"
+                      className="size-4 shrink-0 text-mint-deep"
                       strokeWidth={2.5}
                     />
                   )}

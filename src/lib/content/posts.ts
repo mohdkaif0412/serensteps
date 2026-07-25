@@ -14,10 +14,66 @@ export type Post = {
 };
 
 /**
- * Static sample posts for Phase 2. Phase 4 replaces this source with the
- * database (Post model) — the blog UI is written against this shape.
+ * Seed content for the journal. The database (Post model) is the live source —
+ * these are upserted by slug on `npm run db:seed`, then owned by the admin:
+ * editable and deletable there without ever being overwritten from here.
  */
 export const posts: Post[] = [
+  {
+    slug: "psychology-astrology-tarot-self-reflection",
+    title:
+      "Psychology, Astrology & Tarot: Can they work together for self-reflection?",
+    excerpt:
+      "Many people are searching for more than stress relief — they're searching for meaning. Where psychology, astrology, and tarot can genuinely meet, and where they can't.",
+    category: "Reflection",
+    publishedAt: "2026-07-18",
+    readingMinutes: 6,
+    coverAlt: "Soft morning light falling across an open notebook",
+    content: `
+<p>In today's fast-moving world, many people are searching for more than stress relief — they're searching for meaning. Questions like <em>"Why do I keep repeating the same patterns?"</em>, <em>"Why do I feel stuck?"</em>, or <em>"What direction should I take?"</em> often lead people to explore both psychology and spiritual practices.</p>
+<p>But can psychology, astrology, and tarot work together? The answer depends on how they are used.</p>
+<h2>Psychology: the foundation</h2>
+<p>Psychology is based on scientific research. It helps us understand how our thoughts, emotions, beliefs, and behaviours influence our mental well-being.</p>
+<p>Therapies such as Cognitive Behaviour Therapy (CBT) teach practical skills to:</p>
+<ul>
+<li>Challenge negative thinking</li>
+<li>Reduce anxiety</li>
+<li>Improve emotional regulation</li>
+<li>Build healthier relationships</li>
+<li>Increase self-awareness</li>
+</ul>
+<p>Psychology focuses on helping people develop coping strategies and make informed choices.</p>
+<h2>Astrology: a tool for reflection</h2>
+<p>Many people find astrology meaningful because it offers a symbolic way to think about personality traits, life themes, and relationships.</p>
+<p>Whether or not someone believes astrology has predictive value, discussing a birth chart can encourage reflection by prompting questions such as:</p>
+<ul>
+<li>What are my strengths?</li>
+<li>Which habits keep repeating?</li>
+<li>How do I respond to challenges?</li>
+<li>What values matter most to me?</li>
+</ul>
+<p>These conversations can support self-awareness when approached thoughtfully, rather than as certainty.</p>
+<h2>Tarot: a mirror, not a prediction</h2>
+<p>Tarot cards are often misunderstood. At Serene Step, tarot is not used to predict fixed outcomes. Instead, the images and symbols on the cards act as prompts for reflection and conversation.</p>
+<p>For example, a card may encourage someone to think about:</p>
+<ul>
+<li>Fear versus courage</li>
+<li>Letting go of unhealthy patterns</li>
+<li>Personal values</li>
+<li>Emotional balance</li>
+<li>Decision-making</li>
+</ul>
+<p>Rather than providing answers, tarot can help people explore questions they may not have considered.</p>
+<h2>A balanced approach</h2>
+<p>Imagine someone struggling with career uncertainty. A counselling session may identify self-doubt, perfectionism, or fear of failure. An optional astrology discussion might explore personality themes that resonate with the client. A tarot reflection could open a conversation about hopes, fears, and possible paths forward.</p>
+<p>Together, these approaches can encourage deeper self-reflection while keeping practical decision-making grounded in psychological principles.</p>
+<h2>What we believe</h2>
+<p>At Serene Step, your mental health comes first.</p>
+<p>Psychological counselling provides the foundation for emotional well-being. Astrology and tarot are available only for clients who find them personally meaningful and wish to use them as reflective tools — <strong>not as scientific assessments, and not as guarantees about the future.</strong></p>
+<p>Every meaningful journey begins with understanding yourself. And sometimes, the first step toward healing is simply giving yourself permission to pause, reflect, and grow.</p>
+<blockquote>Healing isn't about predicting tomorrow. It's about understanding yourself today.</blockquote>
+`,
+  },
   {
     slug: "the-first-step-into-therapy",
     title: "The first step into therapy — and why it's the hardest",

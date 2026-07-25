@@ -6,7 +6,7 @@ import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Terms of Use",
-  description: "The terms that apply when you use the Serene Steps website.",
+  description: `The terms that apply when you use the ${site.name} website, including how astrology and tarot are and aren't used.`,
 };
 
 const html = `
@@ -15,6 +15,16 @@ const html = `
 
 <h2>This website is not a crisis service</h2>
 <p>The information here is for general guidance and is not a substitute for professional advice, diagnosis, or treatment. If you or someone you love is in crisis or immediate danger, please contact your local emergency services or a 24/7 crisis line right away — do not wait for an appointment.</p>
+
+<h2>Astrology and tarot</h2>
+<p>Astrology and tarot are offered only to clients who find them personally meaningful, and always alongside professional counselling — never in place of it.</p>
+<ul>
+<li>They are <strong>never used as substitutes for mental health treatment</strong>, and never as tools to predict the future.</li>
+<li>They are reflective conversations that complement counselling.</li>
+<li>We don't tell you what your future will be.</li>
+<li>We help you understand yourself, strengthen your resilience, and make decisions with greater awareness.</li>
+</ul>
+<p>Nothing in a reflective session is a scientific assessment, a diagnosis, or a guarantee about the future.</p>
 
 <h2>Enquiries and bookings</h2>
 <p>Sending a message or booking a session is the start of a conversation, not a guarantee of a particular appointment or outcome. We will always confirm details with you directly.</p>
@@ -44,7 +54,7 @@ export default function TermsPage() {
         <Container size="prose">
           <div className="prose-serene" dangerouslySetInnerHTML={{ __html: html }} />
           <p className="mt-12 rounded-2xl border border-sage-deep/25 bg-sage/40 p-5 text-sm leading-relaxed text-muted">
-            <strong className="text-pine">Note for the practice:</strong> this is a
+            <strong className="text-forest">Note for the practice:</strong> this is a
             plain-language starting template. Please have it reviewed by a qualified
             professional for your jurisdiction before you rely on it.
           </p>

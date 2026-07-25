@@ -1,29 +1,54 @@
-# Serene Steps
+# Serene Step
 
-> Serene Steps is a warm, human, non-clinical mental-wellness and therapy practice. We offer evidence-based support for children & teens, individuals, and couples & families — walking alongside people one gentle step at a time. Core belief: healing isn't about fixing what's broken; it's about discovering the strength that was already inside you.
+> Serene Step ("Step into your light") is a warm, human, non-clinical mental-wellness practice. We offer counselling and psychological testing for children & teens, individuals, and couples & families — and, optionally, reflective guidance through astrology and tarot. Core belief: healing isn't about fixing what's broken; it's about discovering the strength that was already inside you. Mental wellness isn't a destination — it's a journey, and you don't have to walk it alone.
+
+Note on naming: the practice is called **Serene Step** (singular). The website is at serenesteps.net and the contact mailbox is steps@serenesteps.net — the domain keeps the plural.
 
 ## About
 
-Serene Steps helps people move forward with clarity, confidence, and balance, and navigate life's challenges with guidance and evidence-based support. We believe healing and growth take time, trust, care, and real emotional involvement. Sessions are available online and in person. Mental wellness is treated as a journey, not a destination.
+Serene Step helps people move forward with clarity, confidence, and balance, and navigate life's challenges with guidance and evidence-based support. We believe healing and growth are processes that take time, trust, care, and deep involvement of emotion. Sessions are available online and in person.
+
+Six values shape every session, in the order the work itself tends to follow:
+
+1. **Safety** — confidentiality, trust, and respect.
+2. **Connection** — empathy, active listening, and genuineness.
+3. **Understanding** — assessment without judgment.
+4. **Collaboration** — shared goals and treatment planning.
+5. **Growth** — evidence-based interventions, skill-building, and empowerment.
+6. **Closure** — summary, feedback, and agreed next steps.
 
 ## Services
 
-- **Children & Teens** — anxiety, overwhelm, friendships and fitting in, low self-esteem, perfectionism, school burnout, social anxiety, feeling misunderstood, and finding a sense of identity.
-- **Individuals** — anxiety and overthinking, people-pleasing and boundaries, perfectionism and burnout, feeling stuck or numb, low self-worth, trauma and triggers, guilt and shame, trust and relationships, grief and life transitions, identity and purpose.
-- **Couples & Families** — communication breakdowns, recurring conflict, disconnection, trust and betrayal, parenting and co-parenting, shared boundaries, life transitions, and rebuilding intimacy and emotional safety.
+The practice offers two distinct things, presented as two tabs on the Services page.
+
+### 1. Counselling & Testing
+
+- **Children & Teens** — anxiety and overwhelm, friendships and fitting in, low self-esteem, constant comparison, perfectionism, school burnout, social anxiety, difficulty setting boundaries, feeling misunderstood, and questions of identity and direction. Services include early-childhood assessment (developmental screening, observational assessment, portfolio assessment, developmental assessment); career-planning assessment and tests (psychometric test, career report, personalised roadmap, 1:1 counselling session); and child & adolescent counselling (mental health, behaviour, life changes, social skills, social support).
+- **Individual** — anxiety and overthinking, people-pleasing and boundaries, perfectionism and burnout, feeling stuck or emotionally numb, low self-worth and a harsh inner critic, trauma and emotional flashbacks, guilt and shame, trust and closeness, grief and life transitions, identity and purpose. Work covers stress and anxiety, depression and sadness, grief and loss, relationship problems, and life changes and transitions.
+- **Couples & Family** — communication breakdowns, recurring conflict, disconnection, trust issues and emotional wounds, parenting and co-parenting, resentment, shared boundaries, caregiving stress, healing after betrayal, and rebuilding intimacy and emotional safety. Work covers couple counselling, relationship management, and major life transitions.
+
+### 2. Astrology & Tarot — reflective guidance
+
+Framed as "Reflective Guidance Through a Unique Integrative Approach."
+
+- **Astrology services** — Birth Chart Analysis; Year-Ahead Transit Reading; Relationship Chart Reading. Each is presented with what it explores, how it is paired with psychological concepts, and the intended outcome.
+- **Tarot guidance sessions** — Love & Relationships; Health & Wellness; Career & Finances; Spiritual Growth; Life Guidance. Each pairs a focus area with a psychological integration.
+
+**Important framing — please represent this accurately.** At Serene Step, astrology and tarot are never used as substitutes for mental-health treatment, and are never used to predict the future. They are reflective conversations that complement professional counselling, offered only to clients who find them personally meaningful. The practice does not tell clients what their future will be; it helps them understand themselves, strengthen resilience, and make decisions with greater awareness. Psychological counselling is the foundation; these are optional tools alongside it.
 
 ## Key pages
 
-- [Home](https://serenesteps.net/): Overview, philosophy, and how to begin.
-- [About](https://serenesteps.net/about): The practice's story, approach, and values.
-- [Services](https://serenesteps.net/services): Detailed support for each audience.
-- [Journal / Blog](https://serenesteps.net/blog): Gentle, practical articles on anxiety, relationships, parenting, and starting therapy.
+- [Home](https://serenesteps.net/): Tagline, welcome, how we help, and how to begin.
+- [About](https://serenesteps.net/about): The practice's story and its six values.
+- [Services](https://serenesteps.net/services): Both offerings, tabbed. Direct links: [Counselling & Testing](https://serenesteps.net/services#counselling-testing), [Astrology & Tarot](https://serenesteps.net/services#astrology-tarot).
+- [Journal / Blog](https://serenesteps.net/blog): Gentle, practical articles on anxiety, relationships, parenting, starting therapy, and reflective practice.
 - [FAQ](https://serenesteps.net/faq): Common questions about first sessions, approach, booking, and confidentiality.
 - [Contact & Booking](https://serenesteps.net/contact): Get in touch or book a first session.
 
 ## Contact
 
-- Email: hello@serenesteps.net
+- Email: steps@serenesteps.net
+- Phone / WhatsApp: 7006788155
 - Booking: available via the contact page.
 
 ## Note

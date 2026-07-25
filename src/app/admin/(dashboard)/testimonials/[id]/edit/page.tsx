@@ -20,7 +20,7 @@ export default async function EditTestimonialPage({
     <>
       <Link
         href="/admin/testimonials"
-        className="mb-4 inline-flex items-center gap-1.5 text-sm text-muted hover:text-pine"
+        className="mb-4 inline-flex items-center gap-1.5 text-sm text-muted hover:text-forest"
       >
         <ArrowLeft className="size-4" aria-hidden="true" />
         Back to testimonials

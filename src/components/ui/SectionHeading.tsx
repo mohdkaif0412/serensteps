@@ -11,7 +11,7 @@ type SectionHeadingProps = {
   align?: "left" | "center";
   as?: ElementType;
   className?: string;
-  /** Use on dark (pine) surfaces to flip the text colors. */
+  /** Use on dark (forest) surfaces to flip the text colors. */
   tone?: "dark" | "light";
 };
 
@@ -24,7 +24,7 @@ export function SectionHeading({
   className,
   tone = "dark",
 }: SectionHeadingProps) {
-  const onPine = tone === "light";
+  const onForest = tone === "light";
   return (
     <Reveal
       className={cn(
@@ -34,12 +34,12 @@ export function SectionHeading({
       )}
     >
       {eyebrow && (
-        <Eyebrow tone={onPine ? "light" : "dark"}>{eyebrow}</Eyebrow>
+        <Eyebrow tone={onForest ? "light" : "dark"}>{eyebrow}</Eyebrow>
       )}
       <Tag
         className={cn(
           "font-display text-[clamp(2rem,4.2vw,2.9rem)] leading-[1.1]",
-          onPine ? "text-paper" : "text-pine",
+          onForest ? "text-paper" : "text-forest",
         )}
       >
         {title}
@@ -48,7 +48,7 @@ export function SectionHeading({
         <p
           className={cn(
             "mt-4 max-w-[62ch] text-lg leading-[1.75]",
-            onPine ? "text-sage/85" : "text-muted",
+            onForest ? "text-sage/85" : "text-muted",
             align === "center" && "mx-auto",
           )}
         >

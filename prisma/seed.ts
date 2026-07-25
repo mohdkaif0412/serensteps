@@ -7,9 +7,18 @@ import { postCover } from "@/lib/images";
 
 /**
  * Seeds the single admin user (from ADMIN_EMAIL / ADMIN_PASSWORD, bcrypt-hashed)
- * plus a few sample posts, FAQs, and testimonials so the site isn't empty.
- * Safe to re-run: the admin is upserted; sample content is only added when the
- * relevant table is empty, so it never clobbers content added in the admin.
+ * plus the starting posts, FAQs, and testimonials so the site isn't empty.
+ *
+ * Safe to re-run, and additive: posts upsert by slug, and FAQs/testimonials are
+ * matched against what's already there and only the missing ones inserted. So
+ * new seed content (say, a new article or a new FAQ category) reaches an
+ * already-populated database without ever overwriting an admin's edits or
+ * resurrecting something they deleted on purpose… with one exception — anything
+ * deleted in the admin that still exists here WILL come back. Remove it from the
+ * seed files too if it should stay gone.
+ *
+ * Note: re-running also resets the admin password to ADMIN_PASSWORD. That's the
+ * documented recovery path, but it means the env value should be the real one.
  */
 async function main() {
   const email = process.env.ADMIN_EMAIL;
@@ -54,37 +63,50 @@ async function main() {
   }
   console.log(`✓ Posts seeded: ${posts.length}`);
 
-  // ── Sample FAQs (only when empty) ───────────────────────────
-  if ((await prisma.faq.count()) === 0) {
+  // ── FAQs (add the missing ones; `question` isn't unique so match by text) ──
+  const existingQuestions = new Set(
+    (await prisma.faq.findMany({ select: { question: true } })).map(
+      (faq) => faq.question,
+    ),
+  );
+  const newFaqs = faqs.filter((faq) => !existingQuestions.has(faq.question));
+  if (newFaqs.length > 0) {
     await prisma.faq.createMany({
-      data: faqs.map((faq, i) => ({
+      data: newFaqs.map((faq, i) => ({
         question: faq.question,
         answer: faq.answer,
         category: faq.category,
-        order: i,
+        // Continue the existing ordering rather than restarting at 0.
+        order: existingQuestions.size + i,
         published: true,
       })),
     });
-    console.log(`✓ FAQs seeded: ${faqs.length}`);
-  } else {
-    console.log("• FAQs already present — skipped");
   }
+  console.log(
+    `✓ FAQs: ${newFaqs.length} added, ${existingQuestions.size} already present`,
+  );
 
-  // ── Sample testimonials (only when empty) ───────────────────
-  if ((await prisma.testimonial.count()) === 0) {
+  // ── Testimonials (matched on the quote itself) ───────────────
+  const existingQuotes = new Set(
+    (await prisma.testimonial.findMany({ select: { quote: true } })).map(
+      (item) => item.quote,
+    ),
+  );
+  const newTestimonials = testimonials.filter((t) => !existingQuotes.has(t.quote));
+  if (newTestimonials.length > 0) {
     await prisma.testimonial.createMany({
-      data: testimonials.map((t, i) => ({
+      data: newTestimonials.map((t, i) => ({
         name: t.name,
         role: t.role,
         quote: t.quote,
-        order: i,
+        order: existingQuotes.size + i,
         published: true,
       })),
     });
-    console.log(`✓ Testimonials seeded: ${testimonials.length}`);
-  } else {
-    console.log("• Testimonials already present — skipped");
   }
+  console.log(
+    `✓ Testimonials: ${newTestimonials.length} added, ${existingQuotes.size} already present`,
+  );
 }
 
 main()

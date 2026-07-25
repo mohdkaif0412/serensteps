@@ -36,7 +36,11 @@ export const metadata: Metadata = {
     "anxiety",
     "couples therapy",
     "child and teen therapy",
-    "Serene Steps",
+    "psychometric testing",
+    "career counselling",
+    "astrology reading",
+    "tarot guidance",
+    "Serene Step",
   ],
   icons: {
     icon: [
@@ -44,6 +48,7 @@ export const metadata: Metadata = {
       { url: "/favicon.ico", sizes: "any" },
     ],
     shortcut: "/favicon.ico",
+    apple: "/apple-icon.png",
   },
   alternates: { canonical: "/" },
   openGraph: {
@@ -70,13 +75,13 @@ export default function RootLayout({
       lang="en"
       className={`${newsreader.variable} ${jakarta.variable} antialiased`}
     >
-      <body className="flex min-h-dvh flex-col bg-paper text-pine">
+      <body className="flex min-h-dvh flex-col bg-paper text-forest">
         {children}
         <Toaster
           position="top-center"
           toastOptions={{
             style: {
-              background: "var(--color-pine)",
+              background: "var(--color-forest)",
               color: "var(--color-paper)",
               border: "1px solid var(--color-sage-deep)",
             },

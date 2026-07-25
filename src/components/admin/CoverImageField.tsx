@@ -40,7 +40,7 @@ export function CoverImageField({
             type="button"
             onClick={() => setUrl("")}
             aria-label="Remove image"
-            className="absolute right-2 top-2 grid size-7 place-items-center rounded-full bg-pine/85 text-paper hover:bg-pine"
+            className="absolute right-2 top-2 grid size-7 place-items-center rounded-full bg-forest/85 text-paper hover:bg-forest"
           >
             <X className="size-4" />
           </button>
@@ -66,7 +66,7 @@ export function CoverImageField({
               <button
                 type="button"
                 onClick={() => open()}
-                className="inline-flex items-center gap-2 rounded-full border border-sage-deep/40 px-4 py-2 text-sm font-medium text-pine hover:bg-sage/60"
+                className="inline-flex items-center gap-2 rounded-full border border-sage-deep/40 px-4 py-2 text-sm font-medium text-forest hover:bg-sage/60"
               >
                 <UploadCloud className="size-4" aria-hidden="true" />
                 Upload image

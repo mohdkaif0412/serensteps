@@ -32,7 +32,7 @@ export function LatestPosts({ posts }: { posts: PublicPost[] }) {
           <Reveal>
             <Link
               href="/blog"
-              className="group inline-flex items-center gap-1.5 text-sm font-medium text-pine"
+              className="group inline-flex items-center gap-1.5 text-sm font-medium text-forest"
             >
               <span className="link-underline group-hover:bg-[length:100%_1px]">
                 All articles

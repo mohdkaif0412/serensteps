@@ -51,14 +51,14 @@ async function sendNotificationEmail(data: Omit<ContactInput, "website">) {
 
   try {
     const resend = new Resend(apiKey);
-    const from = process.env.CONTACT_FROM ?? "Serene Steps <onboarding@resend.dev>";
+    const from = process.env.CONTACT_FROM ?? `${site.name} <onboarding@resend.dev>`;
     await resend.emails.send({
       from,
       to,
       replyTo: data.email,
       subject: `New enquiry from ${data.name} — ${data.concern}`,
       html: `
-        <div style="font-family: sans-serif; line-height: 1.6; color: #24352f;">
+        <div style="font-family: sans-serif; line-height: 1.6; color: #174238;">
           <h2 style="font-weight: 600;">New contact form submission</h2>
           <p><strong>Name:</strong> ${escapeHtml(data.name)}</p>
           <p><strong>Email:</strong> ${escapeHtml(data.email)}</p>

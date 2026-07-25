@@ -1,4 +1,19 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Serene Steps">
-  <circle cx="32" cy="32" r="32" fill="#24352F" />
-  <text x="32" y="43" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-style="italic" fill="#E3A857" text-anchor="middle">S</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Serene Step">
+  <title>Serene Step</title>
+  <!-- The logo's emotional-journey motif, reduced to the two beats that stay
+       legible at 16px: an unsettled face on the crest, a joyful one in the
+       trough. The wave's own curve supplies each mouth — a crest reads as a
+       frown, a trough as a smile — exactly as it does in the full lockup. -->
+  <rect width="64" height="64" rx="15" fill="#174238" />
+  <g fill="none" stroke="#4dbb94" stroke-width="4" stroke-linecap="round">
+    <path d="M6 40C11 40 13 26 22 26C31 26 33 45 42 45C51 45 53 33 58 33" />
+  </g>
+  <g fill="#4dbb94">
+    <!-- unsettled: eyes above the crest -->
+    <circle cx="18" cy="17" r="2.4" />
+    <circle cx="26.5" cy="17" r="2.4" />
+    <!-- joyful: eyes above the trough -->
+    <circle cx="38" cy="35" r="2.4" />
+    <circle cx="46.5" cy="35" r="2.4" />
+  </g>
 </svg>

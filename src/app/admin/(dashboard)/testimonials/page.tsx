@@ -32,7 +32,7 @@ export default async function AdminTestimonialsPage({
         action={
           <Link
             href="/admin/testimonials/new"
-            className="inline-flex items-center gap-2 rounded-full bg-pine px-5 py-2.5 text-sm font-medium text-paper shadow-soft transition hover:bg-pine/90"
+            className="inline-flex items-center gap-2 rounded-full bg-forest px-5 py-2.5 text-sm font-medium text-paper shadow-soft transition hover:bg-forest/90"
           >
             <Plus className="size-4" aria-hidden="true" />
             New testimonial
@@ -40,8 +40,8 @@ export default async function AdminTestimonialsPage({
         }
       />
 
-      <div className="mb-6 flex items-start gap-3 rounded-xl border border-honey/40 bg-honey/10 p-4 text-sm text-pine">
-        <Info className="mt-0.5 size-5 shrink-0 text-honey" aria-hidden="true" />
+      <div className="mb-6 flex items-start gap-3 rounded-xl border border-mint/40 bg-mint/10 p-4 text-sm text-forest">
+        <Info className="mt-0.5 size-5 shrink-0 text-mint-deep" aria-hidden="true" />
         <p>
           Keep these anonymous. Never publish a client&rsquo;s real name or
           identifying details without their written consent.
@@ -57,14 +57,14 @@ export default async function AdminTestimonialsPage({
             >
               <div className="mb-3 flex items-start justify-between gap-2">
                 <div>
-                  <p className="font-medium text-pine">{t.name}</p>
+                  <p className="font-medium text-forest">{t.name}</p>
                   {t.role && <p className="text-xs text-muted">{t.role}</p>}
                 </div>
-                <span className="grid size-7 shrink-0 place-items-center rounded-full bg-sage/70 text-xs font-medium text-pine">
+                <span className="grid size-7 shrink-0 place-items-center rounded-full bg-sage/70 text-xs font-medium text-forest">
                   {t.order}
                 </span>
               </div>
-              <blockquote className="flex-1 font-display text-[0.95rem] italic leading-relaxed text-pine/90">
+              <blockquote className="flex-1 font-display text-[0.95rem] italic leading-relaxed text-forest/90">
                 {`“${t.quote}”`}
               </blockquote>
               <div className="mt-4 flex items-center justify-between border-t border-sage-deep/15 pt-3">
@@ -77,7 +77,7 @@ export default async function AdminTestimonialsPage({
                     id={t.id}
                     title={t.published ? "Hide" : "Show"}
                     toastMessage={t.published ? "Hidden" : "Published"}
-                    className="grid size-8 place-items-center rounded-lg text-muted hover:bg-sage/60 hover:text-pine"
+                    className="grid size-8 place-items-center rounded-lg text-muted hover:bg-sage/60 hover:text-forest"
                   >
                     {t.published ? (
                       <Eye className="size-4" />
@@ -89,7 +89,7 @@ export default async function AdminTestimonialsPage({
                     href={`/admin/testimonials/${t.id}/edit`}
                     title="Edit"
                     aria-label="Edit"
-                    className="grid size-8 place-items-center rounded-lg text-muted hover:bg-sage/60 hover:text-pine"
+                    className="grid size-8 place-items-center rounded-lg text-muted hover:bg-sage/60 hover:text-forest"
                   >
                     <Pencil className="size-4" />
                   </Link>
@@ -110,13 +110,13 @@ export default async function AdminTestimonialsPage({
         </div>
       ) : (
         <div className="rounded-2xl border border-dashed border-sage-deep/40 bg-paper/60 p-12 text-center">
-          <h2 className="font-display text-xl text-pine">No testimonials yet</h2>
+          <h2 className="font-display text-xl text-forest">No testimonials yet</h2>
           <p className="mx-auto mt-2 max-w-sm text-muted">
             Add a few anonymous words of encouragement from past clients.
           </p>
           <Link
             href="/admin/testimonials/new"
-            className="mt-5 inline-flex items-center gap-2 rounded-full bg-pine px-5 py-2.5 text-sm font-medium text-paper hover:bg-pine/90"
+            className="mt-5 inline-flex items-center gap-2 rounded-full bg-forest px-5 py-2.5 text-sm font-medium text-paper hover:bg-forest/90"
           >
             <Plus className="size-4" aria-hidden="true" />
             New testimonial

@@ -6,11 +6,11 @@ import { Reveal } from "@/components/ui/Reveal";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Photo } from "@/components/ui/Photo";
 import { img } from "@/lib/images";
-import { bookingCta } from "@/lib/site";
+import { bookingCta, site } from "@/lib/site";
 
 /**
  * A letter, not a hero-copy block: off-center measure, a drop cap, and a
- * quiet honey rule to close — set against a photo resting on a tinted panel.
+ * quiet mint rule to close — set beside the client's own line illustration.
  */
 export function WelcomeLetter() {
   return (
@@ -23,8 +23,11 @@ export function WelcomeLetter() {
                 aria-hidden="true"
                 className="absolute -bottom-6 -left-6 top-10 w-2/3 rounded-[2rem] bg-sage-mist"
               />
+              {/* The brand illustration, `toned` because its line work is
+                  already drawn in the brand greens. */}
               <Photo
-                image={img.welcome}
+                image={img.hereForYou}
+                toned
                 sizes="(max-width: 1024px) 100vw, 40vw"
                 className="relative aspect-[5/6] w-full shadow-lift"
               />
@@ -34,9 +37,9 @@ export function WelcomeLetter() {
           <div className="order-1 lg:order-2 lg:col-span-6 lg:col-start-7">
             <Reveal>
               <Eyebrow>A warm welcome</Eyebrow>
-              <h2 className="font-display text-[clamp(2rem,4.2vw,2.9rem)] leading-[1.12] text-pine">
+              <h2 className="font-display text-[clamp(2rem,4.2vw,2.9rem)] leading-[1.12] text-forest">
                 Hello, and welcome.{" "}
-                <em className="text-pine/90">You are in the right place.</em>
+                <em className="text-forest/90">You are in the right place.</em>
               </h2>
             </Reveal>
             <Reveal delay={0.08}>
@@ -48,12 +51,15 @@ export function WelcomeLetter() {
                   out how best to support your child.
                 </p>
                 <p>
-                  Whatever it is — take a deep breath. At Serene Steps, we believe
-                  mental wellness isn&rsquo;t a destination; it&rsquo;s a journey. And
-                  you don&rsquo;t have to walk it alone.
+                  Whatever it is, take a deep breath. You are in the right place. At{" "}
+                  {site.name}, we believe that mental wellness isn&rsquo;t a
+                  destination — it&rsquo;s a journey.{" "}
+                  <strong className="font-semibold text-forest">
+                    And you don&rsquo;t have to walk it alone.
+                  </strong>
                 </p>
               </div>
-              <span aria-hidden="true" className="mt-6 block h-px w-12 bg-honey" />
+              <span aria-hidden="true" className="mt-6 block h-px w-12 bg-mint-deep" />
             </Reveal>
             <Reveal delay={0.14}>
               <div className="mt-6">

@@ -13,7 +13,7 @@ import { faqPageJsonLd } from "@/lib/structured-data";
 export const metadata: Metadata = {
   title: "FAQ",
   description:
-    "Answers to common questions about starting therapy at Serene Steps — first sessions, our approach, booking, and confidentiality.",
+    "Answers to common questions about starting therapy at Serene Step — first sessions, our approach, booking, confidentiality, and how astrology and tarot are used.",
   alternates: { canonical: "/faq" },
 };
 
@@ -39,11 +39,11 @@ export default async function FaqPage() {
             {groups.map((group, groupIndex) => (
               <Reveal key={group.category}>
                 {/* Group opener: numbered small-caps label + display heading */}
-                <p className="flex items-center gap-3 text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-honey-deep">
+                <p className="flex items-center gap-3 text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-mint-deep">
                   <span aria-hidden="true">0{groupIndex + 1}</span>
-                  <span className="inline-block h-px w-8 bg-honey" aria-hidden="true" />
+                  <span className="inline-block h-px w-8 bg-mint-deep" aria-hidden="true" />
                 </p>
-                <h2 className="mb-5 mt-2 font-display text-[1.65rem] leading-tight text-pine sm:text-3xl">
+                <h2 className="mb-5 mt-2 font-display text-[1.65rem] leading-tight text-forest sm:text-3xl">
                   {group.category}
                 </h2>
                 <Accordion
@@ -61,10 +61,10 @@ export default async function FaqPage() {
             <div className="relative mt-12 overflow-hidden rounded-[2rem] bg-sand p-8 sm:p-10">
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-honey/15 blur-2xl"
+                className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-mint/15 blur-2xl"
               />
               <div className="relative max-w-md">
-                <h2 className="font-display text-2xl leading-tight text-pine sm:text-[1.75rem]">
+                <h2 className="font-display text-2xl leading-tight text-forest sm:text-[1.75rem]">
                   Still have a <em>question?</em>
                 </h2>
                 <p className="mt-3 leading-[1.75] text-muted">
@@ -73,7 +73,7 @@ export default async function FaqPage() {
                 </p>
                 <Link
                   href="/contact"
-                  className="group mt-6 inline-flex items-center gap-2 rounded-full bg-pine px-6 py-3 text-sm font-medium text-paper shadow-soft transition-all duration-300 ease-soft hover:-translate-y-0.5 hover:bg-pine-deep hover:shadow-lift active:translate-y-0 active:scale-[0.985]"
+                  className="group mt-6 inline-flex items-center gap-2 rounded-full bg-forest px-6 py-3 text-sm font-medium text-paper shadow-soft transition-all duration-300 ease-soft hover:-translate-y-0.5 hover:bg-forest-deep hover:shadow-lift active:translate-y-0 active:scale-[0.985]"
                 >
                   Get in touch
                   <ArrowRight

@@ -1,33 +1,48 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------ */
-/* Serene Steps — design tokens                                        */
-/* Warm, editorial, non-clinical. A layered surface system: paper is   */
-/* the page, cream lifts cards, sand & sage-mist tint panels; pine     */
-/* grounds, pine-deep closes; honey is reserved for moments of warmth  */
-/* (active states, key CTAs, the steps motif) — never everywhere.      */
+/* Serene Step — design tokens                                         */
+/*                                                                     */
+/* Sampled straight from the client's logo files: forest #174238 is the */
+/* dark green ink, mint #4DBB94 the accent. Paper stays a warm off-white */
+/* so content-heavy pages keep their readability and warmth — the greens */
+/* arrive as deep bands and accents, never as a wall of colour.          */
+/*                                                                     */
+/* Contrast rules baked into the palette (all verified against WCAG AA): */
+/*   · mint is a LARGE-element colour — headings, fills, chips, and any  */
+/*     accent on forest. On light surfaces it only reaches 2.1:1, so     */
+/*     small text, thin rules, icons and focus rings use mint-deep.      */
+/*   · body copy on forest uses paper or mint-pale, never mint.          */
+/*   · form controls use `field` for their border (3:1 non-text), and    */
+/*     `hint` for placeholders (4.6:1) — muted/50 was failing before.    */
 /* ------------------------------------------------------------------ */
 @theme {
-  /* Light surfaces */
+  /* Light surfaces — warm off-white page, greens layered on top */
   --color-paper: #f6f3ec;
   --color-cream: #fbf8f1; /* lifted card surface, one step above paper */
-  --color-sand: #efe8da; /* warm tinted panel behind imagery/cards */
-  --color-sage: #dce4d6;
-  --color-sage-mist: #e9eee2; /* whisper-soft band between paper and sage */
+  --color-sand: #efe9db; /* warm tinted panel behind imagery/cards */
+  --color-sage: #d5e6dd; /* soft green panel */
+  --color-sage-mist: #e7f1ea; /* whisper-soft band between paper and sage */
 
-  /* Deep surfaces */
-  --color-pine: #24352f;
-  --color-pine-deep: #1a2723; /* footer, closing bands */
-  --color-pine-soft: #40564c; /* soft pine for quiet large display text */
+  /* Deep surfaces — the brand forest */
+  --color-forest: #174238; /* exact brand dark green */
+  --color-forest-deep: #0f2c25; /* footer, closing bands */
+  --color-forest-soft: #3a5f53; /* quiet large display text on light */
 
   /* Accents & text */
-  --color-sage-deep: #8da290;
-  --color-honey: #e3a857;
-  --color-honey-deep: #b97f2e; /* decorative numerals & icons on light (large only) */
-  --color-honey-soft: #f5e3c3; /* honey wash for chips and glows */
-  /* 5.6:1 on paper, 5.2:1 on sand — AA for body/secondary text on every
-     light surface while keeping the soft sage-gray character. */
-  --color-muted: #566459;
+  --color-mint: #4dbb94; /* exact brand mint — large elements & dark surfaces */
+  --color-mint-deep: #136c50; /* AA accent on light: small text, rules, icons */
+  --color-mint-pale: #a9dcc8; /* body copy on forest (7.4:1) */
+  --color-mint-soft: #d9efe5; /* pale mint wash for chips, callouts, glows */
+
+  --color-sage-deep: #8aa89a; /* decorative hairlines & dividers */
+  --color-field: #6d8a7c; /* form-control borders — 3:1 against their fill */
+  /* 6.0:1 on paper, 5.5:1 on sand — AA for body text on every light surface. */
+  --color-muted: #4e6157;
+  /* Placeholders and hints: the lightest green that still clears 4.5:1 on every
+     light surface (4.6:1 on sage, the darkest of them) while staying visibly
+     quieter than `muted`, so a placeholder never reads as a filled value. */
+  --color-hint: #55685f;
 
   --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, -apple-system,
     "Segoe UI", sans-serif;
@@ -36,12 +51,12 @@
 
   /* Soft, realistic shadows tuned for the warm paper background —
      a tight contact shadow plus a wide, low-opacity ambient one. */
-  --shadow-soft: 0 1px 2px rgba(26, 39, 35, 0.05),
-    0 10px 30px -12px rgba(26, 39, 35, 0.12);
-  --shadow-lift: 0 2px 6px rgba(26, 39, 35, 0.06),
-    0 24px 48px -20px rgba(26, 39, 35, 0.24);
-  --shadow-float: 0 2px 8px rgba(26, 39, 35, 0.07),
-    0 36px 72px -28px rgba(26, 39, 35, 0.3);
+  --shadow-soft: 0 1px 2px rgba(15, 44, 37, 0.05),
+    0 10px 30px -12px rgba(15, 44, 37, 0.12);
+  --shadow-lift: 0 2px 6px rgba(15, 44, 37, 0.06),
+    0 24px 48px -20px rgba(15, 44, 37, 0.24);
+  --shadow-float: 0 2px 8px rgba(15, 44, 37, 0.07),
+    0 36px 72px -28px rgba(15, 44, 37, 0.3);
 
   --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -73,7 +88,7 @@
 
   body {
     background-color: var(--color-paper);
-    color: var(--color-pine);
+    color: var(--color-forest);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
@@ -117,17 +132,29 @@
     text-wrap: pretty;
   }
 
-  /* Accessible, on-brand focus ring everywhere */
+  /* Accessible, on-brand focus ring. mint-deep clears 3:1 on every light
+     surface (pure mint only manages 2.1:1 there). Dark forest bands flip it
+     to mint via `.on-forest` below. */
   :focus-visible {
-    outline: 2px solid var(--color-honey);
+    outline: 2px solid var(--color-mint-deep);
     outline-offset: 3px;
     border-radius: 4px;
   }
 
   ::selection {
-    background-color: color-mix(in srgb, var(--color-honey) 30%, transparent);
-    color: var(--color-pine);
+    background-color: color-mix(in srgb, var(--color-mint) 35%, transparent);
+    color: var(--color-forest);
   }
+}
+
+/* Mark any deep-green band with `on-forest` so focus rings inside it switch to
+   pure mint (6.3:1 on forest-deep) instead of the light-surface mint-deep. */
+.on-forest :focus-visible {
+  outline-color: var(--color-mint);
+}
+.on-forest ::selection {
+  background-color: color-mix(in srgb, var(--color-mint) 45%, transparent);
+  color: var(--color-forest-deep);
 }
 
 /* Skip-to-content link for keyboard users */
@@ -136,7 +163,7 @@
   left: -9999px;
   top: 0;
   z-index: 100;
-  background: var(--color-pine);
+  background: var(--color-forest);
   color: var(--color-paper);
   padding: 0.75rem 1.25rem;
   border-radius: 0 0 0.5rem 0;
@@ -173,7 +200,7 @@
   line-height: 0.82;
   padding-right: 0.14em;
   margin-top: 0.08em;
-  color: var(--color-pine);
+  color: var(--color-forest);
 }
 
 /* ------------------------------------------------------------------ */
@@ -191,29 +218,29 @@
 }
 .prose-serene h2 {
   font-family: var(--font-display);
-  color: var(--color-pine);
+  color: var(--color-forest);
   font-size: 1.7rem;
   line-height: 1.25;
   margin-top: 2em;
 }
 .prose-serene h3 {
   font-family: var(--font-display);
-  color: var(--color-pine);
+  color: var(--color-forest);
   font-size: 1.35rem;
   line-height: 1.3;
   margin-top: 1.6em;
 }
 .prose-serene a {
-  color: var(--color-pine);
+  color: var(--color-forest);
   text-decoration: underline;
   text-underline-offset: 3px;
   text-decoration-color: var(--color-sage-deep);
 }
 .prose-serene a:hover {
-  text-decoration-color: var(--color-honey);
+  text-decoration-color: var(--color-mint-deep);
 }
 .prose-serene strong {
-  color: var(--color-pine);
+  color: var(--color-forest);
   font-weight: 600;
 }
 .prose-serene ul,
@@ -229,6 +256,7 @@
 .prose-serene li + li {
   margin-top: 0.5rem;
 }
+/* Small marks on light surfaces take mint-deep — pure mint would wash out. */
 .prose-serene ul > li::before {
   content: "";
   position: absolute;
@@ -237,7 +265,7 @@
   width: 0.4rem;
   height: 0.4rem;
   border-radius: 9999px;
-  background: var(--color-honey);
+  background: var(--color-mint-deep);
 }
 .prose-serene ol {
   counter-reset: item;
@@ -250,18 +278,18 @@
   top: 0.05em;
   font-size: 0.85em;
   font-weight: 600;
-  color: var(--color-honey-deep);
+  color: var(--color-mint-deep);
 }
 /* Blockquotes read as set pull-quotes, not indented asides. */
 .prose-serene blockquote {
-  border-left: 2px solid var(--color-honey);
+  border-left: 2px solid var(--color-mint-deep);
   margin-left: -1.25rem;
   padding-left: 1.85rem;
   font-family: var(--font-display);
   font-style: italic;
   font-size: 1.3em;
   line-height: 1.55;
-  color: var(--color-pine);
+  color: var(--color-forest);
 }
 @media (max-width: 640px) {
   .prose-serene blockquote {
@@ -278,7 +306,7 @@
   line-height: 0.82;
   padding-right: 0.14em;
   margin-top: 0.08em;
-  color: var(--color-pine);
+  color: var(--color-forest);
 }
 
 /* Tiptap editor (admin) */
@@ -287,8 +315,7 @@
 }
 .ProseMirror p.is-editor-empty:first-child::before {
   content: attr(data-placeholder);
-  color: var(--color-muted);
-  opacity: 0.55;
+  color: var(--color-hint);
   float: left;
   height: 0;
   pointer-events: none;

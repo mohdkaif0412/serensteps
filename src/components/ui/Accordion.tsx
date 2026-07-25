@@ -46,7 +46,7 @@ export function Accordion({
                 <span
                   className={cn(
                     "font-display text-lg leading-snug transition-colors duration-300 sm:text-xl",
-                    isOpen ? "italic text-pine" : "text-pine group-hover:text-pine-soft",
+                    isOpen ? "italic text-forest" : "text-forest group-hover:text-forest-soft",
                   )}
                 >
                   {item.question}
@@ -55,8 +55,8 @@ export function Accordion({
                   className={cn(
                     "grid size-9 shrink-0 place-items-center rounded-full border transition-all duration-300 ease-soft",
                     isOpen
-                      ? "rotate-45 border-honey bg-honey text-pine shadow-soft"
-                      : "border-sage-deep/40 text-muted group-hover:border-honey group-hover:text-pine",
+                      ? "rotate-45 border-mint bg-mint text-forest shadow-soft"
+                      : "border-sage-deep/40 text-muted group-hover:border-mint-deep group-hover:text-forest",
                   )}
                   aria-hidden="true"
                 >

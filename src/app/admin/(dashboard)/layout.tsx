@@ -3,9 +3,10 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { logoutAction } from "@/actions/auth";
+import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: { default: "Admin", template: "%s — Serene Steps Admin" },
+  title: { default: "Admin", template: `%s — ${site.name} Admin` },
   robots: { index: false, follow: false },
 };
 

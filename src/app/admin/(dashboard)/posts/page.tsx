@@ -30,7 +30,7 @@ export default async function AdminPostsPage({
         action={
           <Link
             href="/admin/posts/new"
-            className="inline-flex items-center gap-2 rounded-full bg-pine px-5 py-2.5 text-sm font-medium text-paper shadow-soft transition hover:bg-pine/90"
+            className="inline-flex items-center gap-2 rounded-full bg-forest px-5 py-2.5 text-sm font-medium text-paper shadow-soft transition hover:bg-forest/90"
           >
             <Plus className="size-4" aria-hidden="true" />
             New post
@@ -57,7 +57,7 @@ export default async function AdminPostsPage({
                     <td className="px-5 py-4">
                       <Link
                         href={`/admin/posts/${post.id}/edit`}
-                        className="font-medium text-pine hover:underline"
+                        className="font-medium text-forest hover:underline"
                       >
                         {post.title}
                       </Link>
@@ -71,8 +71,8 @@ export default async function AdminPostsPage({
                       <span
                         className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${
                           isPublished
-                            ? "bg-sage text-pine"
-                            : "bg-honey/20 text-pine"
+                            ? "bg-sage text-forest"
+                            : "bg-mint/20 text-forest"
                         }`}
                       >
                         {isPublished ? "Published" : "Draft"}
@@ -89,7 +89,7 @@ export default async function AdminPostsPage({
                             target="_blank"
                             title="View on site"
                             aria-label="View on site"
-                            className="grid size-8 place-items-center rounded-lg text-muted hover:bg-sage/60 hover:text-pine"
+                            className="grid size-8 place-items-center rounded-lg text-muted hover:bg-sage/60 hover:text-forest"
                           >
                             <ExternalLink className="size-4" />
                           </Link>
@@ -99,7 +99,7 @@ export default async function AdminPostsPage({
                           id={post.id}
                           title={isPublished ? "Unpublish" : "Publish"}
                           toastMessage={isPublished ? "Moved to drafts" : "Published"}
-                          className="grid size-8 place-items-center rounded-lg text-muted hover:bg-sage/60 hover:text-pine"
+                          className="grid size-8 place-items-center rounded-lg text-muted hover:bg-sage/60 hover:text-forest"
                         >
                           {isPublished ? (
                             <EyeOff className="size-4" />
@@ -111,7 +111,7 @@ export default async function AdminPostsPage({
                           href={`/admin/posts/${post.id}/edit`}
                           title="Edit"
                           aria-label="Edit"
-                          className="grid size-8 place-items-center rounded-lg text-muted hover:bg-sage/60 hover:text-pine"
+                          className="grid size-8 place-items-center rounded-lg text-muted hover:bg-sage/60 hover:text-forest"
                         >
                           <Pencil className="size-4" />
                         </Link>
@@ -135,13 +135,13 @@ export default async function AdminPostsPage({
         </div>
       ) : (
         <div className="rounded-2xl border border-dashed border-sage-deep/40 bg-paper/60 p-12 text-center">
-          <h2 className="font-display text-xl text-pine">No posts yet</h2>
+          <h2 className="font-display text-xl text-forest">No posts yet</h2>
           <p className="mx-auto mt-2 max-w-sm text-muted">
             Write your first article to share gentle, helpful reads with visitors.
           </p>
           <Link
             href="/admin/posts/new"
-            className="mt-5 inline-flex items-center gap-2 rounded-full bg-pine px-5 py-2.5 text-sm font-medium text-paper hover:bg-pine/90"
+            className="mt-5 inline-flex items-center gap-2 rounded-full bg-forest px-5 py-2.5 text-sm font-medium text-paper hover:bg-forest/90"
           >
             <Plus className="size-4" aria-hidden="true" />
             New post

@@ -11,7 +11,9 @@ type RevealProps = {
   /** Distance (px) the element settles up from. */
   y?: number;
   /** Render as a different element for correct semantics/layout. */
-  as?: "div" | "li" | "span" | "section";
+  as?: "div" | "li" | "span" | "section" | "article";
+  /** Anchor target, when the revealed block is itself a deep-link destination. */
+  id?: string;
 };
 
 // Cap any caller-supplied stagger so nothing ever waits long enough to read as
@@ -35,6 +37,7 @@ export function Reveal({
   delay = 0,
   y = 18,
   as = "div",
+  id,
 }: RevealProps) {
   const reduceMotion = useReducedMotion();
   const cappedDelay = Math.min(delay, MAX_DELAY);
@@ -69,6 +72,7 @@ export function Reveal({
 
   return (
     <MotionTag
+      id={id}
       className={className}
       variants={variants}
       initial="hidden"

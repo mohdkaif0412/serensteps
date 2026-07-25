@@ -92,16 +92,16 @@ export function FaqForm({
           type="checkbox"
           name="published"
           defaultChecked={faq?.published ?? true}
-          className="size-4 accent-pine"
+          className="size-4 accent-forest"
         />
-        <span className="text-sm text-pine">Published (visible on the site)</span>
+        <span className="text-sm text-forest">Published (visible on the site)</span>
       </label>
 
       <div className="flex items-center gap-4 pt-2">
         <SubmitButton pending={pending}>
           {faq?.id ? "Save changes" : "Add FAQ"}
         </SubmitButton>
-        <Link href="/admin/faqs" className="text-sm text-muted hover:text-pine">
+        <Link href="/admin/faqs" className="text-sm text-muted hover:text-forest">
           Cancel
         </Link>
       </div>

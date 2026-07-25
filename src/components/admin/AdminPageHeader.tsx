@@ -12,7 +12,7 @@ export function AdminPageHeader({
   return (
     <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
       <div>
-        <h1 className="font-display text-3xl text-pine">{title}</h1>
+        <h1 className="font-display text-3xl text-forest">{title}</h1>
         {description && (
           <p className="mt-1 max-w-xl text-muted">{description}</p>
         )}

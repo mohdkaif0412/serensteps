@@ -37,7 +37,7 @@ export default async function AdminSubmissionsPage() {
                 "rounded-2xl border bg-paper p-5 shadow-soft sm:p-6",
                 s.handled
                   ? "border-sage-deep/20"
-                  : "border-honey/50 ring-1 ring-honey/20",
+                  : "border-mint-deep/60 ring-1 ring-mint-deep/25",
               )}
             >
               <div className="flex flex-wrap items-start justify-between gap-3">
@@ -45,13 +45,13 @@ export default async function AdminSubmissionsPage() {
                   <div className="flex items-center gap-2">
                     {!s.handled && (
                       <Circle
-                        className="size-2 shrink-0 fill-honey text-honey"
+                        className="size-2 shrink-0 fill-mint-deep text-mint-deep"
                         aria-label="New"
                       />
                     )}
-                    <h2 className="font-display text-lg text-pine">{s.name}</h2>
+                    <h2 className="font-display text-lg text-forest">{s.name}</h2>
                     {s.concern && (
-                      <span className="rounded-full bg-sage px-2.5 py-0.5 text-xs font-medium text-pine">
+                      <span className="rounded-full bg-sage px-2.5 py-0.5 text-xs font-medium text-forest">
                         {s.concern}
                       </span>
                     )}
@@ -59,7 +59,7 @@ export default async function AdminSubmissionsPage() {
                   <div className="mt-1.5 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted">
                     <a
                       href={`mailto:${s.email}`}
-                      className="inline-flex items-center gap-1.5 hover:text-pine"
+                      className="inline-flex items-center gap-1.5 hover:text-forest"
                     >
                       <Mail className="size-3.5" aria-hidden="true" />
                       {s.email}
@@ -67,7 +67,7 @@ export default async function AdminSubmissionsPage() {
                     {s.phone && (
                       <a
                         href={`tel:${s.phone}`}
-                        className="inline-flex items-center gap-1.5 hover:text-pine"
+                        className="inline-flex items-center gap-1.5 hover:text-forest"
                       >
                         <Phone className="size-3.5" aria-hidden="true" />
                         {s.phone}
@@ -84,8 +84,8 @@ export default async function AdminSubmissionsPage() {
                     title={s.handled ? "Mark as new" : "Mark as handled"}
                     toastMessage={s.handled ? "Marked as new" : "Marked as handled"}
                     className={cn(
-                      "grid size-8 place-items-center rounded-lg text-muted hover:bg-sage/60 hover:text-pine",
-                      s.handled && "bg-sage/60 text-pine",
+                      "grid size-8 place-items-center rounded-lg text-muted hover:bg-sage/60 hover:text-forest",
+                      s.handled && "bg-sage/60 text-forest",
                     )}
                   >
                     <Check className="size-4" />
@@ -103,7 +103,7 @@ export default async function AdminSubmissionsPage() {
                 </div>
               </div>
 
-              <p className="mt-4 whitespace-pre-line border-t border-sage-deep/15 pt-4 leading-relaxed text-pine/90">
+              <p className="mt-4 whitespace-pre-line border-t border-sage-deep/15 pt-4 leading-relaxed text-forest/90">
                 {s.message}
               </p>
             </article>
@@ -111,7 +111,7 @@ export default async function AdminSubmissionsPage() {
         </div>
       ) : (
         <div className="rounded-2xl border border-dashed border-sage-deep/40 bg-paper/60 p-12 text-center">
-          <h2 className="font-display text-xl text-pine">No messages yet</h2>
+          <h2 className="font-display text-xl text-forest">No messages yet</h2>
           <p className="mx-auto mt-2 max-w-sm text-muted">
             When someone sends a message through the contact form, it will appear
             here.

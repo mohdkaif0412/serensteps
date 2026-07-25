@@ -13,7 +13,17 @@ export type SiteImage = {
 };
 
 export const img = {
+  /** The client's own photograph, already duotoned in the brand mint. */
   hero: {
+    src: "/images/hero-conversation.jpg",
+    alt: "Two people in warm conversation across a table, surrounded by plants",
+  },
+  /** The client's line illustration — on-brand as drawn, so never re-graded. */
+  hereForYou: {
+    src: "/images/here-for-you.png",
+    alt: "An illustration of two people talking on a sofa",
+  },
+  path: {
     src: "/images/hero-path.jpg",
     alt: "Soft light on a quiet path through the trees",
   },
@@ -50,6 +60,7 @@ export const img = {
 // Calm cover images for the seeded blog posts (stable, license-clean Unsplash
 // photos via Picsum's /id/ endpoint). Admin-uploaded covers override these.
 const BLOG_COVERS: Record<string, string> = {
+  "psychology-astrology-tarot-self-reflection": "1039",
   "the-first-step-into-therapy": "13",
   "anxiety-and-overthinking": "306",
   "boundaries-without-guilt": "29",
@@ -66,5 +77,5 @@ export const postCover = (slug: string, w = 1200, h = 800) =>
 export const BLUR_DATA_URL =
   "data:image/svg+xml;charset=utf-8," +
   encodeURIComponent(
-    `<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#dce4d6"/><stop offset="1" stop-color="#efe8da"/></linearGradient></defs><rect width="8" height="8" fill="url(#g)"/></svg>`,
+    `<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d5e6dd"/><stop offset="1" stop-color="#efe9db"/></linearGradient></defs><rect width="8" height="8" fill="url(#g)"/></svg>`,
   );

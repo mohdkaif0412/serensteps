@@ -5,8 +5,8 @@ import { cn } from "@/lib/utils";
  * over whatever sits behind it, so bands meet with a soft wave instead of a
  * hard rectangular break. Set the color via `text-*` on the svg:
  *
- *   <WaveEdge className="text-pine" />        // top edge of a pine band
- *   <WaveEdge className="text-pine" flip />   // bottom edge of a pine band
+ *   <WaveEdge className="text-forest" />        // top edge of a forest band
+ *   <WaveEdge className="text-forest" flip />   // bottom edge of a forest band
  */
 export function WaveEdge({
   className,

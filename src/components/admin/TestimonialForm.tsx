@@ -32,8 +32,8 @@ export function TestimonialForm({
       {testimonial?.id && <input type="hidden" name="id" value={testimonial.id} />}
       <FormError message={state.error} />
 
-      <div className="flex items-start gap-3 rounded-xl border border-honey/40 bg-honey/10 p-4 text-sm text-pine">
-        <Info className="mt-0.5 size-5 shrink-0 text-honey" aria-hidden="true" />
+      <div className="flex items-start gap-3 rounded-xl border border-mint/40 bg-mint/10 p-4 text-sm text-forest">
+        <Info className="mt-0.5 size-5 shrink-0 text-mint-deep" aria-hidden="true" />
         <p>
           Please keep testimonials anonymous. Never publish a client&rsquo;s real
           name or identifying details without their written consent — use initials
@@ -102,9 +102,9 @@ export function TestimonialForm({
           type="checkbox"
           name="published"
           defaultChecked={testimonial?.published ?? true}
-          className="size-4 accent-pine"
+          className="size-4 accent-forest"
         />
-        <span className="text-sm text-pine">Published (visible on the site)</span>
+        <span className="text-sm text-forest">Published (visible on the site)</span>
       </label>
 
       <div className="flex items-center gap-4 pt-2">
@@ -113,7 +113,7 @@ export function TestimonialForm({
         </SubmitButton>
         <Link
           href="/admin/testimonials"
-          className="text-sm text-muted hover:text-pine"
+          className="text-sm text-muted hover:text-forest"
         >
           Cancel
         </Link>

@@ -7,7 +7,7 @@ import { loginAction, type LoginState } from "@/actions/auth";
 const initialState: LoginState = { error: null };
 
 const field =
-  "w-full rounded-xl border border-sage-deep/40 bg-paper px-4 py-3 text-pine placeholder:text-muted/60 transition-colors focus:border-honey focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-honey/40";
+  "w-full rounded-xl border border-field bg-paper px-4 py-3 text-forest placeholder:text-hint transition-colors focus:border-mint-deep";
 
 export function LoginForm() {
   const [state, formAction, pending] = useActionState(loginAction, initialState);
@@ -15,7 +15,7 @@ export function LoginForm() {
   return (
     <form action={formAction} className="space-y-4">
       <div>
-        <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-pine">
+        <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-forest">
           Email
         </label>
         <input
@@ -32,7 +32,7 @@ export function LoginForm() {
       <div>
         <label
           htmlFor="password"
-          className="mb-1.5 block text-sm font-medium text-pine"
+          className="mb-1.5 block text-sm font-medium text-forest"
         >
           Password
         </label>
@@ -60,7 +60,7 @@ export function LoginForm() {
       <button
         type="submit"
         disabled={pending}
-        className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-pine px-6 py-3 font-medium text-paper shadow-soft transition hover:bg-pine/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-honey disabled:opacity-70"
+        className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-forest px-6 py-3 font-medium text-paper shadow-soft transition hover:bg-forest/90 disabled:opacity-70"
       >
         {pending ? (
           <>

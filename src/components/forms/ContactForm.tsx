@@ -14,10 +14,15 @@ import { submitContact } from "@/actions/contact";
 import { Select } from "@/components/ui/Select";
 import { cn } from "@/lib/utils";
 
-// Soft-filled, tactile inputs: a whisper of sage at rest, warming to cream
-// with a honey ring on focus. (The form itself sits on a cream sheet.)
+// Soft-filled, tactile inputs: a whisper of sage at rest, warming to cream on
+// focus. (The form itself sits on a cream sheet.)
+//
+// `border-field` gives the control a 3.3:1 boundary against its own fill, and
+// `text-hint` keeps placeholders at 4.6:1 — both were below AA before. The
+// focus outline is left to the global `:focus-visible` rule rather than being
+// swapped for a translucent ring, which never reached 3:1 on this fill.
 const fieldStyles =
-  "w-full rounded-xl border border-sage-deep/35 bg-sage-mist/70 px-4 py-3 text-pine placeholder:text-muted/50 shadow-[inset_0_1px_2px_rgba(26,39,35,0.04)] transition-all duration-200 focus:border-honey focus:bg-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-honey/35";
+  "w-full rounded-xl border border-field bg-sage-mist/70 px-4 py-3 text-forest placeholder:text-hint shadow-[inset_0_1px_2px_rgba(15,44,37,0.04)] transition-all duration-200 focus:border-mint-deep focus:bg-cream";
 
 export function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
@@ -55,11 +60,11 @@ export function ContactForm() {
 
   if (submitted) {
     return (
-      <div className="rounded-[1.5rem] border border-honey/30 bg-honey-soft/50 p-8 text-center">
-        <div className="mx-auto grid size-14 place-items-center rounded-full bg-honey text-pine shadow-soft">
+      <div className="rounded-[1.5rem] border border-mint/30 bg-mint-soft/50 p-8 text-center">
+        <div className="mx-auto grid size-14 place-items-center rounded-full bg-mint text-forest shadow-soft">
           <Check className="size-7" aria-hidden="true" />
         </div>
-        <h3 className="mt-5 font-display text-2xl text-pine">
+        <h3 className="mt-5 font-display text-2xl text-forest">
           Thank you for reaching out.
         </h3>
         <p className="mx-auto mt-3 max-w-md leading-relaxed text-muted">
@@ -70,7 +75,7 @@ export function ContactForm() {
         <button
           type="button"
           onClick={() => setSubmitted(false)}
-          className="mt-6 text-sm font-medium text-pine underline underline-offset-4 hover:text-honey"
+          className="mt-6 text-sm font-medium text-forest underline underline-offset-4 hover:text-mint-deep"
         >
           Send another message
         </button>
@@ -173,7 +178,7 @@ export function ContactForm() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="inline-flex items-center justify-center gap-2 rounded-full bg-pine px-8 py-3.5 font-medium text-paper shadow-soft transition-all duration-300 ease-soft hover:-translate-y-0.5 hover:bg-pine-deep hover:shadow-lift focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-honey active:translate-y-0 active:scale-[0.985] disabled:opacity-70"
+          className="inline-flex items-center justify-center gap-2 rounded-full bg-forest px-8 py-3.5 font-medium text-paper shadow-soft transition-all duration-300 ease-soft hover:-translate-y-0.5 hover:bg-forest-deep hover:shadow-lift active:translate-y-0 active:scale-[0.985] disabled:opacity-70"
         >
           {isSubmitting ? (
             <>
@@ -186,7 +191,7 @@ export function ContactForm() {
         </button>
         <p className="text-xs leading-relaxed text-muted">
           We&rsquo;ll only use your details to reply. See our{" "}
-          <Link href="/privacy" className="underline underline-offset-2 hover:text-pine">
+          <Link href="/privacy" className="underline underline-offset-2 hover:text-forest">
             privacy note
           </Link>
           .
@@ -209,7 +214,7 @@ function Field({
 }) {
   return (
     <div>
-      <label htmlFor={htmlFor} className="mb-1.5 block text-sm font-medium text-pine">
+      <label htmlFor={htmlFor} className="mb-1.5 block text-sm font-medium text-forest">
         {label}
       </label>
       {children}

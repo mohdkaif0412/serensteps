@@ -72,6 +72,29 @@ export const faqs: Faq[] = [
       "Life happens. We simply ask for as much notice as you can give so the time can be offered to someone else. You can reschedule easily through your booking confirmation, or by getting in touch.",
   },
 
+  // Astrology & tarot
+  {
+    category: "Astrology & tarot",
+    order: 1,
+    question: "Do I have to use astrology or tarot?",
+    answer:
+      "Not at all. Counselling is the foundation of everything we do, and it stands entirely on its own. Astrology and tarot are optional extras, offered only to people who find them personally meaningful — if they're not for you, simply say so and they'll never come up.",
+  },
+  {
+    category: "Astrology & tarot",
+    order: 2,
+    question: "Will you predict my future?",
+    answer:
+      "No. We don't tell you what your future will be, and astrology and tarot are never used to predict it. They're used as reflective tools — prompts for thinking about patterns, values, hopes, and fears — always alongside evidence-based psychological support, never instead of it.",
+  },
+  {
+    category: "Astrology & tarot",
+    order: 3,
+    question: "How does a reflective session actually work?",
+    answer:
+      "It's a conversation. A birth chart or a spread of cards gives us something to think with, and we connect what it raises to psychological ideas — attachment, emotional regulation, coping patterns, decision-making. You leave with clearer questions and practical direction, not a forecast.",
+  },
+
   // Privacy & confidentiality
   {
     category: "Privacy & confidentiality",

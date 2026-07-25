@@ -41,7 +41,7 @@ export default async function AdminFaqsPage({
         action={
           <Link
             href="/admin/faqs/new"
-            className="inline-flex items-center gap-2 rounded-full bg-pine px-5 py-2.5 text-sm font-medium text-paper shadow-soft transition hover:bg-pine/90"
+            className="inline-flex items-center gap-2 rounded-full bg-forest px-5 py-2.5 text-sm font-medium text-paper shadow-soft transition hover:bg-forest/90"
           >
             <Plus className="size-4" aria-hidden="true" />
             New FAQ
@@ -63,15 +63,15 @@ export default async function AdminFaqsPage({
                       key={faq.id}
                       className="flex items-center gap-4 px-5 py-4"
                     >
-                      <span className="grid size-7 shrink-0 place-items-center rounded-full bg-sage/70 text-xs font-medium text-pine">
+                      <span className="grid size-7 shrink-0 place-items-center rounded-full bg-sage/70 text-xs font-medium text-forest">
                         {faq.order}
                       </span>
                       <div className="min-w-0 flex-1">
-                        <p className="truncate font-medium text-pine">
+                        <p className="truncate font-medium text-forest">
                           {faq.question}
                         </p>
                         {!faq.published && (
-                          <span className="text-xs text-honey">Hidden</span>
+                          <span className="text-xs text-mint-deep">Hidden</span>
                         )}
                       </div>
                       <div className="flex shrink-0 items-center gap-1">
@@ -80,7 +80,7 @@ export default async function AdminFaqsPage({
                           id={faq.id}
                           title={faq.published ? "Hide" : "Show"}
                           toastMessage={faq.published ? "Hidden" : "Published"}
-                          className="grid size-8 place-items-center rounded-lg text-muted hover:bg-sage/60 hover:text-pine"
+                          className="grid size-8 place-items-center rounded-lg text-muted hover:bg-sage/60 hover:text-forest"
                         >
                           {faq.published ? (
                             <Eye className="size-4" />
@@ -92,7 +92,7 @@ export default async function AdminFaqsPage({
                           href={`/admin/faqs/${faq.id}/edit`}
                           title="Edit"
                           aria-label="Edit"
-                          className="grid size-8 place-items-center rounded-lg text-muted hover:bg-sage/60 hover:text-pine"
+                          className="grid size-8 place-items-center rounded-lg text-muted hover:bg-sage/60 hover:text-forest"
                         >
                           <Pencil className="size-4" />
                         </Link>
@@ -116,13 +116,13 @@ export default async function AdminFaqsPage({
         </div>
       ) : (
         <div className="rounded-2xl border border-dashed border-sage-deep/40 bg-paper/60 p-12 text-center">
-          <h2 className="font-display text-xl text-pine">No FAQs yet</h2>
+          <h2 className="font-display text-xl text-forest">No FAQs yet</h2>
           <p className="mx-auto mt-2 max-w-sm text-muted">
             Add answers to the questions visitors ask most.
           </p>
           <Link
             href="/admin/faqs/new"
-            className="mt-5 inline-flex items-center gap-2 rounded-full bg-pine px-5 py-2.5 text-sm font-medium text-paper hover:bg-pine/90"
+            className="mt-5 inline-flex items-center gap-2 rounded-full bg-forest px-5 py-2.5 text-sm font-medium text-paper hover:bg-forest/90"
           >
             <Plus className="size-4" aria-hidden="true" />
             New FAQ

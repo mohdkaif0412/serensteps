@@ -66,7 +66,7 @@ function Toolbar({ editor }: { editor: Editor }) {
   const btn = (active: boolean) =>
     cn(
       "grid size-8 place-items-center rounded-md transition-colors",
-      active ? "bg-pine text-paper" : "text-pine hover:bg-sage/60",
+      active ? "bg-forest text-paper" : "text-forest hover:bg-sage/60",
     );
 
   const setLink = () => {

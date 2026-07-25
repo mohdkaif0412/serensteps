@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
  * The testimonial system — quiet social proof for a field built on trust.
  *
  * Four compositions share one visual language (oversized Newsreader quote
- * glyph, italic serif voice, initial-disc + honey-dash attribution):
+ * glyph, italic serif voice, initial-disc + mint-dash attribution):
  *
  *   TestimonialsShowcase  home — one featured voice set large, two layered
  *                         cards beside it
@@ -36,8 +36,8 @@ function Attribution({
         className={cn(
           "grid size-9 shrink-0 place-items-center rounded-full font-display text-base italic",
           tone === "light"
-            ? "bg-paper/15 text-honey"
-            : "border border-honey/50 bg-honey-soft/60 text-honey-deep",
+            ? "bg-paper/15 text-mint"
+            : "border border-mint/50 bg-mint-soft/60 text-mint-deep",
         )}
       >
         {item.name.charAt(0)}
@@ -46,7 +46,7 @@ function Attribution({
         <span
           className={cn(
             "block font-semibold",
-            tone === "light" ? "text-paper" : "text-pine",
+            tone === "light" ? "text-paper" : "text-forest",
           )}
         >
           {item.name}
@@ -61,14 +61,14 @@ function Attribution({
   );
 }
 
-/* The recurring motif: an oversized serif open-quote, honey, sitting behind
+/* The recurring motif: an oversized serif open-quote, mint, sitting behind
    or beside the words. */
 function QuoteGlyph({ className }: { className?: string }) {
   return (
     <span
       aria-hidden="true"
       className={cn(
-        "pointer-events-none select-none font-display leading-none text-honey",
+        "pointer-events-none select-none font-display leading-none text-mint",
         className,
       )}
     >
@@ -93,7 +93,7 @@ function VoiceCard({
       )}
     >
       <QuoteGlyph className="absolute -top-4 left-5 text-5xl" />
-      <blockquote className="font-display text-[1.05rem] italic leading-[1.65] text-pine">
+      <blockquote className="font-display text-[1.05rem] italic leading-[1.65] text-forest">
         {item.quote}
       </blockquote>
       <div className="mt-4">
@@ -122,11 +122,11 @@ export function TestimonialsShowcase({ items }: { items: PublicTestimonial[] }) 
           <figure className={cn(side.length ? "lg:col-span-7" : "lg:col-span-9")}>
             <Reveal>
               <Eyebrow>In their words</Eyebrow>
-              <blockquote className="mt-2 font-display text-[clamp(1.45rem,2.9vw,2.05rem)] italic leading-[1.55] text-pine">
+              <blockquote className="mt-2 font-display text-[clamp(1.45rem,2.9vw,2.05rem)] italic leading-[1.55] text-forest">
                 {featured.quote}
               </blockquote>
               <div className="mt-6 flex items-center gap-4">
-                <span aria-hidden="true" className="h-px w-10 bg-honey" />
+                <span aria-hidden="true" className="h-px w-10 bg-mint-deep" />
                 <Attribution item={featured} />
               </div>
             </Reveal>
@@ -166,11 +166,11 @@ export function FeaturedTestimonial({ item }: { item?: PublicTestimonial }) {
         <QuoteGlyph className="absolute -top-8 left-0 z-0 text-[7rem] opacity-30 sm:-left-10" />
         <Reveal className="relative z-10">
           <Eyebrow>In their words</Eyebrow>
-          <blockquote className="mt-2 font-display text-[clamp(1.35rem,2.6vw,1.8rem)] italic leading-[1.6] text-pine">
+          <blockquote className="mt-2 font-display text-[clamp(1.35rem,2.6vw,1.8rem)] italic leading-[1.6] text-forest">
             {item.quote}
           </blockquote>
           <div className="mt-6 flex items-center gap-4">
-            <span aria-hidden="true" className="h-px w-10 bg-honey" />
+            <span aria-hidden="true" className="h-px w-10 bg-mint-deep" />
             <Attribution item={item} />
           </div>
         </Reveal>
@@ -190,7 +190,7 @@ export function TestimonialDuo({ items }: { items: PublicTestimonial[] }) {
       <Container>
         <Reveal>
           <Eyebrow>In their words</Eyebrow>
-          <h2 className="font-display text-[clamp(1.7rem,3.4vw,2.3rem)] leading-[1.15] text-pine">
+          <h2 className="font-display text-[clamp(1.7rem,3.4vw,2.3rem)] leading-[1.15] text-forest">
             Small steps, <em>real change</em>
           </h2>
         </Reveal>
@@ -225,9 +225,9 @@ export function TestimonialWhisper({ item }: { item?: PublicTestimonial }) {
   if (!item) return null;
 
   return (
-    <figure className="relative mt-8 rounded-[1.5rem] border border-honey/30 bg-honey-soft/40 p-6 pt-7">
+    <figure className="relative mt-8 rounded-[1.5rem] border border-mint/30 bg-mint-soft/40 p-6 pt-7">
       <QuoteGlyph className="absolute -top-4 left-5 text-5xl" />
-      <blockquote className="font-display text-[1.02rem] italic leading-[1.65] text-pine">
+      <blockquote className="font-display text-[1.02rem] italic leading-[1.65] text-forest">
         {item.quote}
       </blockquote>
       <div className="mt-4">

@@ -1,14 +1,14 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-type Surface = "paper" | "mist" | "sage" | "sand" | "pine" | "pine-deep";
+type Surface = "paper" | "mist" | "sage" | "sand" | "forest" | "forest-deep";
 
 type SectionProps = {
   id?: string;
   className?: string;
   children: ReactNode;
   /** Layered surface system: mist/sage/sand for soft tinted bands,
-      pine/pine-deep for grounding dark moments. */
+      forest/forest-deep for grounding dark moments. */
   surface?: Surface;
   /** Vertical rhythm. */
   spacing?: "sm" | "md" | "lg";
@@ -19,8 +19,8 @@ const surfaces: Record<Surface, string> = {
   mist: "bg-sage-mist",
   sage: "bg-sage/45",
   sand: "bg-sand",
-  pine: "bg-pine text-paper",
-  "pine-deep": "bg-pine-deep text-paper",
+  forest: "bg-forest text-paper",
+  "forest-deep": "bg-forest-deep text-paper",
 };
 
 // The sitewide vertical-rhythm scale. Deliberately compact: calm and

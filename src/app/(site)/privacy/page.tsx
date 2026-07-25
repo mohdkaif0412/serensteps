@@ -7,7 +7,7 @@ import { site } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Privacy Notice",
   description:
-    "How Serene Steps collects, uses, and protects your personal information.",
+    `How ${site.name} collects, uses, and protects your personal information.`,
 };
 
 const html = `
@@ -50,7 +50,7 @@ export default function PrivacyPage() {
         <Container size="prose">
           <div className="prose-serene" dangerouslySetInnerHTML={{ __html: html }} />
           <p className="mt-12 rounded-2xl border border-sage-deep/25 bg-sage/40 p-5 text-sm leading-relaxed text-muted">
-            <strong className="text-pine">Note for the practice:</strong> this is a
+            <strong className="text-forest">Note for the practice:</strong> this is a
             plain-language starting template. Please have it reviewed by a qualified
             professional to ensure it reflects your jurisdiction and how you actually
             handle data before you rely on it.

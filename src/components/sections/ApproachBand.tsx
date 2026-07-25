@@ -25,15 +25,15 @@ const pillars = [
 ];
 
 /**
- * The grounding dark moment on the home page: a full-bleed pine band with
+ * The grounding dark moment on the home page: a full-bleed forest band with
  * organic wave edges, and the three pillars set as a numbered sequence along
  * a drawn path — not a stack of icon cards.
  */
 export function ApproachBand() {
   return (
-    <section className="relative scroll-mt-24">
-      <WaveEdge className="-mb-px text-pine" />
-      <div className="bg-pine py-12 text-paper sm:py-18">
+    <section className="on-forest relative scroll-mt-24">
+      <WaveEdge className="-mb-px text-forest" />
+      <div className="bg-forest py-12 text-paper sm:py-18">
         <Container>
           <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
             <Reveal className="mx-auto w-full max-w-md lg:col-span-5 lg:mx-0">
@@ -64,13 +64,13 @@ export function ApproachBand() {
                   return (
                     <Reveal as="li" key={pillar.title} delay={i * 0.06} className="relative">
                       <span
-                        className="absolute -left-8 top-0 grid size-7 -translate-x-1/2 place-items-center rounded-full bg-honey font-display text-[0.8rem] text-pine shadow-soft"
+                        className="absolute -left-8 top-0 grid size-7 -translate-x-1/2 place-items-center rounded-full bg-mint font-display text-[0.8rem] text-forest shadow-soft"
                         aria-hidden="true"
                       >
                         {i + 1}
                       </span>
                       <div className="flex items-start gap-4">
-                        <span className="grid size-11 shrink-0 place-items-center rounded-full bg-paper/10 text-honey">
+                        <span className="grid size-11 shrink-0 place-items-center rounded-full bg-paper/10 text-mint">
                           <Icon className="size-5" strokeWidth={1.75} aria-hidden="true" />
                         </span>
                         <div>
@@ -88,7 +88,7 @@ export function ApproachBand() {
           </div>
         </Container>
       </div>
-      <WaveEdge flip className="-mt-px text-pine" />
+      <WaveEdge flip className="-mt-px text-forest" />
     </section>
   );
 }

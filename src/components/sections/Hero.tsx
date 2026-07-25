@@ -7,7 +7,7 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Photo } from "@/components/ui/Photo";
 import { Parallax } from "@/components/ui/Parallax";
 import { img } from "@/lib/images";
-import { bookingCta } from "@/lib/site";
+import { bookingCta, site } from "@/lib/site";
 
 export function Hero() {
   return (
@@ -15,7 +15,7 @@ export function Hero() {
       {/* Soft washes of warmth behind the composition */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -right-40 top-8 h-[30rem] w-[30rem] rounded-full bg-honey/10 blur-3xl"
+        className="pointer-events-none absolute -right-40 top-8 h-[30rem] w-[30rem] rounded-full bg-mint/10 blur-3xl"
       />
       <div
         aria-hidden="true"
@@ -30,20 +30,23 @@ export function Hero() {
               <Eyebrow>A gentle place to begin</Eyebrow>
             </Reveal>
 
+            {/* The tagline leads — it's the brand's promise, so it gets the
+                display scale rather than being tucked under the logo. */}
             <Reveal delay={0.05}>
-              <h1 className="font-display text-[clamp(2.6rem,5.4vw,4.3rem)] leading-[1.04] text-pine">
-                Healing isn&rsquo;t about fixing what&rsquo;s broken.
-                {/* The italic line steps inward — an editorial indent, not a centered stack */}
-                <em className="mt-3 block pl-6 font-light text-pine/90 sm:pl-14">
-                  It&rsquo;s discovering the strength already inside you.
-                </em>
+              <h1 className="font-display text-[clamp(2.6rem,5.4vw,4.3rem)] leading-[1.04] text-forest">
+                Step into <em className="font-light">your light.</em>
+                {/* The philosophy steps inward — an editorial indent, not a centered stack */}
+                <span className="mt-4 block pl-6 text-[clamp(1.35rem,2.6vw,1.9rem)] leading-[1.35] text-forest-soft sm:pl-14">
+                  Healing isn&rsquo;t about fixing what&rsquo;s broken — it&rsquo;s about
+                  discovering the strength that was already inside you.
+                </span>
               </h1>
             </Reveal>
 
             <Reveal delay={0.1}>
               <p className="mt-6 max-w-[52ch] pl-6 text-lg leading-[1.75] text-muted sm:pl-14">
-                At Serene Steps, mental wellness isn&rsquo;t a destination — it&rsquo;s a
-                journey. We&rsquo;re just here to help you find the way, one step at a time.
+                At {site.name}, mental wellness isn&rsquo;t a destination — it&rsquo;s a
+                journey. And you don&rsquo;t have to walk it alone.
               </p>
             </Reveal>
 
@@ -58,7 +61,7 @@ export function Hero() {
                 </Button>
                 <Link
                   href="/services"
-                  className="link-underline text-[0.95rem] font-medium text-pine"
+                  className="link-underline text-[0.95rem] font-medium text-forest"
                 >
                   Explore our services
                 </Link>
@@ -75,24 +78,27 @@ export function Hero() {
               className="absolute -inset-x-5 bottom-6 top-14 -rotate-2 rounded-[2.5rem] bg-sand"
             />
             <Parallax range={18} className="relative">
+              {/* `toned`: this is the client's photograph, supplied already
+                  duotoned in brand mint — grading it again would muddy it. */}
               <Photo
                 image={img.hero}
                 mask="arch"
                 priority
+                toned
                 sizes="(max-width: 1024px) 100vw, 42vw"
                 className="aspect-[4/5] w-full shadow-lift"
               />
             </Parallax>
 
-            {/* Floating philosophy card, breaking the image's left margin */}
+            {/* Floating card, breaking the image's left margin */}
             <div className="absolute -bottom-8 -left-4 max-w-[16.5rem] rounded-2xl border border-sage-deep/20 bg-cream p-5 shadow-float sm:-left-10">
-              <p className="font-display text-lg italic leading-snug text-pine">
-                &ldquo;One step at a time.&rdquo;
+              <p className="font-display text-lg italic leading-snug text-forest">
+                &ldquo;We are here for you.&rdquo;
               </p>
               <p className="mt-1.5 text-sm leading-relaxed text-muted">
-                Every journey begins with a single, gentle step forward.
+                One step at a time — we walk alongside you, at your pace.
               </p>
-              <span aria-hidden="true" className="mt-3 block h-px w-8 bg-honey" />
+              <span aria-hidden="true" className="mt-3 block h-px w-8 bg-mint-deep" />
             </div>
           </div>
         </div>

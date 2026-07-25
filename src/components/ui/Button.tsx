@@ -6,19 +6,22 @@ type Variant = "primary" | "accent" | "outline" | "ghost";
 type Size = "sm" | "md" | "lg";
 
 // Warm hover-lift + a satisfying press (settles back down and in slightly).
+// Warm hover-lift + a satisfying press (settles back down and in slightly).
+// The focus ring is deliberately NOT set here — the global `:focus-visible`
+// rule owns it, so it can flip to pure mint inside `.on-forest` bands.
 const base =
-  "group inline-flex items-center justify-center gap-2 rounded-full font-medium tracking-tight transition-all duration-300 ease-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-honey disabled:opacity-60 disabled:pointer-events-none cursor-pointer active:translate-y-0 active:scale-[0.985] active:shadow-soft";
+  "group inline-flex items-center justify-center gap-2 rounded-full font-medium tracking-tight transition-all duration-300 ease-soft disabled:opacity-60 disabled:pointer-events-none cursor-pointer active:translate-y-0 active:scale-[0.985] active:shadow-soft";
 
 const variants: Record<Variant, string> = {
   // Deep, grounding green — the workhorse dark CTA
   primary:
-    "bg-pine text-paper shadow-soft hover:-translate-y-0.5 hover:bg-pine-deep hover:shadow-lift",
-  // Warm honey — hope. Reserved for the key CTA moments (hero, final band).
+    "bg-forest text-paper shadow-soft hover:-translate-y-0.5 hover:bg-forest-deep hover:shadow-lift",
+  // Brand mint — a large fill, so pure mint is right here (forest-on-mint 4.7:1).
   accent:
-    "bg-honey text-pine shadow-soft hover:-translate-y-0.5 hover:shadow-lift hover:brightness-[1.05]",
+    "bg-mint text-forest shadow-soft hover:-translate-y-0.5 hover:shadow-lift hover:brightness-[1.05]",
   outline:
-    "border border-sage-deep/60 text-pine hover:-translate-y-0.5 hover:border-pine hover:bg-sage-mist",
-  ghost: "text-pine hover:bg-sage/60",
+    "border border-sage-deep/60 text-forest hover:-translate-y-0.5 hover:border-forest hover:bg-sage-mist",
+  ghost: "text-forest hover:bg-sage/60",
 };
 
 const sizes: Record<Size, string> = {

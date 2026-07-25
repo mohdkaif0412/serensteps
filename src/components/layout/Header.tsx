@@ -4,9 +4,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
-import { Menu, X, Footprints } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
+import { Logo } from "@/components/ui/Logo";
 import { site, bookingCta } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -85,15 +86,17 @@ export function Header() {
         <div className="flex h-16 items-center justify-between gap-4 sm:h-20">
           <Link
             href="/"
-            className="group flex shrink-0 items-center gap-2.5"
+            className="group flex shrink-0 items-center"
             aria-label={`${site.name} — home`}
           >
-            <span className="grid size-9 place-items-center rounded-full bg-pine text-paper transition-transform duration-300 ease-soft group-hover:-rotate-6">
-              <Footprints className="size-4" strokeWidth={1.75} aria-hidden="true" />
-            </span>
-            <span className="font-display text-xl tracking-tight text-pine sm:text-[1.6rem]">
-              {site.name}
-            </span>
+            {/* The logo is the LCP element in the header, so it loads eagerly.
+                aria-label above names the link; the image's own alt would be
+                redundant here, but keeping it lets the logo stand alone if
+                styles fail to load. */}
+            <Logo
+              priority
+              className="h-10 transition-transform duration-500 ease-soft group-hover:scale-[1.03] sm:h-12"
+            />
           </Link>
 
           <nav className="hidden items-center gap-1 md:flex" aria-label="Primary">
@@ -104,12 +107,12 @@ export function Header() {
                 aria-current={isActive(item.href) ? "page" : undefined}
                 className={cn(
                   "relative rounded-full px-3 py-2 text-sm font-medium transition-colors",
-                  isActive(item.href) ? "text-pine" : "text-muted hover:text-pine",
+                  isActive(item.href) ? "text-forest" : "text-muted hover:text-forest",
                 )}
               >
                 {item.label}
                 {isActive(item.href) && (
-                  // Shared layoutId → the honey underline glides between links
+                  // Shared layoutId → the mint underline glides between links
                   // as the route changes.
                   <motion.span
                     layoutId="nav-indicator"
@@ -118,7 +121,7 @@ export function Header() {
                         ? { duration: 0 }
                         : { type: "spring", stiffness: 380, damping: 34 }
                     }
-                    className="absolute inset-x-3 -bottom-0.5 h-[2px] rounded-full bg-honey"
+                    className="absolute inset-x-3 -bottom-0.5 h-[2px] rounded-full bg-mint-deep"
                     aria-hidden="true"
                   />
                 )}
@@ -135,7 +138,7 @@ export function Header() {
           <button
             ref={toggleRef}
             type="button"
-            className="inline-flex size-10 items-center justify-center rounded-full text-pine transition-colors hover:bg-sage/60 md:hidden"
+            className="inline-flex size-10 items-center justify-center rounded-full text-forest transition-colors hover:bg-sage/60 md:hidden"
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
             aria-controls="mobile-menu"
@@ -166,11 +169,11 @@ export function Header() {
                 aria-current={isActive(item.href) ? "page" : undefined}
                 className={cn(
                   "flex items-baseline gap-4 border-b border-sage-deep/10 px-2 py-3.5 transition-colors last:border-b-0",
-                  isActive(item.href) ? "text-pine" : "text-muted hover:text-pine",
+                  isActive(item.href) ? "text-forest" : "text-muted hover:text-forest",
                 )}
               >
                 <span
-                  className="w-6 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-honey-deep"
+                  className="w-6 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-mint-deep"
                   aria-hidden="true"
                 >
                   {String(i + 1).padStart(2, "0")}

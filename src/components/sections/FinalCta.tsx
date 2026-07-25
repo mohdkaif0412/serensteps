@@ -9,15 +9,16 @@ import { BLUR_DATA_URL, img } from "@/lib/images";
 import { bookingCta } from "@/lib/site";
 
 /**
- * The warm closing band: full-bleed pine with a faint duotone photograph,
+ * The warm closing band: full-bleed forest with a faint duotone photograph,
  * organic top edge, and left-aligned editorial type — flowing straight into
  * the footer's deeper green.
  */
 export function FinalCta() {
   return (
-    <section className="relative">
-      <WaveEdge className="-mb-px text-pine" />
-      <div className="relative overflow-hidden bg-pine">
+    // `on-forest` keeps focus rings mint (not mint-deep) over the dark band.
+    <section className="on-forest relative">
+      <WaveEdge className="-mb-px text-forest" />
+      <div className="relative overflow-hidden bg-forest">
         <Image
           src={img.cta.src}
           alt=""
@@ -27,14 +28,14 @@ export function FinalCta() {
           blurDataURL={BLUR_DATA_URL}
           className="object-cover opacity-[0.16] [filter:saturate(0.7)]"
         />
-        {/* Scrim keeps paper-on-pine text comfortably AA over the photo */}
-        <div aria-hidden="true" className="absolute inset-0 bg-pine/60" />
+        {/* Scrim keeps paper-on-forest text comfortably AA over the photo */}
+        <div aria-hidden="true" className="absolute inset-0 bg-forest/60" />
 
         <Container className="relative py-12 sm:py-18">
           <Reveal className="max-w-2xl">
             <h2 className="font-display text-[clamp(2.1rem,4.6vw,3.3rem)] leading-[1.1] text-paper">
               Your journey can begin with a{" "}
-              <em className="text-honey">single step</em>.
+              <em className="text-mint">single step</em>.
             </h2>
             <p className="mt-4 max-w-[52ch] text-lg leading-[1.75] text-sage/85">
               Whenever you&rsquo;re ready, we&rsquo;re here. Book a first session and

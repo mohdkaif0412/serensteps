@@ -1,9 +1,11 @@
-# Serene Steps
+# Serene Step
 
-A warm, editorial website and content admin panel for **Serene Steps**, a mental-wellness / therapy practice. Built to feel gentle, human, and trustworthy — with a signature "steps path" that traces the journey down each page, one step at a time.
+A warm, editorial website and content admin panel for **Serene Step** ("Step into your light"), a mental-wellness / therapy practice. Built to feel gentle, human, and trustworthy — with a signature wave-of-faces path that traces the journey down each page, brightening as you scroll.
 
-- **Public site:** Home, About, Services, Blog, FAQ, Contact (+ booking), Privacy, Terms.
+- **Public site:** Home, About, Services (tabbed — Counselling & Testing / Astrology & Tarot), Blog, FAQ, Contact (+ booking), Privacy, Terms.
 - **Admin panel** (`/admin`): manage blog posts, FAQs, testimonials, and contact messages — no code required.
+
+> **Naming:** the brand displays as *Serene Step* (singular, matching the logo) while the domain and mailbox keep the plural — `serenesteps.net`, `steps@serenesteps.net`. That's intentional. Everything the owner might change (name, tagline, email, phone/WhatsApp, socials) lives in [`src/lib/site.ts`](src/lib/site.ts) and is env-overridable.
 
 ---
 

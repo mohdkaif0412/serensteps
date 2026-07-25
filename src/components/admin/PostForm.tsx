@@ -132,7 +132,7 @@ export function PostForm({ post }: { post?: PostFormData }) {
       </Field>
 
       <details className="rounded-xl border border-sage-deep/25 bg-sage/20 p-4">
-        <summary className="cursor-pointer text-sm font-medium text-pine">
+        <summary className="cursor-pointer text-sm font-medium text-forest">
           SEO settings (optional)
         </summary>
         <div className="mt-4 space-y-4">
@@ -164,7 +164,7 @@ export function PostForm({ post }: { post?: PostFormData }) {
         <SubmitButton pending={pending}>
           {post?.id ? "Save changes" : "Create post"}
         </SubmitButton>
-        <Link href="/admin/posts" className="text-sm text-muted hover:text-pine">
+        <Link href="/admin/posts" className="text-sm text-muted hover:text-forest">
           Cancel
         </Link>
       </div>

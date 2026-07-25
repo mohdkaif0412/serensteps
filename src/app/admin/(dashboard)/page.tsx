@@ -52,7 +52,7 @@ export default async function DashboardPage() {
         action={
           <Link
             href="/admin/posts/new"
-            className="inline-flex items-center gap-2 rounded-full bg-pine px-5 py-2.5 text-sm font-medium text-paper shadow-soft transition hover:bg-pine/90"
+            className="inline-flex items-center gap-2 rounded-full bg-forest px-5 py-2.5 text-sm font-medium text-paper shadow-soft transition hover:bg-forest/90"
           >
             <Plus className="size-4" aria-hidden="true" />
             New post
@@ -72,13 +72,13 @@ export default async function DashboardPage() {
               <div className="flex items-center justify-between">
                 <span
                   className={`grid size-9 place-items-center rounded-full ${
-                    s.highlight ? "bg-honey text-pine" : "bg-sage text-pine"
+                    s.highlight ? "bg-mint text-forest" : "bg-sage text-forest"
                   }`}
                 >
                   <Icon className="size-4" strokeWidth={1.75} aria-hidden="true" />
                 </span>
               </div>
-              <p className="mt-4 font-display text-3xl text-pine">{s.value}</p>
+              <p className="mt-4 font-display text-3xl text-forest">{s.value}</p>
               <p className="text-sm text-muted">{s.label}</p>
             </Link>
           );
@@ -89,10 +89,10 @@ export default async function DashboardPage() {
         {/* Recent posts */}
         <section className="rounded-2xl border border-sage-deep/20 bg-paper p-6 shadow-soft">
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="font-display text-xl text-pine">Recent posts</h2>
+            <h2 className="font-display text-xl text-forest">Recent posts</h2>
             <Link
               href="/admin/posts"
-              className="inline-flex items-center gap-1 text-sm text-muted hover:text-pine"
+              className="inline-flex items-center gap-1 text-sm text-muted hover:text-forest"
             >
               All posts <ArrowRight className="size-3.5" aria-hidden="true" />
             </Link>
@@ -103,16 +103,16 @@ export default async function DashboardPage() {
                 <li key={post.id}>
                   <Link
                     href={`/admin/posts/${post.id}/edit`}
-                    className="flex items-center justify-between gap-3 py-3 hover:text-pine"
+                    className="flex items-center justify-between gap-3 py-3 hover:text-forest"
                   >
-                    <span className="min-w-0 truncate text-sm text-pine">
+                    <span className="min-w-0 truncate text-sm text-forest">
                       {post.title}
                     </span>
                     <span
                       className={`shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium ${
                         post.status === "PUBLISHED"
-                          ? "bg-sage text-pine"
-                          : "bg-honey/20 text-pine"
+                          ? "bg-sage text-forest"
+                          : "bg-mint/20 text-forest"
                       }`}
                     >
                       {post.status === "PUBLISHED" ? "Published" : "Draft"}
@@ -129,10 +129,10 @@ export default async function DashboardPage() {
         {/* Recent messages */}
         <section className="rounded-2xl border border-sage-deep/20 bg-paper p-6 shadow-soft">
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="font-display text-xl text-pine">Recent messages</h2>
+            <h2 className="font-display text-xl text-forest">Recent messages</h2>
             <Link
               href="/admin/submissions"
-              className="inline-flex items-center gap-1 text-sm text-muted hover:text-pine"
+              className="inline-flex items-center gap-1 text-sm text-muted hover:text-forest"
             >
               All messages <ArrowRight className="size-3.5" aria-hidden="true" />
             </Link>
@@ -143,12 +143,12 @@ export default async function DashboardPage() {
                 <li key={m.id} className="flex items-center gap-3 py-3">
                   {!m.handled && (
                     <Circle
-                      className="size-2 shrink-0 fill-honey text-honey"
+                      className="size-2 shrink-0 fill-mint-deep text-mint-deep"
                       aria-label="New"
                     />
                   )}
                   <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm text-pine">{m.name}</p>
+                    <p className="truncate text-sm text-forest">{m.name}</p>
                     <p className="truncate text-xs text-muted">
                       {m.concern ?? "General"} · {formatDate(m.createdAt)}
                     </p>

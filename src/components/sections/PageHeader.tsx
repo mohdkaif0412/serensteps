@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * Editorial page opener: left-aligned by default, confident display scale,
- * with a soft honey wash behind the composition.
+ * with a soft mint wash behind the composition.
  */
 export function PageHeader({
   eyebrow,
@@ -25,14 +25,14 @@ export function PageHeader({
     <section className="relative overflow-hidden pb-4 pt-8 sm:pb-6 sm:pt-12">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -right-40 -top-32 h-[24rem] w-[24rem] rounded-full bg-honey/10 blur-3xl"
+        className="pointer-events-none absolute -right-40 -top-32 h-[24rem] w-[24rem] rounded-full bg-mint/10 blur-3xl"
       />
       <Container>
         <Reveal className={cn("max-w-3xl", centered && "mx-auto text-center")}>
           {eyebrow && (
             <Eyebrow className={cn(centered && "justify-center")}>{eyebrow}</Eyebrow>
           )}
-          <h1 className="font-display text-[clamp(2.5rem,5.4vw,3.9rem)] leading-[1.05] text-pine">
+          <h1 className="font-display text-[clamp(2.5rem,5.4vw,3.9rem)] leading-[1.05] text-forest">
             {title}
           </h1>
           {intro && (

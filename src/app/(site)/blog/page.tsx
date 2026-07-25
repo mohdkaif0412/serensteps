@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 export const metadata: Metadata = {
   title: "Journal",
   description:
-    "Gentle, practical writing on anxiety, relationships, parenting, and starting therapy — from the Serene Steps journal.",
+    "Gentle, practical writing on anxiety, relationships, parenting, starting therapy, and reflective practice — from the Serene Step journal.",
 };
 
 export default async function BlogPage({
@@ -100,7 +100,7 @@ export default async function BlogPage({
             </>
           ) : (
             <div className="rounded-[2rem] border border-dashed border-sage-deep/40 bg-cream p-12 text-center">
-              <h2 className="font-display text-2xl text-pine">
+              <h2 className="font-display text-2xl text-forest">
                 New writing is on its way
               </h2>
               <p className="mx-auto mt-2 max-w-md leading-relaxed text-muted">
@@ -131,8 +131,8 @@ function PageLink({
   const classes = cn(
     "inline-flex size-10 items-center justify-center rounded-full text-sm font-medium transition-all duration-300 ease-soft",
     active
-      ? "bg-pine text-paper shadow-soft"
-      : "border border-sage-deep/40 text-pine hover:-translate-y-0.5 hover:border-honey hover:bg-honey-soft",
+      ? "bg-forest text-paper shadow-soft"
+      : "border border-sage-deep/40 text-forest hover:-translate-y-0.5 hover:border-mint-deep hover:bg-mint-soft",
     disabled && "pointer-events-none opacity-40",
   );
   if (disabled) {

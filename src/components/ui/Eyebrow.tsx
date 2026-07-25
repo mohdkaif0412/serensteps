@@ -2,8 +2,11 @@ import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * Small-caps section label with a short drawn honey rule — the consistent
+ * Small-caps section label with a short drawn mint rule — the consistent
  * editorial opener above headings sitewide.
+ *
+ * The rule flips tone with the surface: pure mint reads beautifully on forest
+ * but only manages 2.1:1 on paper, so light surfaces get mint-deep.
  */
 export function Eyebrow({
   children,
@@ -11,7 +14,7 @@ export function Eyebrow({
   className,
 }: {
   children: ReactNode;
-  /** `light` for pine surfaces. */
+  /** `light` for forest surfaces. */
   tone?: "dark" | "light";
   className?: string;
 }) {
@@ -23,7 +26,13 @@ export function Eyebrow({
         className,
       )}
     >
-      <span className="inline-block h-px w-8 bg-honey" aria-hidden="true" />
+      <span
+        className={cn(
+          "inline-block h-px w-8",
+          tone === "light" ? "bg-mint" : "bg-mint-deep",
+        )}
+        aria-hidden="true"
+      />
       {children}
     </p>
   );

@@ -69,7 +69,7 @@ export default async function PostPage({ params }: Params) {
       <Container size="prose">
         <Link
           href="/blog"
-          className="group inline-flex items-center gap-2 text-sm font-medium text-muted transition-colors hover:text-pine"
+          className="group inline-flex items-center gap-2 text-sm font-medium text-muted transition-colors hover:text-forest"
         >
           <ArrowLeft
             className="size-4 transition-transform duration-300 group-hover:-translate-x-1"
@@ -81,25 +81,25 @@ export default async function PostPage({ params }: Params) {
         </Link>
 
         <div className="mt-10 flex flex-wrap items-center gap-x-3 gap-y-2 text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-muted">
-          <span className="rounded-full bg-sage px-3 py-1 text-pine">
+          <span className="rounded-full bg-sage px-3 py-1 text-forest">
             {post.category}
           </span>
           <time dateTime={post.publishedAt}>{formatDate(post.publishedAt)}</time>
-          <span aria-hidden="true" className="text-honey">
+          <span aria-hidden="true" className="text-mint-deep">
             &middot;
           </span>
           <span>{post.readingMinutes} min read</span>
         </div>
 
-        <h1 className="mt-5 font-display text-[clamp(2.3rem,5vw,3.4rem)] leading-[1.08] text-pine">
+        <h1 className="mt-5 font-display text-[clamp(2.3rem,5vw,3.4rem)] leading-[1.08] text-forest">
           {post.title}
         </h1>
         {post.excerpt && (
-          <p className="mt-6 font-display text-xl italic leading-[1.6] text-pine-soft">
+          <p className="mt-6 font-display text-xl italic leading-[1.6] text-forest-soft">
             {post.excerpt}
           </p>
         )}
-        <span aria-hidden="true" className="mt-8 block h-px w-12 bg-honey" />
+        <span aria-hidden="true" className="mt-8 block h-px w-12 bg-mint-deep" />
       </Container>
 
       <Container size="prose" className="mt-10">
@@ -122,17 +122,17 @@ export default async function PostPage({ params }: Params) {
         <div className="relative mt-16 rounded-[2rem] bg-sand p-8 sm:p-10">
           <span
             aria-hidden="true"
-            className="absolute -top-6 left-8 select-none font-display text-7xl leading-none text-honey"
+            className="absolute -top-6 left-8 select-none font-display text-7xl leading-none text-mint"
           >
             &ldquo;
           </span>
-          <p className="font-display text-xl italic leading-[1.65] text-pine">
+          <p className="font-display text-xl italic leading-[1.65] text-forest">
             Healing isn&rsquo;t about fixing what is broken; it&rsquo;s about
             discovering the strength that was already inside you.
           </p>
           <Link
             href="/contact"
-            className="group mt-7 inline-flex items-center gap-2 rounded-full bg-pine px-6 py-3 text-sm font-medium text-paper shadow-soft transition-all duration-300 ease-soft hover:-translate-y-0.5 hover:bg-pine-deep hover:shadow-lift active:translate-y-0 active:scale-[0.985]"
+            className="group mt-7 inline-flex items-center gap-2 rounded-full bg-forest px-6 py-3 text-sm font-medium text-paper shadow-soft transition-all duration-300 ease-soft hover:-translate-y-0.5 hover:bg-forest-deep hover:shadow-lift active:translate-y-0 active:scale-[0.985]"
           >
             Take your first step
           </Link>
@@ -142,7 +142,7 @@ export default async function PostPage({ params }: Params) {
       {more.length > 0 && (
         <Section spacing="md" surface="mist" className="mt-16">
           <Container>
-            <h2 className="font-display text-[clamp(1.6rem,3vw,2.1rem)] text-pine">
+            <h2 className="font-display text-[clamp(1.6rem,3vw,2.1rem)] text-forest">
               Keep <em>reading</em>
             </h2>
             <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">

@@ -1,6 +1,11 @@
-# Serene Steps — agent notes
+# Serene Step — agent notes
 
 Warm, editorial marketing site + content admin for a mental-wellness practice.
+
+**Naming:** the brand displays as **Serene Step** (singular, matching the logo),
+while the domain and mailbox stay `serenesteps.net` / `steps@serenesteps.net`.
+That mismatch is intentional — don't "fix" either side. Always read the display
+name from `site.name` rather than hardcoding it.
 
 ## Stack
 
@@ -12,11 +17,28 @@ Warm, editorial marketing site + content admin for a mental-wellness practice.
 
 ## Conventions
 
-- **Never hardcode hex colors** in components. Use the theme tokens: `paper`, `pine`,
-  `sage`, `sage-deep`, `honey`, `muted` (e.g. `bg-paper`, `text-pine`, `border-sage-deep`).
+- **Never hardcode hex colors** in components. Use the theme tokens defined in
+  `globals.css`: light surfaces `paper`, `cream`, `sand`, `sage-mist`, `sage`;
+  deep surfaces `forest`, `forest-deep`, `forest-soft`; accents and text `mint`,
+  `mint-deep`, `mint-pale`, `mint-soft`, `sage-deep`, `field`, `muted`, `hint`.
+  `forest` (#174238) and `mint` (#4DBB94) are sampled from the client's logo.
+- **The mint contrast rule.** `mint` is a *large-element* colour — headings,
+  fills, chips, and any accent on a forest surface. On light surfaces it only
+  reaches 2.1:1, so small text, thin rules, icons and focus rings use
+  `mint-deep`. Body copy on forest uses `paper` or `mint-pale`, never `mint`.
+  Form controls use `border-field` (3:1 against their fill) and
+  `placeholder:text-hint` (4.6:1).
+- **Focus rings** are owned by the global `:focus-visible` rule — don't set
+  `focus-visible:outline-*` per component. Add `on-forest` to any deep-green
+  band so rings inside it flip from `mint-deep` to `mint`.
 - Fonts: `font-display` (Newsreader, headings), `font-sans` (Plus Jakarta Sans, body).
+- Brand assets live in `public/brand/` (two inks of the same lockup — use the
+  `Logo` component with `tone`), imagery in `public/images/`. Photography is
+  green-duotoned by `Photo`; artwork the client already supplied on-brand passes
+  `toned` to skip the grade.
 - Reusable primitives live in `src/components/ui`: `Button`, `Container`, `Section`,
-  `Reveal` (scroll wrapper), plus `StepsPath` / `Accordion` (added in Phase 2).
+  `Reveal` (scroll wrapper), `Logo`, `Tabs`, `StepsPath` (the wave-of-faces
+  journey motif), `Accordion`.
 - Sections/blocks in `src/components/sections`; layout in `src/components/layout`.
 - Zod schemas in `src/lib`; infer types from them (`z.infer`). Validate every form.
 - Respect `prefers-reduced-motion` everywhere (see `Reveal` and `globals.css`).
