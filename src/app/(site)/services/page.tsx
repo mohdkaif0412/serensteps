@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Check, ShieldAlert, Sparkles, Compass } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, Sparkles } from "lucide-react";
 import { StepsPath } from "@/components/ui/StepsPath";
 import { PageHeader } from "@/components/sections/PageHeader";
 import { FinalCta } from "@/components/sections/FinalCta";
@@ -8,25 +9,26 @@ import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Photo } from "@/components/ui/Photo";
-import { Button } from "@/components/ui/Button";
-import { Tabs, type TabItem } from "@/components/ui/Tabs";
+import { WaveEdge } from "@/components/ui/WaveEdge";
+import { LegacyHashRedirect } from "@/components/ui/LegacyHashRedirect";
+import { TermsCallout } from "@/components/sections/ReflectiveBlocks";
 import { TestimonialDuo } from "@/components/sections/Testimonials";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { breadcrumbJsonLd, servicesJsonLd } from "@/lib/structured-data";
+import {
+  breadcrumbJsonLd,
+  servicesJsonLd,
+  servicesItemListJsonLd,
+} from "@/lib/structured-data";
 import {
   services,
   astrologyServices,
   tarotServices,
-  tarotIntro,
   reflectiveIntro,
-  reflectiveTerms,
-  whatWeBelieve,
+  servicePath,
+  REFLECTIVE_PATH,
   type Service,
-  type AstrologyService,
-  type TarotService,
 } from "@/lib/content/services";
 import { getPublishedTestimonials } from "@/lib/queries";
-import { bookingCta, site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -40,56 +42,46 @@ export const metadata: Metadata = {
 // src/app/(site)/page.tsx.
 export const revalidate = 300;
 
-// Each audience gets its own surface so consecutive sections never share a shape.
-const surfaces = ["paper", "mist", "paper"] as const;
+/**
+ * Old deep links into the two-tab version of this page. The two group headings
+ * (`#counselling-testing`, `#astrology-tarot`) still exist below, so they're
+ * deliberately not in the map — everything else now lives on its own page.
+ * See components/ui/LegacyHashRedirect.tsx.
+ */
+const LEGACY_ANCHORS: Record<string, string> = {
+  ...Object.fromEntries(
+    services.map((service) => [service.slug, servicePath(service.slug)]),
+  ),
+  ...Object.fromEntries(
+    [...astrologyServices, ...tarotServices].map((service) => [
+      service.slug,
+      `${REFLECTIVE_PATH}#${service.slug}`,
+    ]),
+  ),
+};
 
+/**
+ * The services index.
+ *
+ * Its whole job is to route people well: a warm orientation, then two clearly
+ * separated groups of cards leading into pages that can actually breathe. The
+ * detail — every concern, every sub-service, every reading — lives on those
+ * pages now, not stacked into two tabs here.
+ */
 export default async function ServicesPage() {
   const testimonials = await getPublishedTestimonials();
-  // Voices that speak to these audiences (couple + parent when available).
   const voices =
     testimonials.length > 2 ? testimonials.slice(1, 3) : testimonials.slice(0, 2);
 
-  const tabs: TabItem[] = [
-    {
-      id: "counselling-testing",
-      label: "Counselling & Testing",
-      hint: "Evidence-based psychological support",
-      anchors: services.map((service) => service.slug),
-      panel: (
-        <>
-          <div>
-            {services.map((service, i) => (
-              <ServiceSection
-                key={service.slug}
-                service={service}
-                index={i}
-                reversed={i % 2 === 1}
-                surface={surfaces[i]}
-              />
-            ))}
-          </div>
-          <TestimonialDuo items={voices} />
-        </>
-      ),
-    },
-    {
-      id: "astrology-tarot",
-      label: "Astrology & Tarot",
-      hint: "Optional reflective guidance",
-      anchors: [
-        ...astrologyServices.map((service) => service.slug),
-        ...tarotServices.map((service) => service.slug),
-      ],
-      panel: <ReflectivePanel />,
-    },
-  ];
-
   return (
     <StepsPath steps={4}>
+      <LegacyHashRedirect map={LEGACY_ANCHORS} />
       {/* One Service / MedicalTherapy node per audience, plus the reflective
-          offering — mirrors the two tabs and every sub-service below them. */}
+          offering — each `@id`'d at its own page. */}
       <JsonLd data={servicesJsonLd()} />
+      <JsonLd data={servicesItemListJsonLd()} />
       <JsonLd data={breadcrumbJsonLd([{ name: "Services", path: "/services" }])} />
+
       <PageHeader
         eyebrow="Our services"
         title={
@@ -100,401 +92,189 @@ export default async function ServicesPage() {
         intro="Two ways we can work together: evidence-based counselling and testing, and — only if it feels meaningful to you — reflective guidance through astrology and tarot. Choose where you'd like to start."
       />
 
-      <Section spacing="sm">
+      {/* ── Group 1: counselling & testing ───────────────────────── */}
+      <Section id="counselling-testing" spacing="lg">
         <Container>
-          <Tabs tabs={tabs} label="Choose a type of service" />
+          <Reveal className="max-w-2xl">
+            <Eyebrow>Counselling &amp; testing</Eyebrow>
+            <h2 className="font-display text-[clamp(1.9rem,3.8vw,2.6rem)] leading-[1.12] text-forest">
+              Evidence-based support, <em>for three seasons of life</em>
+            </h2>
+            <p className="mt-4 text-lg leading-[1.8] text-muted">
+              The foundation of the practice. Whoever you are and whatever
+              you&rsquo;re carrying, there&rsquo;s a gentle place to begin — pick
+              the one that sounds most like you.
+            </p>
+          </Reveal>
+
+          <div className="mt-10 grid gap-6 lg:grid-cols-3">
+            {services.map((service, i) => (
+              <Reveal key={service.slug} delay={i * 0.06} className="h-full">
+                <ServiceCard service={service} index={i} />
+              </Reveal>
+            ))}
+          </div>
         </Container>
       </Section>
 
+      {/* ── Group 2: astrology & tarot ───────────────────────────── */}
+      <WaveEdge className="-mb-px text-sage-mist" />
+      <Section id="astrology-tarot" surface="mist" spacing="lg">
+        <Container>
+          <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
+            <Reveal className="lg:col-span-7">
+              <Eyebrow>Astrology &amp; tarot</Eyebrow>
+              <h2 className="font-display text-[clamp(1.9rem,3.8vw,2.6rem)] leading-[1.12] text-forest">
+                Reflective guidance, <em>not prediction</em>
+              </h2>
+              <p className="mt-4 text-lg leading-[1.8] text-muted">
+                {reflectiveIntro.body[0]}
+              </p>
+              <Link
+                href={REFLECTIVE_PATH}
+                className="group mt-7 inline-flex items-center gap-2.5 rounded-full bg-forest px-6 py-3 text-sm font-medium text-paper shadow-soft transition-all duration-300 ease-soft hover:-translate-y-0.5 hover:bg-forest-deep hover:shadow-lift active:translate-y-0 active:scale-[0.985]"
+              >
+                Explore astrology &amp; tarot
+                <ArrowRight
+                  className="size-4 transition-transform duration-300 group-hover:translate-x-0.5"
+                  aria-hidden="true"
+                />
+              </Link>
+            </Reveal>
+
+            {/* The terms sit beside the invitation, never below it — and stay
+                directly under it in the DOM, so a phone meets them first. */}
+            <Reveal delay={0.08} className="lg:col-span-5">
+              <TermsCallout />
+            </Reveal>
+          </div>
+
+          {/* A named preview of what's on that page, so the index still tells
+              a reader (and a crawler) exactly what's on offer. */}
+          <div className="mt-12 grid gap-6 lg:grid-cols-2">
+            <Reveal>
+              <ReadingList
+                label="Astrology readings"
+                items={astrologyServices.map((s) => ({ slug: s.slug, title: s.title }))}
+              />
+            </Reveal>
+            <Reveal delay={0.06}>
+              <ReadingList
+                label="Tarot guidance sessions"
+                items={tarotServices.map((s) => ({ slug: s.slug, title: s.title }))}
+              />
+            </Reveal>
+          </div>
+        </Container>
+      </Section>
+
+      <TestimonialDuo items={voices} />
       <FinalCta />
     </StepsPath>
   );
 }
 
-/* ── Tab 1: one audience per band ─────────────────────────────────── */
+/* ── An audience, as a card ───────────────────────────────────────── */
 
-function ServiceSection({
-  service,
-  index,
-  reversed,
-  surface,
-}: {
-  service: Service;
-  index: number;
-  reversed: boolean;
-  surface: "paper" | "mist";
-}) {
-  // Only Children & Teens has named clusters of sub-services; the other two are
-  // a single flat list, which shouldn't gain a redundant heading.
-  const grouped = service.helps.length > 1;
+function ServiceCard({ service, index }: { service: Service; index: number }) {
+  // A handful of the concrete things covered — enough to recognise yourself in,
+  // without reprinting the whole page.
+  const preview = service.helps.flatMap((group) => group.items).slice(0, 3);
 
   return (
-    <Section id={service.slug} surface={surface} spacing="lg" className="overflow-hidden">
-      <Container className="relative">
-        {/* Oversized watermark numeral — anchored to the content column (never
-            the viewport edge) so the glyph is always fully visible; scales
-            down fluidly on small screens. Sits behind the content. */}
+    <Link
+      href={servicePath(service.slug)}
+      className="group flex h-full flex-col overflow-hidden rounded-[2rem] border border-sage-deep/25 bg-cream shadow-soft transition-all duration-500 ease-soft hover:-translate-y-1.5 hover:border-mint-deep/40 hover:shadow-lift"
+    >
+      <div className="relative overflow-hidden p-3 pb-0">
+        <Photo
+          image={service.image}
+          mask="arch-wide"
+          sizes="(max-width: 1024px) 90vw, 30vw"
+          className="aspect-[5/4] w-full transition-transform duration-700 ease-soft group-hover:scale-[1.03]"
+        />
         <span
           aria-hidden="true"
           className={cn(
-            "pointer-events-none absolute -top-8 z-0 select-none font-display text-[clamp(5.5rem,13vw,11rem)] italic leading-none text-sage-deep/15 sm:-top-12",
-            reversed ? "left-0" : "right-0",
+            "absolute right-6 top-6 grid size-10 place-items-center rounded-full bg-paper/90 font-display text-sm italic text-mint-deep shadow-soft backdrop-blur-sm",
           )}
         >
-          0{index + 1}
+          {String(index + 1).padStart(2, "0")}
         </span>
-        <div className="relative z-10 grid items-start gap-10 lg:grid-cols-12 lg:gap-12">
-          {/* These columns are long now, so the image rides along on desktop. */}
-          <Reveal
-            className={cn(
-              "mx-auto w-full max-w-md lg:sticky lg:top-28 lg:mx-0 lg:max-w-none",
-              reversed ? "lg:order-2 lg:col-span-5 lg:col-start-8" : "lg:col-span-5",
-            )}
-          >
-            <div className="relative">
-              <div
-                aria-hidden="true"
-                className={cn(
-                  "absolute -inset-x-5 bottom-8 top-14 rounded-[2.5rem]",
-                  reversed ? "rotate-2 bg-sage/60" : "-rotate-2 bg-sand",
-                )}
-              />
-              <Photo
-                image={service.image}
-                mask="arch"
-                sizes="(max-width: 1024px) 100vw, 40vw"
-                className="relative aspect-[4/5] w-full shadow-lift"
-              />
-            </div>
-          </Reveal>
-
-          <div
-            className={cn(
-              reversed ? "lg:order-1 lg:col-span-6" : "lg:col-span-6 lg:col-start-7",
-            )}
-          >
-            <Reveal>
-              <Eyebrow>{service.audience}</Eyebrow>
-              <h2 className="font-display text-[clamp(2rem,4.2vw,2.9rem)] leading-[1.1] text-forest">
-                {service.title}
-              </h2>
-              <p className="mt-5 max-w-[58ch] text-lg leading-[1.8] text-muted">
-                {service.intro}
-              </p>
-            </Reveal>
-
-            {/* What people arrive carrying — quiet dots, not ticks: these
-                aren't achievements. */}
-            <Reveal delay={0.06}>
-              <SubHeading>Common concerns</SubHeading>
-              <ul className="mt-4 grid gap-x-8 gap-y-2.5 sm:grid-cols-2">
-                {service.concerns.map((concern) => (
-                  <li
-                    key={concern}
-                    className="flex items-start gap-2.5 leading-relaxed text-muted"
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="mt-[0.6em] size-1.5 shrink-0 rounded-full bg-sage-deep"
-                    />
-                    <span>{concern}</span>
-                  </li>
-                ))}
-              </ul>
-            </Reveal>
-
-            {/* …and the work itself */}
-            <Reveal delay={0.1}>
-              <SubHeading>What we help with</SubHeading>
-              <div className={cn("mt-4", grouped && "space-y-5")}>
-                {service.helps.map((group) => (
-                  <div key={group.title}>
-                    {grouped && (
-                      <h3 className="font-display text-lg text-forest">
-                        {group.title}
-                      </h3>
-                    )}
-                    <ul
-                      className={cn(
-                        "grid gap-x-8 gap-y-2.5 sm:grid-cols-2",
-                        grouped && "mt-2",
-                      )}
-                    >
-                      {group.items.map((item) => (
-                        <li
-                          key={item}
-                          className="flex items-start gap-2.5 leading-relaxed text-muted"
-                        >
-                          <Check
-                            className="mt-1.5 size-3.5 shrink-0 text-mint-deep"
-                            strokeWidth={2.5}
-                            aria-hidden="true"
-                          />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            </Reveal>
-
-            <Reveal delay={0.14}>
-              <p className="mt-7 border-l-2 border-mint-deep/50 pl-5 text-[1.02rem] italic leading-[1.75] text-forest-soft">
-                {service.closing}
-              </p>
-              <div className="mt-7">
-                <Button href={bookingCta.href} variant="primary">
-                  Book a first session
-                </Button>
-              </div>
-            </Reveal>
-          </div>
-        </div>
-      </Container>
-    </Section>
-  );
-}
-
-/** Small-caps label with a drawn mint rule, used inside a service block. */
-function SubHeading({ children }: { children: React.ReactNode }) {
-  return (
-    <p className="mt-7 flex items-center gap-3 text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-forest/70">
-      <span className="inline-block h-px w-8 bg-mint-deep" aria-hidden="true" />
-      {children}
-    </p>
-  );
-}
-
-/* ── Tab 2: astrology & tarot ─────────────────────────────────────── */
-
-function ReflectivePanel() {
-  return (
-    <>
-      {/* Framing first — what this is, and just as importantly what it isn't. */}
-      <Section spacing="lg">
-        <Container>
-          <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
-            <Reveal className="lg:col-span-6">
-              <Eyebrow>A unique integrative approach</Eyebrow>
-              <h2 className="font-display text-[clamp(2rem,4.2vw,2.9rem)] leading-[1.12] text-forest">
-                Reflective guidance, <em>not prediction</em>
-              </h2>
-              <div className="mt-5 max-w-[58ch] space-y-4 text-lg leading-[1.8] text-muted">
-                {reflectiveIntro.body.map((paragraph) => (
-                  <p key={paragraph.slice(0, 32)}>{paragraph}</p>
-                ))}
-              </div>
-            </Reveal>
-
-            {/* The terms sit here — beside the intro, above every service —
-                because for this offering the framing *is* the offering. */}
-            <Reveal delay={0.08} className="lg:col-span-6">
-              <TermsCallout />
-            </Reveal>
-          </div>
-        </Container>
-      </Section>
-
-      {/* Astrology — three readings as an editorial sequence */}
-      <Section surface="mist" spacing="lg">
-        <Container>
-          <Reveal>
-            <Eyebrow>Astrology services</Eyebrow>
-            <h2 className="font-display text-[clamp(1.8rem,3.6vw,2.5rem)] leading-[1.15] text-forest">
-              Three ways to <em>read the map</em>
-            </h2>
-          </Reveal>
-          <div className="mt-9 space-y-6">
-            {astrologyServices.map((service, i) => (
-              <AstrologyCard key={service.slug} service={service} index={i} />
-            ))}
-          </div>
-        </Container>
-      </Section>
-
-      {/* Tarot — five focus areas */}
-      <Section spacing="lg">
-        <Container>
-          <Reveal>
-            <Eyebrow>Tarot guidance sessions</Eyebrow>
-            <h2 className="font-display text-[clamp(1.8rem,3.6vw,2.5rem)] leading-[1.15] text-forest">
-              A mirror, <em>not a forecast</em>
-            </h2>
-            <p className="mt-4 max-w-[62ch] text-lg leading-[1.8] text-muted">
-              {tarotIntro}
-            </p>
-          </Reveal>
-          <div className="mt-9 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {tarotServices.map((service, i) => (
-              <TarotCard key={service.slug} service={service} index={i} />
-            ))}
-          </div>
-        </Container>
-      </Section>
-
-      {/* What we believe — the closing note, on the grounding dark band */}
-      <section className="on-forest relative">
-        <div className="bg-forest py-12 sm:py-16">
-          <Container size="prose">
-            <Reveal>
-              <Eyebrow tone="light">{whatWeBelieve.eyebrow}</Eyebrow>
-              <p className="font-display text-[clamp(1.3rem,2.6vw,1.75rem)] leading-[1.55] text-paper">
-                {whatWeBelieve.body}
-              </p>
-              <div className="mt-7 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
-                <Button href={bookingCta.href} variant="accent">
-                  Book a session
-                </Button>
-                <a
-                  href={`mailto:${site.email}`}
-                  className="link-underline text-[0.95rem] font-medium text-mint-pale"
-                >
-                  Or ask us a question first
-                </a>
-              </div>
-            </Reveal>
-          </Container>
-        </div>
-      </section>
-    </>
-  );
-}
-
-/**
- * The disclaimer, styled as a deliberate feature of the page rather than fine
- * print. It stays open (no accordion), sits above every service, and uses the
- * heaviest border on the site.
- */
-function TermsCallout() {
-  return (
-    <aside
-      aria-labelledby="reflective-terms-heading"
-      className="rounded-[1.75rem] border-2 border-mint-deep/30 bg-mint-soft p-6 shadow-soft sm:p-8"
-    >
-      <div className="flex items-center gap-3">
-        <span className="grid size-10 shrink-0 place-items-center rounded-full bg-forest text-mint">
-          <ShieldAlert className="size-5" strokeWidth={1.9} aria-hidden="true" />
-        </span>
-        <h3
-          id="reflective-terms-heading"
-          className="font-display text-xl text-forest sm:text-2xl"
-        >
-          Please read this first
-        </h3>
       </div>
-      <ul className="mt-5 space-y-3.5">
-        {reflectiveTerms.map((term) => (
-          <li key={term.slice(0, 32)} className="flex items-start gap-3">
-            <span
-              aria-hidden="true"
-              className="mt-[0.55em] size-1.5 shrink-0 rounded-full bg-mint-deep"
-            />
-            <span className="leading-[1.7] text-forest">{term}</span>
+
+      <div className="flex flex-1 flex-col p-6 sm:p-7">
+        <p className="text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-muted">
+          {service.audience}
+        </p>
+        <h3 className="mt-2 font-display text-2xl leading-tight text-forest sm:text-[1.7rem]">
+          <span className="link-underline group-hover:bg-[length:100%_1px]">
+            {service.title}
+          </span>
+        </h3>
+        <p className="mt-3 line-clamp-3 leading-relaxed text-muted">{service.intro}</p>
+
+        <ul className="mt-5 flex flex-wrap gap-2">
+          {preview.map((item) => (
+            <li
+              key={item}
+              className="rounded-full border border-sage-deep/25 bg-paper px-3 py-1 text-[0.78rem] text-muted"
+            >
+              {item}
+            </li>
+          ))}
+        </ul>
+
+        <span className="mt-6 inline-flex items-center gap-2 pt-1 text-sm font-medium text-mint-deep">
+          Explore this service
+          <ArrowRight
+            className="size-4 transition-transform duration-300 group-hover:translate-x-1"
+            aria-hidden="true"
+          />
+        </span>
+      </div>
+    </Link>
+  );
+}
+
+/* ── A named preview of the readings on the reflective page ───────── */
+
+function ReadingList({
+  label,
+  items,
+}: {
+  label: string;
+  items: { slug: string; title: string }[];
+}) {
+  return (
+    <div className="h-full rounded-[1.75rem] border border-sage-deep/25 bg-paper p-6 shadow-soft sm:p-7">
+      <div className="flex items-center gap-3">
+        <span
+          aria-hidden="true"
+          className="grid size-9 shrink-0 place-items-center rounded-full bg-mint-soft text-mint-deep"
+        >
+          <Sparkles className="size-4" strokeWidth={1.9} />
+        </span>
+        <h3 className="font-display text-lg text-forest">{label}</h3>
+      </div>
+      <ul className="mt-5 divide-y divide-sage-deep/20 border-t border-sage-deep/20">
+        {items.map((item) => (
+          <li key={item.slug}>
+            <Link
+              href={`${REFLECTIVE_PATH}#${item.slug}`}
+              className="group flex items-center justify-between gap-4 py-3 text-forest transition-colors hover:text-mint-deep"
+            >
+              <span className="link-underline group-hover:bg-[length:100%_1px]">
+                {item.title}
+              </span>
+              <ArrowRight
+                className="size-3.5 shrink-0 text-mint-deep transition-transform duration-300 group-hover:translate-x-0.5"
+                aria-hidden="true"
+              />
+            </Link>
           </li>
         ))}
       </ul>
-    </aside>
-  );
-}
-
-function AstrologyCard({
-  service,
-  index,
-}: {
-  service: AstrologyService;
-  index: number;
-}) {
-  return (
-    <Reveal as="article" id={service.slug} delay={index * 0.05} className="scroll-mt-28">
-      <div className="rounded-[1.75rem] border border-sage-deep/25 bg-cream p-6 shadow-soft sm:p-8">
-        <div className="flex items-start gap-4">
-          <span
-            aria-hidden="true"
-            className="grid size-10 shrink-0 place-items-center rounded-full bg-mint-soft text-mint-deep"
-          >
-            <Compass className="size-5" strokeWidth={1.9} />
-          </span>
-          <div>
-            <p aria-hidden="true" className="font-display text-sm italic text-mint-deep">
-              0{index + 1}
-            </p>
-            <h3 className="font-display text-2xl leading-tight text-forest">
-              {service.title}
-            </h3>
-          </div>
-        </div>
-
-        <div className="mt-6 grid gap-6 lg:grid-cols-12">
-          <div className="lg:col-span-5">
-            <MicroLabel>What it explores</MicroLabel>
-            <ul className="mt-3 space-y-2">
-              {service.explores.map((item) => (
-                <li
-                  key={item}
-                  className="flex items-start gap-2.5 leading-relaxed text-muted"
-                >
-                  <Check
-                    className="mt-1.5 size-3.5 shrink-0 text-mint-deep"
-                    strokeWidth={2.5}
-                    aria-hidden="true"
-                  />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="lg:col-span-7">
-            <MicroLabel>Psychology collaboration</MicroLabel>
-            <p className="mt-3 leading-[1.75] text-muted">{service.collaboration}</p>
-            <p className="mt-5 rounded-xl bg-mint-soft/70 px-4 py-3 leading-[1.7] text-forest">
-              <span className="font-semibold">Outcome — </span>
-              {service.outcome}
-            </p>
-          </div>
-        </div>
-      </div>
-    </Reveal>
-  );
-}
-
-function TarotCard({ service, index }: { service: TarotService; index: number }) {
-  return (
-    <Reveal
-      as="article"
-      id={service.slug}
-      delay={index * 0.04}
-      className="h-full scroll-mt-28"
-    >
-      <div className="flex h-full flex-col rounded-[1.5rem] border border-sage-deep/25 bg-cream p-6 shadow-soft">
-        <span
-          aria-hidden="true"
-          className="grid size-9 place-items-center rounded-full bg-mint-soft text-mint-deep"
-        >
-          <Sparkles className="size-4.5" strokeWidth={1.9} />
-        </span>
-        <h3 className="mt-4 font-display text-xl leading-tight text-forest">
-          {service.title}
-        </h3>
-        <p className="mt-3 leading-[1.7] text-muted">
-          <span className="font-semibold text-forest">Focus: </span>
-          {service.focus}
-        </p>
-        <p className="mt-3 border-t border-sage-deep/20 pt-3 text-[0.95rem] leading-[1.7] text-muted">
-          <span className="font-semibold text-forest">
-            Psychological integration:{" "}
-          </span>
-          {service.integration}
-        </p>
-      </div>
-    </Reveal>
-  );
-}
-
-function MicroLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-forest/70">
-      {children}
-    </p>
+    </div>
   );
 }

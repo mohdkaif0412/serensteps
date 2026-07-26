@@ -9,7 +9,7 @@ type Mask = "soft" | "arch" | "arch-wide";
 const masks: Record<Mask, string> = {
   soft: "rounded-[2rem]",
   arch: "rounded-t-full rounded-b-[2rem]",
-  "arch-wide": "rounded-t-[45%] rounded-b-[2rem]",
+  "arch-wide": "rounded-t-[45%]",
 };
 
 type PhotoProps = {

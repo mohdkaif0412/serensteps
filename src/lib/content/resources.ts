@@ -58,7 +58,7 @@ export const glossary: GlossaryCluster[] = [
           "You don't need to be in crisis to benefit. People come while navigating a heavy season, a decision, a relationship, a loss, or simply a sense of being stuck.",
         ],
         related: [
-          { label: "Individual counselling", href: "/services#individuals" },
+          { label: "Individual counselling", href: "/services/individuals" },
           { label: "Book a first session", href: "/contact" },
         ],
       },
@@ -125,7 +125,7 @@ export const glossary: GlossaryCluster[] = [
           "Work on anxiety is rarely about arguing with the thoughts. It's more often about learning what the alarm is responding to, letting the body come down first, and slowly widening what feels approachable.",
         ],
         related: [
-          { label: "Individual counselling", href: "/services#individuals" },
+          { label: "Individual counselling", href: "/services/individuals" },
         ],
       },
       {
@@ -159,7 +159,7 @@ export const glossary: GlossaryCluster[] = [
           "Recovery involves both the load and the relationship to it: what can actually be put down, what boundaries are missing, and what the drive to keep going is protecting you from feeling.",
         ],
         related: [
-          { label: "Individual counselling", href: "/services#individuals" },
+          { label: "Individual counselling", href: "/services/individuals" },
         ],
       },
       {
@@ -200,7 +200,7 @@ export const glossary: GlossaryCluster[] = [
           "The hard part is almost never knowing what your limits are. It's tolerating the guilt that arrives when you finally state one.",
         ],
         related: [
-          { label: "Couples & family counselling", href: "/services#couples-families" },
+          { label: "Couples & family counselling", href: "/services/couples-families" },
         ],
       },
       {
@@ -223,8 +223,8 @@ export const glossary: GlossaryCluster[] = [
           "In couples work, naming the pattern often lowers the temperature more than resolving any single argument does.",
         ],
         related: [
-          { label: "Relationship chart reading", href: "/services#relationship-chart-reading" },
-          { label: "Couples & family counselling", href: "/services#couples-families" },
+          { label: "Relationship chart reading", href: "/services/astrology-tarot#relationship-chart-reading" },
+          { label: "Couples & family counselling", href: "/services/couples-families" },
         ],
       },
       {
@@ -237,7 +237,7 @@ export const glossary: GlossaryCluster[] = [
           "It helps with rebuilding after betrayal, with parenting and co-parenting friction, with long-running distance, and with the slow drift that follows a major life change.",
         ],
         related: [
-          { label: "Couples & family counselling", href: "/services#couples-families" },
+          { label: "Couples & family counselling", href: "/services/couples-families" },
           { label: "Book a session", href: "/contact" },
         ],
       },
@@ -270,7 +270,7 @@ export const glossary: GlossaryCluster[] = [
           "Parents are generally kept involved in the shape of the work — goals, patterns, what helps at home — while the detail of what a young person shares stays theirs.",
         ],
         related: [
-          { label: "Children & teens", href: "/services#children-teens" },
+          { label: "Children & teens", href: "/services/children-teens" },
         ],
       },
       {
@@ -283,7 +283,7 @@ export const glossary: GlossaryCluster[] = [
           "Nothing about a screening is a verdict on a child. Most screenings are reassuring.",
         ],
         related: [
-          { label: "Early childhood assessment", href: "/services#children-teens" },
+          { label: "Early childhood assessment", href: "/services/children-teens" },
         ],
       },
       {
@@ -296,7 +296,7 @@ export const glossary: GlossaryCluster[] = [
           "Used well, a test is a conversation-starter for a career or study decision, read alongside the person's own account of themselves — never a label handed down.",
         ],
         related: [
-          { label: "Career planning assessment", href: "/services#children-teens" },
+          { label: "Career planning assessment", href: "/services/children-teens" },
         ],
       },
       {
@@ -309,7 +309,7 @@ export const glossary: GlossaryCluster[] = [
           "The output is a direction you can actually walk, plus a way of making the next decision when circumstances change.",
         ],
         related: [
-          { label: "Career planning & tests", href: "/services#children-teens" },
+          { label: "Career planning & tests", href: "/services/children-teens" },
           { label: "Book a session", href: "/contact" },
         ],
       },
@@ -322,7 +322,7 @@ export const glossary: GlossaryCluster[] = [
           "It often gets read as a discipline problem, which makes it worse: more pressure applied to a system that is already past capacity. The signs to watch for are a drop in engagement rather than a drop in marks, which usually follows later.",
           "Support looks at load, sleep, perfectionism, and what the young person believes will happen if they don't perform.",
         ],
-        related: [{ label: "Children & teens", href: "/services#children-teens" }],
+        related: [{ label: "Children & teens", href: "/services/children-teens" }],
       },
     ],
   },
@@ -342,7 +342,7 @@ export const glossary: GlossaryCluster[] = [
           "Any client who would rather not use them simply says so, and they never come up. Counselling stands entirely on its own.",
         ],
         related: [
-          { label: "How we frame this", href: "/services#astrology-tarot" },
+          { label: "How we frame this", href: "/services/astrology-tarot" },
         ],
       },
       {
@@ -355,7 +355,7 @@ export const glossary: GlossaryCluster[] = [
           "The intended outcome is self-awareness and a clearer sense of your own strengths and needs — not a forecast.",
         ],
         related: [
-          { label: "Birth chart analysis", href: "/services#birth-chart-analysis" },
+          { label: "Birth chart analysis", href: "/services/astrology-tarot#birth-chart-analysis" },
         ],
       },
       {
@@ -368,7 +368,7 @@ export const glossary: GlossaryCluster[] = [
           "You leave with clearer questions and practical direction, not a prediction.",
         ],
         related: [
-          { label: "Tarot guidance sessions", href: "/services#astrology-tarot" },
+          { label: "Tarot guidance sessions", href: "/services/astrology-tarot" },
         ],
       },
     ],

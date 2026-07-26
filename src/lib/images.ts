@@ -43,6 +43,11 @@ export const img = {
     src: "/images/service-couples.jpg",
     alt: "Trees standing together in warm evening light",
   },
+  /** The reflective offering — calm and quiet, never neon-mystical. */
+  astrologyTarot: {
+    src: "/images/service-astrology-tarot.jpg",
+    alt: "A calm night sky over still water — reflective guidance alongside counselling",
+  },
   approach: {
     src: "/images/approach-hands.jpg",
     alt: "Hands cradling a warm cup of tea",

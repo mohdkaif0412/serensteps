@@ -1,12 +1,12 @@
 import Link from "next/link";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { Photo } from "@/components/ui/Photo";
-import { services } from "@/lib/content/services";
-import { type SiteImage } from "@/lib/images";
+import { services, servicePath, REFLECTIVE_PATH } from "@/lib/content/services";
+import { img, type SiteImage } from "@/lib/images";
 import { cn } from "@/lib/utils";
 
 // Each row steps a little further right — a quiet staircase, one step at a time.
@@ -17,33 +17,34 @@ type Row = {
   href: string;
   title: string;
   blurb: string;
-  image?: SiteImage;
+  image: SiteImage;
 };
 
 /** The three counselling audiences, plus the optional reflective offering. */
 const rows: Row[] = [
   ...services.map((service) => ({
     key: service.slug,
-    href: `/services#${service.slug}`,
+    href: servicePath(service.slug),
     title: service.title,
     blurb: service.intro,
     image: service.image,
   })),
   {
     key: "astrology-tarot",
-    href: "/services#astrology-tarot",
+    href: REFLECTIVE_PATH,
     title: "Astrology & Tarot",
     blurb:
       "Entirely optional, and never a substitute for counselling: reflective tools for exploring patterns, emotions, and decisions alongside evidence-based psychological understanding.",
+    image: img.astrologyTarot,
   },
 ];
 
 /**
  * The services as an editorial index — numbered rows with arched thumbnails —
- * rather than a set of identical cards. The final row is the reflective
- * offering, which has no photography of its own and instead carries the mark's
- * own glyph, so it reads as a companion to the three clinical rows rather than
- * a fourth one of the same kind.
+ * rather than a set of identical cards. Every row carries a real photograph
+ * through the same arch and the same green duotone, the reflective offering
+ * included: a placeholder glyph in one of four prominent slots reads as
+ * unfinished next to three photographs.
  */
 export function ServicesPreview() {
   return (
@@ -74,21 +75,12 @@ export function ServicesPreview() {
                   >
                     0{i + 1}
                   </span>
-                  {row.image ? (
-                    <Photo
-                      image={row.image}
-                      mask="arch"
-                      sizes="112px"
-                      className="hidden h-32 w-24 shrink-0 shadow-soft transition-transform duration-500 ease-soft group-hover:-translate-y-1 group-hover:rotate-2 sm:block"
-                    />
-                  ) : (
-                    <span
-                      aria-hidden="true"
-                      className="hidden h-32 w-24 shrink-0 place-items-center rounded-t-full rounded-b-[2rem] border border-mint-deep/25 bg-mint-soft text-mint-deep shadow-soft transition-transform duration-500 ease-soft group-hover:-translate-y-1 group-hover:rotate-2 sm:grid"
-                    >
-                      <Sparkles className="size-7" strokeWidth={1.6} />
-                    </span>
-                  )}
+                  <Photo
+                    image={row.image}
+                    mask="arch"
+                    sizes="112px"
+                    className="hidden h-32 w-24 shrink-0 shadow-soft transition-transform duration-500 ease-soft group-hover:-translate-y-1 group-hover:rotate-2 sm:block"
+                  />
                 </div>
 
                 <div className="min-w-0">

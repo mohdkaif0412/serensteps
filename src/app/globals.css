@@ -274,6 +274,138 @@
 }
 
 /* ------------------------------------------------------------------ */
+/* Cursor accent — see components/ui/Cursor.tsx                        */
+/*                                                                     */
+/* The native cursor is deliberately never hidden: this is a soft ring  */
+/* laid over it, so precision, carets and every hit affordance stay     */
+/* exactly as the browser draws them. The layer is positioned by one    */
+/* transform from JS; only transform and opacity animate here, and the  */
+/* whole thing is inert on touch and under reduced motion (the          */
+/* component doesn't render at all in those cases).                     */
+/* ------------------------------------------------------------------ */
+.cursor-ring {
+  opacity: 0;
+  transition: opacity 0.3s var(--ease-soft);
+  will-change: transform;
+}
+.cursor-ring[data-here="true"] {
+  opacity: 1;
+}
+
+.cursor-ring-mark {
+  border-color: color-mix(in oklab, var(--color-mint-deep) 45%, transparent);
+  transform: scale(0.6);
+  opacity: 0.75;
+  transition:
+    transform 0.35s var(--ease-soft),
+    opacity 0.35s var(--ease-soft),
+    border-color 0.35s var(--ease-soft),
+    background-color 0.35s var(--ease-soft);
+}
+/* On a deep-green band the ring flips to mint, matching the focus rings. */
+.cursor-ring-mark[data-tone="light"] {
+  border-color: color-mix(in oklab, var(--color-mint) 55%, transparent);
+}
+/* Over a link or button it opens and softens — it never carries a word,
+   so it can't sit on top of the element's own label. */
+.cursor-ring-mark[data-open="true"] {
+  transform: scale(1);
+  opacity: 0.55;
+  background-color: color-mix(in oklab, var(--color-mint) 12%, transparent);
+}
+.cursor-ring-mark[data-press="true"] {
+  transform: scale(0.5);
+  opacity: 0.9;
+}
+.cursor-ring-mark[data-open="true"][data-press="true"] {
+  transform: scale(0.88);
+}
+/* Text fields keep the caret to themselves. */
+.cursor-ring-mark[data-text="true"] {
+  opacity: 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* Boot loader — see components/ui/BootLoader.tsx                      */
+/*                                                                     */
+/* Deliberately holds nothing hostage: it is a fixed overlay above      */
+/* already-rendered content, it carries no <img> (so it can never       */
+/* become the LCP element itself), and it leaves as soon as the fonts   */
+/* are ready. Only opacity animates, and being fixed it cannot shift    */
+/* layout on the way out. A session flag set before the element is      */
+/* parsed skips it entirely on every subsequent page.                   */
+/* ------------------------------------------------------------------ */
+.boot {
+  transition: opacity 0.45s var(--ease-soft);
+}
+.boot[data-done="true"] {
+  opacity: 0;
+  pointer-events: none;
+}
+html[data-booted] .boot {
+  display: none;
+}
+
+/* The mark drawing itself: normalised with pathLength="1", so one keyframe
+   covers any geometry. */
+@keyframes mark-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.mark-draw {
+  stroke-dasharray: 1;
+  animation: mark-draw 1.05s var(--ease-soft) forwards;
+}
+@keyframes face-wake {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+.face-wake {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: face-wake 0.45s var(--ease-soft) backwards;
+  animation-delay: var(--wake-delay, 0s);
+}
+
+/* Route progress bar — a thread of mint across the top during a navigation.
+   Drawn with scaleX, so it composites and a click can never cost a layout. */
+.route-bar {
+  transition:
+    transform 0.55s var(--ease-soft),
+    opacity 0.3s linear;
+}
+
+/* ------------------------------------------------------------------ */
+/* Disclosure — the glossary entries on /resources                     */
+/*                                                                     */
+/* The detail stays in the DOM at all times: it's the part search       */
+/* engines and answer engines quote, so it must never be client-only or */
+/* mounted on demand. Only the row height animates, via the grid        */
+/* 0fr → 1fr technique — no measuring, no JS-driven height, and the     */
+/* global reduced-motion floor collapses it to an instant toggle.       */
+/* Collapsed panels carry `inert`, so their links stay out of the tab   */
+/* order while remaining fully crawlable.                              */
+/* ------------------------------------------------------------------ */
+.disclosure {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s var(--ease-soft);
+}
+.disclosure[data-open="true"] {
+  grid-template-rows: 1fr;
+}
+.disclosure > * {
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* ------------------------------------------------------------------ */
 /* Editorial helpers                                                   */
 /* ------------------------------------------------------------------ */
 

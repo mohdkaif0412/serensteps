@@ -6,6 +6,9 @@ import {
   tarotServices,
   reflectiveIntro,
   tarotIntro,
+  servicePath,
+  REFLECTIVE_PATH,
+  type Service,
 } from "@/lib/content/services";
 
 /**
@@ -109,7 +112,7 @@ function openingHoursSpecification(): Json[] {
   });
 }
 
-/** The two headline offerings — mirrors the tabs on /services. */
+/** The two headline offerings — mirrors the two groups on /services. */
 const OFFERINGS = [
   {
     name: "Counselling & Testing",
@@ -121,7 +124,7 @@ const OFFERINGS = [
     name: "Astrology & Tarot",
     description:
       "Optional reflective guidance used alongside counselling — never as a substitute for mental-health treatment, and never to predict the future.",
-    url: `${site.url}/services#astrology-tarot`,
+    url: `${site.url}${REFLECTIVE_PATH}`,
   },
 ] as const;
 
@@ -168,7 +171,7 @@ function organizationNode(): Json {
     // the second the offer signal.
     availableService: services.map((service) => ({
       "@type": ["MedicalTherapy", "Service"],
-      "@id": `${site.url}/services#${service.slug}`,
+      "@id": `${site.url}${servicePath(service.slug)}#service`,
       name: `${service.title} counselling`,
     })),
     makesOffer: OFFERINGS.map((offer) => ({
@@ -258,56 +261,62 @@ export function breadcrumbJsonLd(trail: Crumb[]): Json {
 /* ── Services ─────────────────────────────────────────────────────── */
 
 /**
- * Per-service schema for /services, mirroring the two tabs and their
- * sub-services.
+ * One audience's counselling work, as a node.
  *
- * Counselling & testing is multi-typed `MedicalTherapy` — it is clinical work.
- * Astrology & tarot is deliberately plain `Service`: the practice is explicit
- * that it is reflective, not treatment, and the markup says the same thing.
+ * Multi-typed `MedicalTherapy` — this is clinical work. Every node is `@id`'d
+ * at its own page (`/services/<slug>#service`) rather than at a fragment of the
+ * index, so the detail page and the index agree on one canonical entity.
  */
-export function servicesJsonLd(): Json {
-  const clinical = services.map((service) =>
-    compact({
-      "@type": ["MedicalTherapy", "Service"],
-      "@id": `${site.url}/services#${service.slug}`,
-      name: `${service.title} counselling`,
-      alternateName: service.audience,
-      description: service.intro,
-      serviceType: "Counselling and psychological assessment",
-      url: `${site.url}/services#${service.slug}`,
-      provider: { "@id": ORG_ID },
-      areaServed,
-      audience: { "@type": "PeopleAudience", name: service.audience },
-      // What people arrive carrying — the concerns this work addresses.
-      relevantSpecialty: { "@type": "MedicalSpecialty", name: "Psychiatric" },
-      hasOfferCatalog: {
-        "@type": "OfferCatalog",
-        name: `What we help with — ${service.title}`,
-        itemListElement: service.helps.flatMap((group) =>
-          group.items.map((item) => ({
-            "@type": "Offer",
-            itemOffered: compact({
-              "@type": "Service",
-              name: item,
-              category: group.title,
-              provider: { "@id": ORG_ID },
-            }),
-          })),
-        ),
-      },
-    }),
-  );
+function serviceNode(service: Service): Json {
+  const url = `${site.url}${servicePath(service.slug)}`;
+  return compact({
+    "@type": ["MedicalTherapy", "Service"],
+    "@id": `${url}#service`,
+    name: `${service.title} counselling`,
+    alternateName: service.audience,
+    description: service.intro,
+    serviceType: "Counselling and psychological assessment",
+    url,
+    provider: { "@id": ORG_ID },
+    areaServed,
+    audience: { "@type": "PeopleAudience", name: service.audience },
+    // What people arrive carrying — the concerns this work addresses.
+    relevantSpecialty: { "@type": "MedicalSpecialty", name: "Psychiatric" },
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: `What we help with — ${service.title}`,
+      itemListElement: service.helps.flatMap((group) =>
+        group.items.map((item) => ({
+          "@type": "Offer",
+          itemOffered: compact({
+            "@type": "Service",
+            name: item,
+            category: group.title,
+            provider: { "@id": ORG_ID },
+          }),
+        })),
+      ),
+    },
+  });
+}
 
-  const reflective = compact({
+/**
+ * The reflective offering, as a node. Deliberately plain `Service`, never
+ * `MedicalTherapy`: the practice is explicit that it is reflective and not
+ * treatment, and the markup says exactly the same thing.
+ */
+function reflectiveNode(): Json {
+  const url = `${site.url}${REFLECTIVE_PATH}`;
+  return compact({
     "@type": "Service",
-    "@id": `${site.url}/services#astrology-tarot`,
+    "@id": `${url}#service`,
     name: "Astrology & tarot — reflective guidance",
     description: reflectiveIntro.body.join(" "),
     // Load-bearing framing: keep it in the markup as well as on the page.
     disambiguatingDescription:
       "Reflective tools offered alongside counselling. Never a substitute for mental-health treatment, and never used to predict the future.",
     serviceType: "Reflective guidance",
-    url: `${site.url}/services#astrology-tarot`,
+    url,
     provider: { "@id": ORG_ID },
     areaServed,
     hasOfferCatalog: {
@@ -321,7 +330,7 @@ export function servicesJsonLd(): Json {
             name: service.title,
             category: "Astrology",
             description: service.outcome,
-            url: `${site.url}/services#${service.slug}`,
+            url: `${url}#${service.slug}`,
           },
         })),
         ...tarotServices.map((service) => ({
@@ -331,14 +340,56 @@ export function servicesJsonLd(): Json {
             name: `Tarot guidance — ${service.title}`,
             category: "Tarot",
             description: `${service.focus} ${tarotIntro}`,
-            url: `${site.url}/services#${service.slug}`,
+            url: `${url}#${service.slug}`,
           },
         })),
       ],
     },
   });
+}
 
-  return { "@context": "https://schema.org", "@graph": [...clinical, reflective] };
+/** Every offering at once — for the /services index. */
+export function servicesJsonLd(): Json {
+  return {
+    "@context": "https://schema.org",
+    "@graph": [...services.map(serviceNode), reflectiveNode()],
+  };
+}
+
+/** Just this audience's node — for a /services/[slug] detail page. */
+export function serviceJsonLd(service: Service): Json {
+  return { "@context": "https://schema.org", ...serviceNode(service) };
+}
+
+/** Just the reflective node — for /services/astrology-tarot. */
+export function reflectiveServiceJsonLd(): Json {
+  return { "@context": "https://schema.org", ...reflectiveNode() };
+}
+
+/**
+ * The /services index as a browsable list, so a crawler gets the whole set of
+ * detail pages from the index in one node.
+ */
+export function servicesItemListJsonLd(): Json {
+  const entries = [
+    ...services.map((service) => ({
+      name: `${service.title} counselling`,
+      path: servicePath(service.slug),
+    })),
+    { name: "Astrology & tarot — reflective guidance", path: REFLECTIVE_PATH },
+  ];
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "@id": `${site.url}/services#list`,
+    name: `${site.name} — services`,
+    itemListElement: entries.map((entry, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: entry.name,
+      url: `${site.url}${entry.path}`,
+    })),
+  };
 }
 
 /* ── Blog ─────────────────────────────────────────────────────────── */

@@ -9,6 +9,8 @@ import {
   reflectiveIntro,
   reflectiveTerms,
   whatWeBelieve,
+  servicePath,
+  REFLECTIVE_PATH,
 } from "@/lib/content/services";
 import { glossary } from "@/lib/content/resources";
 import type { PublicFaqGroup, PublicPost } from "@/lib/queries";
@@ -78,7 +80,7 @@ ${values.map((value, i) => `${i + 1}. **${value.title}** — ${value.keywords.to
 
 ## Services
 
-The practice offers two distinct things, presented as two tabs on the Services page.
+The practice offers two distinct things, grouped on the Services index at ${site.url}/services. Each has its own page — link to those, not to the index, when a question is about a specific offering.
 
 ### 1. Counselling & Testing
 
@@ -94,13 +96,13 @@ ${services
           : `${group.title.toLowerCase()} (${items})`;
       })
       .join("; ");
-    return `- **${service.title}** — ${service.concerns.join(", ").toLowerCase()}. Work covers ${helps}.`;
+    return `- **${service.title}** (${site.url}${servicePath(service.slug)}) — ${service.concerns.join(", ").toLowerCase()}. Work covers ${helps}.`;
   })
   .join("\n")}
 
 ### 2. Astrology & Tarot — reflective guidance
 
-Framed as "${reflectiveIntro.heading}".
+Framed as "${reflectiveIntro.heading}". Full page: ${site.url}${REFLECTIVE_PATH}
 
 - **Astrology services** — ${astrologyServices.map((s) => s.title).join("; ")}. Each is presented with what it explores, how it is paired with psychological concepts, and the intended outcome.
 - **Tarot guidance sessions** — ${tarotServices.map((s) => s.title).join("; ")}. Each pairs a focus area with a psychological integration.
@@ -111,7 +113,9 @@ ${FRAMING_NOTE}
 
 - [Home](${site.url}/): Tagline, welcome, how we help, and how to begin.
 - [About](${site.url}/about): The practice's story and its six values.
-- [Services](${site.url}/services): Both offerings, tabbed. Direct links: [Counselling & Testing](${site.url}/services#counselling-testing), [Astrology & Tarot](${site.url}/services#astrology-tarot).
+- [Services](${site.url}/services): The index of both offerings. Detail pages: ${services
+    .map((service) => `[${service.title}](${site.url}${servicePath(service.slug)})`)
+    .join(", ")}, [Astrology & Tarot](${site.url}${REFLECTIVE_PATH}).
 - [Resources](${site.url}/resources): Plain-language definitions of the terms people search for — counselling, anxiety, overthinking, boundaries, burnout, attachment style, psychometric testing, reflective guidance.
 - [Journal / Blog](${site.url}/blog): Gentle, practical articles on anxiety, relationships, parenting, starting therapy, and reflective practice. Feed: ${site.url}/blog/feed.xml
 - [FAQ](${site.url}/faq): Common questions about first sessions, approach, booking, and confidentiality.
@@ -179,16 +183,18 @@ ${values
   )
   .join("\n\n")}`);
 
-  /* Services — tab 1 */
+  /* Services — counselling & testing */
   sections.push(`---
 
-# Services, tab 1: Counselling & Testing
+# Services: Counselling & Testing
 
-Evidence-based psychological support for three audiences.
+Evidence-based psychological support for three audiences. Index: ${site.url}/services#counselling-testing
 
 ${services
   .map(
     (service) => `## ${service.title}
+
+Page: ${site.url}${servicePath(service.slug)}
 
 ${service.intro}
 
@@ -211,10 +217,12 @@ ${service.closing}`,
   )
   .join("\n\n")}`);
 
-  /* Services — tab 2 */
+  /* Services — astrology & tarot */
   sections.push(`---
 
-# Services, tab 2: Astrology & Tarot (reflective guidance)
+# Services: Astrology & Tarot (reflective guidance)
+
+Page: ${site.url}${REFLECTIVE_PATH}
 
 ## ${reflectiveIntro.heading}
 

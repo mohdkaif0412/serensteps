@@ -161,6 +161,40 @@ export const services: Service[] = [
 export const getService = (slug: string) =>
   services.find((s) => s.slug === slug);
 
+/** Every counselling slug, for `generateStaticParams` and the sitemap. */
+export const serviceSlugs = services.map((s) => s.slug);
+
+/** Canonical path for an audience's own page. */
+export const servicePath = (slug: Service["slug"]) => `/services/${slug}`;
+
+/** Canonical path for the reflective offering. */
+export const REFLECTIVE_PATH = "/services/astrology-tarot";
+
+export type JourneyStep = { title: string; text: string };
+
+export const serviceJourney: JourneyStep[] = [
+  {
+    title: "Reach out",
+    text: "One message, in whatever words you have. No form to fill in perfectly, and no commitment beyond a first conversation.",
+  },
+  {
+    title: "A first session",
+    text: "Mostly orientation: what brings you here, what you'd like to be different, and whether working together feels right.",
+  },
+  {
+    title: "A shared plan",
+    text: "We agree what we're working towards and at what pace. It's your life, so it's your plan — we bring the map, not the destination.",
+  },
+  {
+    title: "The work",
+    text: "Evidence-based approaches, skills you can actually use, and room to go slowly where going slowly is the point.",
+  },
+  {
+    title: "Closing well",
+    text: "Endings are part of it. We look back at what shifted, and leave you clear about what comes next.",
+  },
+];
+
 /* ── Tab 2: Astrology & Tarot ─────────────────────────────────────── */
 
 export const reflectiveIntro = {

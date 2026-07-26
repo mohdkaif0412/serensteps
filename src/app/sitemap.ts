@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { site } from "@/lib/site";
 import { getPostSitemapEntries } from "@/lib/queries";
 import { contentLastModified } from "@/lib/content-date";
+import { services, servicePath, REFLECTIVE_PATH } from "@/lib/content/services";
 
 // Regenerated every 10 minutes so a newly published post appears without a
 // redeploy — and so a build that ran without a database (Docker/CI) doesn't
@@ -17,6 +18,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/`, lastModified: now, changeFrequency: "monthly", priority: 1 },
     { url: `${base}/about`, lastModified: now, changeFrequency: "yearly", priority: 0.8 },
     { url: `${base}/services`, lastModified: now, changeFrequency: "yearly", priority: 0.9 },
+    // The service detail pages are where the depth is, so they rank alongside
+    // the index rather than beneath it.
+    ...services.map((service) => ({
+      url: `${base}${servicePath(service.slug)}`,
+      lastModified: now,
+      changeFrequency: "yearly" as const,
+      priority: 0.85,
+      images: [`${base}${service.image.src}`],
+    })),
+    {
+      url: `${base}${REFLECTIVE_PATH}`,
+      lastModified: now,
+      changeFrequency: "yearly",
+      priority: 0.7,
+    },
     { url: `${base}/resources`, lastModified: now, changeFrequency: "monthly", priority: 0.75 },
     { url: `${base}/blog`, lastModified: now, changeFrequency: "weekly", priority: 0.7 },
     { url: `${base}/faq`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },

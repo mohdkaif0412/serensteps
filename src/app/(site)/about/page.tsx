@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbJsonLd } from "@/lib/structured-data";
-import { FeaturedTestimonial } from "@/components/sections/Testimonials";
+// import { FeaturedTestimonial } from "@/components/sections/Testimonials";
 import { getPublishedTestimonials } from "@/lib/queries";
 import { aboutIntro, ourStory } from "@/lib/content/about";
 import { img } from "@/lib/images";
@@ -152,7 +152,7 @@ export default async function AboutPage() {
         </Container>
       </Section>
 
-      <FeaturedTestimonial item={featured} />
+      {/* <FeaturedTestimonial item={featured} /> */}
 
       <FinalCta />
     </StepsPath>
