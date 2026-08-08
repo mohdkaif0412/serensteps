@@ -7,10 +7,6 @@ import { Reveal } from "@/components/ui/Reveal";
 import { Photo } from "@/components/ui/Photo";
 import { services, servicePath, REFLECTIVE_PATH } from "@/lib/content/services";
 import { img, type SiteImage } from "@/lib/images";
-import { cn } from "@/lib/utils";
-
-// Each row steps a little further right — a quiet staircase, one step at a time.
-const stepIndent = ["", "lg:ml-16", "lg:ml-32", "lg:ml-48"];
 
 type Row = {
   key: string;
@@ -39,13 +35,6 @@ const rows: Row[] = [
   },
 ];
 
-/**
- * The services as an editorial index — numbered rows with arched thumbnails —
- * rather than a set of identical cards. Every row carries a real photograph
- * through the same arch and the same green duotone, the reflective offering
- * included: a placeholder glyph in one of four prominent slots reads as
- * unfinished next to three photographs.
- */
 export function ServicesPreview() {
   return (
     <Section spacing="lg">
@@ -60,43 +49,41 @@ export function ServicesPreview() {
           intro="Whoever you are and whatever you're facing, there's a gentle place to begin. We offer counselling and psychological testing across three areas of life — and, if it's meaningful to you, reflective guidance alongside it."
         />
 
-        <div className="mt-10">
+        <ul className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {rows.map((row, i) => (
-            <Reveal key={row.key} delay={i * 0.05} className={cn(stepIndent[i])}>
+            <Reveal as="li" key={row.key} delay={i * 0.05} className="h-full">
               <Link
                 href={row.href}
-                className="group grid items-center gap-x-8 gap-y-4 border-t border-sage-deep/25 py-6 transition-colors duration-300 last:border-b sm:grid-cols-[auto_1fr_auto] sm:py-7"
+                className="group flex h-full flex-col rounded-[1.75rem] border border-sage-deep/25 bg-cream p-3 shadow-soft transition-all duration-500 ease-soft hover:-translate-y-1 hover:border-mint-deep/40 hover:shadow-lift"
               >
-                <div className="flex items-center gap-6">
-                  <Photo
-                    image={row.image}
-                    mask="arch"
-                    sizes="112px"
-                    className="hidden h-32 w-24 shrink-0 shadow-soft transition-transform duration-500 ease-soft group-hover:-translate-y-1 group-hover:rotate-2 sm:block"
-                  />
-                </div>
+                <Photo
+                  image={row.image}
+                  mask="soft"
+                  toned
+                  sizes="(max-width: 640px) 40vw, 22vw"
+                  className="h-80 w-full rounded-[1.25rem] transition-transform duration-500 ease-soft group-hover:-translate-y-1"
+                />
 
-                <div className="min-w-0">
-                  <h3 className="font-display text-2xl text-forest transition-colors duration-300 sm:text-3xl">
+                <div className="mt-6 min-w-0 flex-1">
+                  <h3 className="font-display text-xl leading-snug text-forest transition-colors duration-300 sm:text-2xl">
                     <span className="link-underline group-hover:bg-[length:100%_1px]">
                       {row.title}
                     </span>
                   </h3>
-                  <p className="mt-2 line-clamp-2 max-w-[58ch] leading-relaxed text-muted">
-                    {row.blurb}
-                  </p>
+                  <p className="mt-3 line-clamp-3 leading-relaxed text-muted">{row.blurb}</p>
                 </div>
 
-                <span
-                  className="grid size-11 shrink-0 place-items-center justify-self-start rounded-full border border-sage-deep/40 text-forest transition-all duration-300 ease-soft group-hover:border-mint group-hover:bg-mint group-hover:shadow-soft sm:justify-self-end"
-                  aria-hidden="true"
-                >
-                  <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 hidden sm:inline-block" />
+                <span className="w-full flex item-center justify-center mt-6 inline-flex items-center gap-2 self-start rounded-full bg-mint-soft px-5 py-2.5 text-sm font-semibold text-forest transition-all duration-300 ease-soft group-hover:bg-mint group-hover:shadow-soft">
+                  Learn more
+                  <ArrowRight
+                    className="size-4 transition-transform duration-300 group-hover:translate-x-0.5"
+                    aria-hidden="true"
+                  />
                 </span>
               </Link>
             </Reveal>
           ))}
-        </div>
+        </ul>
       </Container>
     </Section>
   );

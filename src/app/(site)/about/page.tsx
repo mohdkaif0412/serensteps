@@ -97,6 +97,7 @@ export default function AboutPage() {
                   image={img.about}
                   mask="arch"
                   priority
+                  toned
                   sizes="(max-width: 1024px) 100vw, 40vw"
                   className="relative aspect-[4/5] w-full shadow-lift"
                 />
@@ -131,7 +132,7 @@ export default function AboutPage() {
             eyebrow="Our values"
             title={
               <>
-                Six values that shape <em>every session</em>
+                What shapes <em>every session</em>
               </>
             }
             intro="They're also the shape of the work itself — beginning with safety, ending with a proper close."

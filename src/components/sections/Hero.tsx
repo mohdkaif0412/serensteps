@@ -100,6 +100,7 @@ export function Hero() {
                 image={img.hero}
                 mask="arch"
                 priority
+                toned
                 sizes="(max-width: 1024px) 100vw, 42vw"
                 className="aspect-[4/5] w-full shadow-lift"
               />

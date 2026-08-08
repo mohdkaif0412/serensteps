@@ -208,15 +208,16 @@ function ServiceCard({ service, video }: { service: Service; video: SiteVideo })
       <div className="p-3 pb-0">
         <Video
           video={video}
-          mask="arch-wide"
-          className="aspect-[5/4] w-full transition-transform duration-700 ease-soft group-hover:scale-[1.02]"
+          mask="soft"
+          grade={false}
+          className="aspect-[4/5] w-full rounded-[1.6rem] transition-transform duration-700 ease-soft group-hover:scale-[1.02]"
         />
       </div>
 
       <div className="flex flex-1 flex-col p-6 sm:p-7">
-        <p className="text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-muted">
+        {/* <p className="text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-muted">
           {service.audience}
-        </p>
+        </p> */}
         <h3 className="mt-2 font-display text-2xl leading-tight text-forest sm:text-[1.7rem]">
           <span className="link-underline group-hover:bg-[length:100%_1px]">
             {service.title}
@@ -262,7 +263,12 @@ function AstrologyPanel({
     <div className="pt-10">
       <div className="grid gap-8 lg:grid-cols-12 lg:items-center lg:gap-12">
         <Reveal className="lg:col-span-5">
-          <Video video={video} mask="arch-wide" className="aspect-[5/4] w-full shadow-soft" />
+          <Video
+            video={video}
+            mask="soft"
+            grade={false}
+            className="aspect-[4/5] w-full shadow-soft"
+          />
         </Reveal>
 
         <Reveal delay={0.06} className="lg:col-span-7">

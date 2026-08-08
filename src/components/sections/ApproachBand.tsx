@@ -40,6 +40,7 @@ export function ApproachBand() {
               <Photo
                 image={img.approach}
                 mask="arch"
+                toned
                 sizes="(max-width: 1024px) 100vw, 40vw"
                 className="aspect-[4/5] w-full shadow-float"
               />
