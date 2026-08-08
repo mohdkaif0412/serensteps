@@ -58,17 +58,15 @@ export function ApproachBand() {
               />
 
               {/* The pillars as steps on a drawn path */}
-              <ol className="relative mt-8 space-y-7 border-l border-dashed border-sage/30 pl-8">
+              <ol className="relative mt-8 space-y-7 border-sage/30">
                 {pillars.map((pillar, i) => {
                   const Icon = pillar.icon;
                   return (
                     <Reveal as="li" key={pillar.title} delay={i * 0.06} className="relative">
-                      <span
-                        className="absolute -left-8 top-0 grid size-7 -translate-x-1/2 place-items-center rounded-full bg-mint font-display text-[0.8rem] text-forest shadow-soft"
+                      {/* <span
+                        className="absolute -left-8 top-4 size-2.5 -translate-x-1/2 rounded-full bg-mint shadow-soft"
                         aria-hidden="true"
-                      >
-                        {i + 1}
-                      </span>
+                      /> */}
                       <div className="flex items-start gap-4">
                         <span className="grid size-11 shrink-0 place-items-center rounded-full bg-paper/10 text-mint">
                           <Icon className="size-5" strokeWidth={1.75} aria-hidden="true" />

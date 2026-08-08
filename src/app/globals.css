@@ -44,10 +44,12 @@
      quieter than `muted`, so a placeholder never reads as a filled value. */
   --color-hint: #55685f;
 
+  /* One typeface, sitewide — `font-display` is kept as an alias so headings
+     and body copy stay easy to tell apart in markup, but they resolve to the
+     same font stack. */
   --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, -apple-system,
     "Segoe UI", sans-serif;
-  --font-display: var(--font-newsreader), ui-serif, Georgia, "Times New Roman",
-    serif;
+  --font-display: var(--font-sans);
 
   /* Soft, realistic shadows tuned for the warm paper background —
      a tight contact shadow plus a wide, low-opacity ambient one. */
@@ -119,7 +121,7 @@
     text-wrap: balance;
   }
 
-  /* Newsreader italic as a deliberate design element inside display type. */
+  /* Italic as a deliberate design element inside display type. */
   h1 em,
   h2 em,
   h3 em,

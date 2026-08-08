@@ -17,6 +17,13 @@ export type TabItem = {
   label: string;
   /** Optional second line inside the control. */
   hint?: string;
+  /**
+   * Optional glyph shown beside the label — a rendered element (e.g.
+   * `<Sparkles className="size-4.5" />`), not a component reference: this
+   * crosses the server/client boundary as a prop, and only elements survive
+   * that, not functions.
+   */
+  icon?: ReactNode;
   panel: ReactNode;
   /**
    * Anchors that live inside this panel (e.g. `children-teens`). A deep link to
@@ -116,63 +123,91 @@ export function Tabs({
 
   return (
     <div className={className}>
-      <div
-        ref={listRef}
-        role="tablist"
-        aria-label={label}
-        // No aria-orientation: the list is a row on desktop and a column on
-        // mobile, and the key handler accepts both axes either way.
-        onKeyDown={onKeyDown}
-        className="mx-auto flex w-full max-w-2xl flex-col gap-1.5 rounded-[1.75rem] border border-sage-deep/30 bg-sage-mist p-1.5 shadow-soft sm:flex-row sm:rounded-full"
-      >
-        {tabs.map((tab, i) => {
-          const selected = i === active;
-          return (
-            <button
-              key={tab.id}
-              type="button"
-              role="tab"
-              id={`tab-${tab.id}`}
-              aria-selected={selected}
-              aria-controls={`panel-${tab.id}`}
-              tabIndex={selected ? 0 : -1}
-              onClick={() => select(i)}
-              className={cn(
-                "relative flex-1 cursor-pointer rounded-full px-5 py-3 text-center transition-colors duration-300",
-                selected ? "text-forest" : "text-muted hover:text-forest",
-              )}
-            >
-              {selected && (
-                // Shared layoutId → the mint pill glides between the two tabs.
-                <motion.span
-                  layoutId="services-tab-pill"
-                  aria-hidden="true"
-                  transition={
-                    reduceMotion
-                      ? { duration: 0 }
-                      : { type: "spring", stiffness: 380, damping: 34 }
-                  }
-                  className="absolute inset-0 rounded-full bg-mint shadow-soft"
-                />
-              )}
-              <span className="relative block text-[0.95rem] font-semibold sm:text-base">
-                {tab.label}
-              </span>
-              {tab.hint && (
-                // Full opacity in both states — the hierarchy comes from size,
-                // not transparency, which was dropping these below AA.
-                <span
-                  className={cn(
-                    "relative mt-0.5 block text-[0.72rem] leading-tight transition-colors duration-300",
-                    selected ? "text-forest" : "text-muted",
-                  )}
-                >
-                  {tab.hint}
+      {/*
+        A `flex` box with `w-auto` still fills its container per the CSS box
+        model — `mx-auto` alone can't shrink it to content width. Centering it
+        as a flex ITEM of this wrapper (rather than trying to size the box
+        itself) is what actually makes it hug its buttons instead of
+        stretching the whole row edge to edge.
+      */}
+      <div className="flex justify-center">
+        <div
+          ref={listRef}
+          role="tablist"
+          aria-label={label}
+          // Always a row, left to right — even on mobile, so two or three
+          // tabs read as a compact segmented control rather than a stack.
+          onKeyDown={onKeyDown}
+          // Buttons are a fixed width at `sm+` rather than `flex-1`, so the
+          // bar hugs its content there and stays proportionate whether there
+          // are 2 tabs or 5. Below `sm` they split the row evenly instead —
+          // a fixed width per tab would overflow a phone screen.
+          className="flex w-full max-w-4xl gap-2 rounded-[1.75rem] border border-sage-deep/25 bg-sage-mist p-2 shadow-soft sm:w-auto sm:rounded-[2rem]"
+        >
+          {tabs.map((tab, i) => {
+            const selected = i === active;
+            return (
+              <button
+                key={tab.id}
+                type="button"
+                role="tab"
+                id={`tab-${tab.id}`}
+                aria-selected={selected}
+                aria-controls={`panel-${tab.id}`}
+                tabIndex={selected ? 0 : -1}
+                onClick={() => select(i)}
+                className={cn(
+                  "group relative flex flex-1 cursor-pointer flex-col items-center gap-1.5 rounded-[1.35rem] px-3 py-3 text-center transition-colors duration-300 sm:w-56 sm:flex-none sm:px-4 sm:py-4 sm:rounded-2xl",
+                  selected ? "text-forest" : "text-muted hover:text-forest",
+                )}
+              >
+                {selected && (
+                  // Shared layoutId → the mint pill glides between tabs.
+                  <motion.span
+                    layoutId="services-tab-pill"
+                    aria-hidden="true"
+                    transition={
+                      reduceMotion
+                        ? { duration: 0 }
+                        : { type: "spring", stiffness: 380, damping: 34 }
+                    }
+                    className="absolute inset-0 rounded-[1.35rem] bg-mint shadow-lift sm:rounded-2xl"
+                  />
+                )}
+                {tab.icon && (
+                  // Icon-free on mobile: at that width the label alone reads
+                  // faster than an icon squeezed above two lines of text.
+                  <span
+                    aria-hidden="true"
+                    className={cn(
+                      "relative hidden size-9 place-items-center rounded-full transition-colors duration-300 sm:grid",
+                      selected
+                        ? "bg-forest/10 text-forest"
+                        : "bg-paper text-mint-deep group-hover:bg-mint-soft",
+                    )}
+                  >
+                    {tab.icon}
+                  </span>
+                )}
+                <span className="relative block text-[0.95rem] font-semibold leading-snug sm:text-base">
+                  {tab.label}
                 </span>
-              )}
-            </button>
-          );
-        })}
+                {tab.hint && (
+                  // Full opacity in both states — the hierarchy comes from size,
+                  // not transparency, which was dropping these below AA.
+                  <span
+                    className={cn(
+                      "relative block text-[0.7rem] leading-tight transition-colors duration-300",
+                      selected ? "text-forest/80" : "text-muted",
+                    )}
+                  >
+                    {tab.hint}
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       {tabs.map((tab, i) => (

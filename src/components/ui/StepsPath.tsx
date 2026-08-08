@@ -26,56 +26,7 @@ const LEAD = 0.06;
 const xAt = (t: number, waves: number) =>
   CENTER + AMP * Math.sin(t * Math.PI * waves);
 
-type Mood = "unsettled" | "calm" | "joyful";
-
-/**
- * A face from the logo's wave, small enough to sit in the page gutter. The mouth
- * carries the mood; the journey's last beat also gets the logo's star eyes.
- *
- * Colour comes from `currentColor`, so the lit and unlit copies are the same
- * drawing under different text-* tokens — no hex in here, and the crossfade is
- * pure opacity.
- */
-function JourneyFace({ mood }: { mood: Mood }) {
-  const mouth =
-    mood === "unsettled"
-      ? "M7.5 16.2C9 13.9 15 13.9 16.5 16.2" // corners down — a frown
-      : mood === "calm"
-        ? "M7.5 14.8C9 16.1 15 16.1 16.5 14.8" // barely there
-        : "M7 14.2C9 17.6 15 17.6 17 14.2"; // an open smile
-
-  const star = (cx: number, cy: number) =>
-    `M${cx} ${cy - 2.6}L${cx + 0.8} ${cy - 0.8}L${cx + 2.6} ${cy}` +
-    `L${cx + 0.8} ${cy + 0.8}L${cx} ${cy + 2.6}L${cx - 0.8} ${cy + 0.8}` +
-    `L${cx - 2.6} ${cy}L${cx - 0.8} ${cy - 0.8}Z`;
-
-  return (
-    <svg viewBox="0 0 24 24" className="size-[22px]">
-      <g fill="currentColor">
-        {mood === "joyful" ? (
-          <>
-            <path d={star(9, 9)} />
-            <path d={star(15, 9)} />
-          </>
-        ) : (
-          <>
-            <circle cx="9" cy="9" r="1.7" />
-            <circle cx="15" cy="9" r="1.7" />
-          </>
-        )}
-      </g>
-      <path
-        d={mouth}
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
-type Marker = { t: number; mood: Mood; leftPct: number; topPct: number };
+type Marker = { t: number; leftPct: number; topPct: number };
 
 /**
  * One face on the wave, brightening as scroll progress reaches it.
@@ -117,16 +68,13 @@ function JourneyMarker({
             className="absolute inset-0 rounded-full border border-mint"
             style={{ opacity: lit }}
           />
-          {/* Two copies of the same face, crossfaded sage → mint. */}
-          <span className="text-sage-deep">
-            <JourneyFace mood={marker.mood} />
-          </span>
+          {/* A small dot, crossfaded sage → mint. */}
+          <span className="size-2 rounded-full bg-sage-deep" />
           <motion.span
-            className="absolute inset-0 grid place-items-center text-mint-deep"
+            aria-hidden="true"
+            className="absolute size-2 rounded-full bg-mint-deep"
             style={{ opacity: lit }}
-          >
-            <JourneyFace mood={marker.mood} />
-          </motion.span>
+          />
         </span>
       </span>
     </span>
@@ -187,18 +135,8 @@ export function StepsPath({
     () =>
       Array.from({ length: steps }, (_, i) => {
         const t = (0.5 + i) / waves;
-        const fraction = steps === 1 ? 1 : i / (steps - 1);
-        const mood: Mood =
-          i === steps - 1
-            ? "joyful"
-            : fraction < 0.34
-              ? "unsettled"
-              : fraction < 0.7
-                ? "calm"
-                : "joyful";
         return {
           t,
-          mood,
           leftPct: (xAt(t, waves) / VB_W) * 100,
           topPct: t * 100,
         };

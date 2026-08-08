@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 type SectionHeadingProps = {
   eyebrow?: string;
-  /** Pass <em>…</em> around a phrase to set it in Newsreader italic. */
+  /** Pass <em>…</em> around a phrase to set it in italic display type. */
   title: ReactNode;
   intro?: ReactNode;
   align?: "left" | "center";

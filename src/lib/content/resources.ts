@@ -39,7 +39,7 @@ export const resourcesIntro =
   "Therapy has a lot of words in it, and almost none of them are explained before you need them. This is a plain-language guide to the ones that come up most — what they mean, what they don't, and what they look like in an actual session.";
 
 export const resourcesNote =
-  "These are general explanations to help you feel oriented, not a diagnosis and not treatment advice. Nothing here replaces a conversation with a professional who knows your situation.";
+  "These are general explanations to help you feel oriented. Nothing here replaces a conversation with a professional who knows your situation.";
 
 export const glossary: GlossaryCluster[] = [
   {

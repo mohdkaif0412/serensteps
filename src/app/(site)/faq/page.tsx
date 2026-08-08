@@ -44,10 +44,10 @@ export default async function FaqPage() {
             {groups.map((group, groupIndex) => (
               <Reveal key={group.category}>
                 {/* Group opener: numbered small-caps label + display heading */}
-                <p className="flex items-center gap-3 text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-mint-deep">
+                {/* <p className="flex items-center gap-3 text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-mint-deep">
                   <span aria-hidden="true">0{groupIndex + 1}</span>
                   <span className="inline-block h-px w-8 bg-mint-deep" aria-hidden="true" />
-                </p>
+                </p> */}
                 <h2 className="mb-5 mt-2 font-display text-[1.65rem] leading-tight text-forest sm:text-3xl">
                   {group.category}
                 </h2>

@@ -1,24 +1,16 @@
 import type { Metadata, Viewport } from "next";
-import { Newsreader, Plus_Jakarta_Sans } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
 import { site } from "@/lib/site";
 import { Analytics } from "@/components/seo/Analytics";
 
-// Display / headings — a gentle literary serif for the reflective copy.
-const newsreader = Newsreader({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-newsreader",
-  style: ["normal", "italic"],
-  weight: ["300", "400", "500", "600"],
-});
-
-// Body / UI — clean, warm, humanist.
+// The site's one typeface, for both headings and body copy.
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-jakarta",
+  style: ["normal", "italic"],
   weight: ["400", "500", "600", "700"],
 });
 
@@ -92,7 +84,8 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${newsreader.variable} ${jakarta.variable} antialiased`}
+      className={`${jakarta.variable} antialiased`}
+      suppressHydrationWarning
     >
       <body className="flex min-h-dvh flex-col bg-paper text-forest">
         {children}

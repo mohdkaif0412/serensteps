@@ -13,10 +13,9 @@ export type SiteImage = {
 };
 
 export const img = {
-  /** The client's own photograph, already duotoned in the brand mint. */
   hero: {
     src: "/images/hero-conversation.jpg",
-    alt: "Two people in warm conversation across a table, surrounded by plants",
+    alt: "A woman sitting cross-legged with her eyes closed, breathing quietly in warm light",
   },
   /** The client's line illustration — on-brand as drawn, so never re-graded. */
   hereForYou: {

@@ -7,7 +7,6 @@ import { FinalCta } from "@/components/sections/FinalCta";
 import { Section } from "@/components/ui/Section";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { WaveEdge } from "@/components/ui/WaveEdge";
 import { GlossaryExplorer, GlossaryTerm } from "@/components/sections/Glossary";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -44,7 +43,6 @@ export default function ResourcesPage() {
   const clusters = glossary.map((cluster) => ({
     slug: cluster.slug,
     title: cluster.title,
-    count: cluster.entries.length,
   }));
 
   return (
@@ -91,9 +89,6 @@ export default function ResourcesPage() {
                     <WaveEdge className="mb-12 h-6 text-sage-mist sm:h-8" animate={false} />
                   )}
                   <Reveal>
-                    <Eyebrow>
-                      {String(i + 1).padStart(2, "0")} — {cluster.entries.length} terms
-                    </Eyebrow>
                     <h2 className="font-display text-[clamp(1.7rem,3.4vw,2.3rem)] leading-[1.15] text-forest">
                       {cluster.title}
                     </h2>
@@ -103,8 +98,8 @@ export default function ResourcesPage() {
                   </Reveal>
 
                   <div className="mt-7 space-y-4">
-                    {cluster.entries.map((entry, j) => (
-                      <GlossaryTerm key={entry.slug} entry={entry} index={j} />
+                    {cluster.entries.map((entry) => (
+                      <GlossaryTerm key={entry.slug} entry={entry} />
                     ))}
                   </div>
                 </section>

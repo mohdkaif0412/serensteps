@@ -126,17 +126,11 @@ export default async function ContactPage() {
                 <h2 className="mt-10 font-display text-2xl text-forest sm:text-[1.7rem]">
                   What to <em>expect</em>
                 </h2>
-                <ul className="relative mt-6 space-y-6 border-l border-dashed border-sage-deep/40 pl-8">
-                  {reassurances.map((item, i) => {
+                <ul className="relative mt-6 space-y-6 ">
+                  {reassurances.map((item) => {
                     const Icon = item.icon;
                     return (
                       <li key={item.title} className="relative">
-                        <span
-                          className="absolute -left-8 top-1 grid size-7 -translate-x-1/2 place-items-center rounded-full border border-mint-deep bg-paper font-display text-[0.8rem] text-mint-deep shadow-soft"
-                          aria-hidden="true"
-                        >
-                          {i + 1}
-                        </span>
                         <div className="flex items-start gap-4">
                           <span className="grid size-11 shrink-0 place-items-center rounded-full bg-sage text-forest">
                             <Icon className="size-5" strokeWidth={1.75} aria-hidden="true" />

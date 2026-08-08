@@ -13,8 +13,6 @@ import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbJsonLd } from "@/lib/structured-data";
-// import { FeaturedTestimonial } from "@/components/sections/Testimonials";
-import { getPublishedTestimonials } from "@/lib/queries";
 import { aboutIntro, ourStory } from "@/lib/content/about";
 import { img } from "@/lib/images";
 import { bookingCta, site } from "@/lib/site";
@@ -26,15 +24,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/about" },
 };
 
-// Safety net for a build that ran without a database — see the note in
-// src/app/(site)/page.tsx.
-export const revalidate = 300;
-
-export default async function AboutPage() {
-  const testimonials = await getPublishedTestimonials();
-  // A steady, trust-forward voice to close the story (last one reads best here).
-  const featured = testimonials.length > 3 ? testimonials[3] : testimonials[0];
-
+export default function AboutPage() {
   return (
     <StepsPath steps={5}>
       <JsonLd data={breadcrumbJsonLd([{ name: "About", path: "/about" }])} />
@@ -53,14 +43,12 @@ export default async function AboutPage() {
           <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
             <Reveal className="lg:col-span-7">
               <ul className="space-y-5">
-                {aboutIntro.map((line, i) => (
+                {aboutIntro.map((line) => (
                   <li key={line} className="flex items-start gap-4">
                     <span
                       aria-hidden="true"
-                      className="mt-1 font-display text-lg italic text-mint-deep"
-                    >
-                      0{i + 1}
-                    </span>
+                      className="mt-3 size-1.5 shrink-0 rounded-full bg-mint-deep"
+                    />
                     <p className="max-w-[46ch] font-display text-[clamp(1.25rem,2.4vw,1.6rem)] leading-[1.45] text-forest">
                       {line}
                     </p>
@@ -151,8 +139,6 @@ export default async function AboutPage() {
           <ValuesWave />
         </Container>
       </Section>
-
-      {/* <FeaturedTestimonial item={featured} /> */}
 
       <FinalCta />
     </StepsPath>

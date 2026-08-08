@@ -8,8 +8,8 @@ import { cn } from "@/lib/utils";
 /**
  * The testimonial system — quiet social proof for a field built on trust.
  *
- * Four compositions share one visual language (oversized Newsreader quote
- * glyph, italic serif voice, initial-disc + mint-dash attribution):
+ * Four compositions share one visual language (oversized quote glyph, italic
+ * display voice, initial-disc + mint-dash attribution):
  *
  *   TestimonialsShowcase  home — one featured voice set large, two layered
  *                         cards beside it

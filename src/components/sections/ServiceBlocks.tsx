@@ -268,12 +268,6 @@ export function ConcernCards({ concerns }: { concerns: string[] }) {
           y={12}
           className="flex items-start gap-4 rounded-2xl border border-sage-deep/20 bg-cream/70 px-5 py-4 transition-colors duration-300 hover:border-mint-deep/40"
         >
-          <span
-            aria-hidden="true"
-            className="mt-0.5 font-display text-sm italic text-mint-deep"
-          >
-            {String(i + 1).padStart(2, "0")}
-          </span>
           <span className="leading-relaxed text-muted">{concern}</span>
         </Reveal>
       ))}

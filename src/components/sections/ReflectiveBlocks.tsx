@@ -1,4 +1,4 @@
-import { Compass, ShieldAlert, Sparkles } from "lucide-react";
+import { Check, Compass, ShieldAlert, Sparkles } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
 import { Eyebrow } from "@/components/ui/Eyebrow";
@@ -36,25 +36,38 @@ export function TermsCallout({
     <aside
       aria-labelledby={headingId}
       className={cn(
-        "rounded-[1.75rem] border-2 border-mint-deep/30 bg-mint-soft p-6 shadow-soft sm:p-8",
+        "overflow-hidden rounded-[1.75rem] border border-mint-deep/25 bg-mint-soft shadow-lift",
         className,
       )}
     >
-      <div className="flex items-center gap-3">
-        <span className="grid size-10 shrink-0 place-items-center rounded-full bg-forest text-mint">
+      {/* A dark header band makes this read as a notice, not just another card */}
+      <div className="on-forest relative flex items-center gap-4 overflow-hidden bg-forest px-6 py-5 sm:px-8">
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute -right-6 -top-10 size-28 rounded-full bg-mint/20 blur-2xl"
+        />
+        <span className="relative grid size-11 shrink-0 place-items-center rounded-full bg-mint text-forest shadow-soft">
           <ShieldAlert className="size-5" strokeWidth={1.9} aria-hidden="true" />
         </span>
-        <h2 id={headingId} className="font-display text-xl text-forest sm:text-2xl">
-          Please read this first
-        </h2>
+        <div className="relative">
+          <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-mint-pale">
+            Important
+          </p>
+          <h2 id={headingId} className="mt-0.5 font-display text-xl text-paper sm:text-2xl">
+            Please read this first
+          </h2>
+        </div>
       </div>
-      <ul className="mt-5 space-y-3.5">
+
+      <ul className="space-y-4 p-6 sm:p-8">
         {reflectiveTerms.map((term) => (
-          <li key={term.slice(0, 32)} className="flex items-start gap-3">
+          <li key={term.slice(0, 32)} className="flex items-start gap-3.5">
             <span
               aria-hidden="true"
-              className="mt-[0.55em] size-1.5 shrink-0 rounded-full bg-mint-deep"
-            />
+              className="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-mint-deep/15 text-mint-deep"
+            >
+              <Check className="size-3.5" strokeWidth={2.5} />
+            </span>
             <span className="leading-[1.7] text-forest">{term}</span>
           </li>
         ))}

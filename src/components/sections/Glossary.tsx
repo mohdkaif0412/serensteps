@@ -23,7 +23,7 @@ import { cn } from "@/lib/utils";
  *      runs on scroll.
  */
 
-export type ClusterSummary = { slug: string; title: string; count: number };
+export type ClusterSummary = { slug: string; title: string };
 
 /* ── Explorer: rail + search + filtering ──────────────────────────── */
 
@@ -145,7 +145,7 @@ export function GlossaryExplorer({
 
         <nav aria-label="Glossary sections" className="mt-6">
           {/* Mobile: a horizontal scroller. Desktop: the vertical rail. */}
-          <ul className="-mx-5 flex snap-x gap-2 overflow-x-auto px-5 pb-2 lg:mx-0 lg:block lg:space-y-1 lg:overflow-visible lg:px-0 lg:pb-0">
+          <ul className="-mx-5 flex snap-x gap-2.5 overflow-x-auto px-5 pb-2 lg:mx-0 lg:block lg:space-y-2.5 lg:overflow-visible lg:px-0 lg:pb-0">
             {clusters.map((cluster) => {
               const current = cluster.slug === active;
               return (
@@ -154,23 +154,14 @@ export function GlossaryExplorer({
                     href={`#${cluster.slug}`}
                     aria-current={current ? "true" : undefined}
                     className={cn(
-                      "flex items-center gap-2.5 rounded-full border px-4 py-2 text-sm transition-colors duration-300 lg:rounded-xl lg:border-0 lg:border-l-2 lg:px-3 lg:py-2",
+                      "flex items-center rounded-full border px-4 py-2.5 text-sm transition-all duration-300 lg:rounded-2xl lg:px-4 lg:py-3",
                       current
-                        ? "border-mint-deep bg-mint-soft font-semibold text-forest lg:bg-mint-soft/70"
-                        : "border-sage-deep/30 text-muted hover:border-mint-deep/50 hover:text-forest lg:border-sage-deep/30",
+                        ? "border-mint-deep bg-mint-soft font-semibold text-forest shadow-[0_2px_10px_-4px_var(--color-mint-deep)] lg:bg-mint-soft"
+                        : "border-sage-deep/25 text-muted hover:border-mint-deep/40 hover:bg-cream hover:text-forest",
                     )}
                   >
                     <span className="whitespace-nowrap lg:whitespace-normal">
                       {cluster.title}
-                    </span>
-                    <span
-                      aria-hidden="true"
-                      className={cn(
-                        "ml-auto hidden rounded-full px-1.5 py-0.5 text-[0.68rem] font-semibold lg:inline-block",
-                        current ? "bg-mint text-forest" : "bg-sage/50 text-muted",
-                      )}
-                    >
-                      {cluster.count}
                     </span>
                   </a>
                 </li>
@@ -198,13 +189,7 @@ export function GlossaryExplorer({
  * CSS and carries `inert` while closed, which keeps it crawlable but out of
  * the tab order.
  */
-export function GlossaryTerm({
-  entry,
-  index,
-}: {
-  entry: GlossaryEntry;
-  index: number;
-}) {
+export function GlossaryTerm({ entry }: { entry: GlossaryEntry }) {
   const [open, setOpen] = useState(false);
   const panelId = `${entry.slug}-detail`;
   const buttonId = `${entry.slug}-toggle`;
@@ -240,9 +225,6 @@ export function GlossaryTerm({
           className="group flex w-full items-start justify-between gap-4 text-left"
         >
           <span className="flex items-baseline gap-3">
-            <span aria-hidden="true" className="font-display text-sm italic text-mint-deep">
-              {String(index + 1).padStart(2, "0")}
-            </span>
             <span className="font-display text-xl leading-tight text-forest sm:text-2xl">
               {entry.term}
             </span>

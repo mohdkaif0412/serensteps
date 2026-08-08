@@ -20,7 +20,7 @@ export function PageHeader({
   align = "left",
 }: {
   eyebrow?: string;
-  /** Pass <em>…</em> around a phrase for a Newsreader-italic accent. */
+  /** Pass <em>…</em> around a phrase for an italic display accent. */
   title: ReactNode;
   intro?: ReactNode;
   align?: "center" | "left";

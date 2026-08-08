@@ -67,14 +67,7 @@ export function ServicesPreview() {
                 href={row.href}
                 className="group grid items-center gap-x-8 gap-y-4 border-t border-sage-deep/25 py-6 transition-colors duration-300 last:border-b sm:grid-cols-[auto_1fr_auto] sm:py-7"
               >
-                {/* Index numeral + thumbnail */}
                 <div className="flex items-center gap-6">
-                  <span
-                    className="font-display text-lg italic text-mint-deep"
-                    aria-hidden="true"
-                  >
-                    0{i + 1}
-                  </span>
                   <Photo
                     image={row.image}
                     mask="arch"

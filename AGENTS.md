@@ -31,7 +31,9 @@ name from `site.name` rather than hardcoding it.
 - **Focus rings** are owned by the global `:focus-visible` rule — don't set
   `focus-visible:outline-*` per component. Add `on-forest` to any deep-green
   band so rings inside it flip from `mint-deep` to `mint`.
-- Fonts: `font-display` (Newsreader, headings), `font-sans` (Plus Jakarta Sans, body).
+- Fonts: one typeface sitewide, Plus Jakarta Sans. `font-display` and `font-sans`
+  both resolve to it — `font-display` is kept as a semantic alias for headings,
+  not a different font.
 - Brand assets live in `public/brand/` (two inks of the same lockup — use the
   `Logo` component with `tone`), imagery in `public/images/`. Photography is
   green-duotoned by `Photo`; artwork the client already supplied on-brand passes

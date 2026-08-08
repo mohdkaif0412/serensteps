@@ -96,13 +96,10 @@ export function Hero() {
               className="absolute -inset-x-5 bottom-6 top-14 -rotate-2 rounded-[2.5rem] bg-sand"
             />
             <Parallax range={18} className="relative">
-              {/* `toned`: this is the client's photograph, supplied already
-                  duotoned in brand mint — grading it again would muddy it. */}
               <Photo
                 image={img.hero}
                 mask="arch"
                 priority
-                toned
                 sizes="(max-width: 1024px) 100vw, 42vw"
                 className="aspect-[4/5] w-full shadow-lift"
               />

@@ -69,13 +69,12 @@ export function ValuesWave() {
             <span
               aria-hidden="true"
               className={cn(
-                "absolute left-4 top-0 z-10 grid size-8 -translate-x-1/2 place-items-center rounded-full border border-mint-deep/40 bg-paper font-display text-sm text-mint-deep shadow-soft",
+                "absolute left-4 top-3 z-10 size-3.5 -translate-x-1/2 rounded-full bg-mint-deep shadow-soft ring-4 ring-sage-mist",
+                "outline outline-2 outline-offset-2 outline-mint-deep/25",
                 "lg:top-1/2 lg:-translate-y-1/2",
                 bulgeLeft ? "lg:left-[calc(50%-24px)]" : "lg:left-[calc(50%+24px)]",
               )}
-            >
-              {i + 1}
-            </span>
+            />
 
             <Reveal
               delay={i * 0.04}
