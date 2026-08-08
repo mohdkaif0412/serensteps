@@ -209,7 +209,6 @@ function ServiceCard({ service, video }: { service: Service; video: SiteVideo })
         <Video
           video={video}
           mask="soft"
-          grade={false}
           className="aspect-[4/5] w-full rounded-[1.6rem] transition-transform duration-700 ease-soft group-hover:scale-[1.02]"
         />
       </div>
@@ -263,12 +262,7 @@ function AstrologyPanel({
     <div className="pt-10">
       <div className="grid gap-8 lg:grid-cols-12 lg:items-center lg:gap-12">
         <Reveal className="lg:col-span-5">
-          <Video
-            video={video}
-            mask="soft"
-            grade={false}
-            className="aspect-[4/5] w-full shadow-soft"
-          />
+          <Video video={video} mask="soft" className="aspect-[4/5] w-full shadow-soft" />
         </Reveal>
 
         <Reveal delay={0.06} className="lg:col-span-7">

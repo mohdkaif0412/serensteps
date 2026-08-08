@@ -97,7 +97,6 @@ export default function AboutPage() {
                   image={img.about}
                   mask="arch"
                   priority
-                  toned
                   sizes="(max-width: 1024px) 100vw, 40vw"
                   className="relative aspect-[4/5] w-full shadow-lift"
                 />

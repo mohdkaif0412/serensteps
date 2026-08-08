@@ -59,7 +59,6 @@ export function ServicesPreview() {
                 <Photo
                   image={row.image}
                   mask="soft"
-                  toned
                   sizes="(max-width: 640px) 40vw, 22vw"
                   className="h-80 w-full rounded-[1.25rem] transition-transform duration-500 ease-soft group-hover:-translate-y-1"
                 />
