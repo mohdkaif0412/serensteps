@@ -23,7 +23,7 @@ export default async function AdminDashboardLayout({
     <div className="min-h-dvh bg-sage/15 lg:flex">
       <AdminSidebar user={session.user} logoutAction={logoutAction} />
       <div className="min-w-0 flex-1">
-        <main className="mx-auto max-w-5xl px-5 py-8 sm:px-8 sm:py-10">
+        <main className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-8 md:px-8 md:py-10">
           {children}
         </main>
       </div>

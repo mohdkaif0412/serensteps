@@ -33,7 +33,7 @@ export default async function EditFaqPage({
     <>
       <Link
         href="/admin/faqs"
-        className="mb-4 inline-flex items-center gap-1.5 text-sm text-muted hover:text-forest"
+        className="mb-4 inline-flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-forest"
       >
         <ArrowLeft className="size-4" aria-hidden="true" />
         Back to FAQs

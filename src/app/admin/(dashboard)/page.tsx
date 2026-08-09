@@ -52,7 +52,7 @@ export default async function DashboardPage() {
         action={
           <Link
             href="/admin/posts/new"
-            className="inline-flex items-center gap-2 rounded-full bg-forest px-5 py-2.5 text-sm font-medium text-paper shadow-soft transition hover:bg-forest/90"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-forest px-5 py-2.5 text-sm font-medium text-paper shadow-soft transition hover:-translate-y-0.5 hover:bg-forest-deep hover:shadow-lift sm:w-auto"
           >
             <Plus className="size-4" aria-hidden="true" />
             New post
@@ -60,39 +60,44 @@ export default async function DashboardPage() {
         }
       />
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+      <div className="grid gap-2.5 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-5">
         {stats.map((s) => {
           const Icon = s.icon;
           return (
             <Link
               key={s.label}
               href={s.href}
-              className="rounded-2xl border border-sage-deep/20 bg-paper p-5 shadow-soft transition-colors hover:border-sage-deep/50"
+              className="group relative flex items-center gap-3 rounded-2xl border border-sage-deep/20 bg-paper p-3.5 shadow-soft transition-all duration-200 hover:-translate-y-0.5 hover:border-sage-deep/50 hover:shadow-lift sm:flex-col sm:items-start sm:gap-0 sm:p-5"
             >
-              <div className="flex items-center justify-between">
-                <span
-                  className={`grid size-9 place-items-center rounded-full ${
-                    s.highlight ? "bg-mint text-forest" : "bg-sage text-forest"
-                  }`}
-                >
-                  <Icon className="size-4" strokeWidth={1.75} aria-hidden="true" />
+              {s.highlight && (
+                <span className="absolute right-3 top-3 rounded-full bg-mint-deep/10 px-2 py-0.5 text-[0.65rem] font-semibold uppercase tracking-wide text-mint-deep">
+                  New
                 </span>
+              )}
+              <span
+                className={`grid size-9 shrink-0 place-items-center rounded-full transition-transform duration-200 group-hover:scale-110 sm:size-10 ${
+                  s.highlight ? "bg-mint text-forest" : "bg-sage text-forest"
+                }`}
+              >
+                <Icon className="size-4 sm:size-5" strokeWidth={1.75} aria-hidden="true" />
+              </span>
+              <div className="min-w-0 sm:mt-4">
+                <p className="font-display text-xl text-forest sm:text-3xl">{s.value}</p>
+                <p className="truncate text-sm text-muted">{s.label}</p>
               </div>
-              <p className="mt-4 font-display text-3xl text-forest">{s.value}</p>
-              <p className="text-sm text-muted">{s.label}</p>
             </Link>
           );
         })}
       </div>
 
-      <div className="mt-8 grid gap-6 lg:grid-cols-2">
+      <div className="mt-6 grid gap-5 sm:mt-8 sm:gap-6 lg:grid-cols-2">
         {/* Recent posts */}
-        <section className="rounded-2xl border border-sage-deep/20 bg-paper p-6 shadow-soft">
+        <section className="min-w-0 overflow-hidden rounded-2xl border border-sage-deep/20 bg-paper p-5 shadow-soft sm:p-6">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="font-display text-xl text-forest">Recent posts</h2>
             <Link
               href="/admin/posts"
-              className="inline-flex items-center gap-1 text-sm text-muted hover:text-forest"
+              className="inline-flex items-center gap-1 text-sm text-muted transition-colors hover:text-forest"
             >
               All posts <ArrowRight className="size-3.5" aria-hidden="true" />
             </Link>
@@ -100,10 +105,10 @@ export default async function DashboardPage() {
           {recentPosts.length ? (
             <ul className="divide-y divide-sage-deep/15">
               {recentPosts.map((post) => (
-                <li key={post.id}>
+                <li key={post.id} className="min-w-0">
                   <Link
                     href={`/admin/posts/${post.id}/edit`}
-                    className="flex items-center justify-between gap-3 py-3 hover:text-forest"
+                    className="flex min-w-0 items-center justify-between gap-3 py-3 transition-colors hover:text-forest"
                   >
                     <span className="min-w-0 truncate text-sm text-forest">
                       {post.title}
@@ -127,12 +132,12 @@ export default async function DashboardPage() {
         </section>
 
         {/* Recent messages */}
-        <section className="rounded-2xl border border-sage-deep/20 bg-paper p-6 shadow-soft">
+        <section className="min-w-0 overflow-hidden rounded-2xl border border-sage-deep/20 bg-paper p-5 shadow-soft sm:p-6">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="font-display text-xl text-forest">Recent messages</h2>
             <Link
               href="/admin/submissions"
-              className="inline-flex items-center gap-1 text-sm text-muted hover:text-forest"
+              className="inline-flex items-center gap-1 text-sm text-muted transition-colors hover:text-forest"
             >
               All messages <ArrowRight className="size-3.5" aria-hidden="true" />
             </Link>
@@ -140,7 +145,7 @@ export default async function DashboardPage() {
           {recentMessages.length ? (
             <ul className="divide-y divide-sage-deep/15">
               {recentMessages.map((m) => (
-                <li key={m.id} className="flex items-center gap-3 py-3">
+                <li key={m.id} className="flex min-w-0 items-center gap-3 py-3">
                   {!m.handled && (
                     <Circle
                       className="size-2 shrink-0 fill-mint-deep text-mint-deep"

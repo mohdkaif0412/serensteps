@@ -26,7 +26,10 @@ export function FaqForm({
   const fe = state.fieldErrors ?? {};
 
   return (
-    <form action={action} className="space-y-6">
+    <form
+      action={action}
+      className="mx-auto w-full max-w-3xl space-y-6 rounded-2xl border border-sage-deep/20 bg-paper p-5 shadow-soft sm:p-8"
+    >
       {faq?.id && <input type="hidden" name="id" value={faq.id} />}
       <FormError message={state.error} />
 
@@ -97,11 +100,14 @@ export function FaqForm({
         <span className="text-sm text-forest">Published (visible on the site)</span>
       </label>
 
-      <div className="flex items-center gap-4 pt-2">
+      <div className="flex flex-wrap items-center gap-4 border-t border-sage-deep/15 pt-6">
         <SubmitButton pending={pending}>
           {faq?.id ? "Save changes" : "Add FAQ"}
         </SubmitButton>
-        <Link href="/admin/faqs" className="text-sm text-muted hover:text-forest">
+        <Link
+          href="/admin/faqs"
+          className="text-sm text-muted transition-colors hover:text-forest"
+        >
           Cancel
         </Link>
       </div>

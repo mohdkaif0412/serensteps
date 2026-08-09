@@ -1,9 +1,10 @@
 import Link from "next/link";
-import { Plus, Pencil, Trash2, Eye, EyeOff, Info } from "lucide-react";
+import { Plus, Pencil, Trash2, Eye, EyeOff, Info, Quote } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { ActionButton } from "@/components/admin/ActionButton";
 import { Flash } from "@/components/admin/Flash";
+import { EmptyState } from "@/components/admin/EmptyState";
 import {
   deleteTestimonial,
   toggleTestimonialPublished,
@@ -32,7 +33,7 @@ export default async function AdminTestimonialsPage({
         action={
           <Link
             href="/admin/testimonials/new"
-            className="inline-flex items-center gap-2 rounded-full bg-forest px-5 py-2.5 text-sm font-medium text-paper shadow-soft transition hover:bg-forest/90"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-forest px-5 py-2.5 text-sm font-medium text-paper shadow-soft transition hover:-translate-y-0.5 hover:bg-forest-deep hover:shadow-lift sm:w-auto"
           >
             <Plus className="size-4" aria-hidden="true" />
             New testimonial
@@ -49,25 +50,31 @@ export default async function AdminTestimonialsPage({
       </div>
 
       {testimonials.length ? (
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {testimonials.map((t) => (
             <div
               key={t.id}
-              className="flex flex-col rounded-2xl border border-sage-deep/20 bg-paper p-5 shadow-soft"
+              className="flex flex-col rounded-2xl border border-sage-deep/20 bg-paper p-5 shadow-soft transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lift"
             >
-              <div className="mb-3 flex items-start justify-between gap-2">
-                <div>
-                  <p className="font-medium text-forest">{t.name}</p>
-                  {t.role && <p className="text-xs text-muted">{t.role}</p>}
+              <Quote
+                className="size-5 shrink-0 text-mint-deep/50"
+                aria-hidden="true"
+              />
+              <blockquote className="mt-3 flex-1 font-display text-[0.95rem] italic leading-relaxed text-forest/90">
+                {`“${t.quote}”`}
+              </blockquote>
+              <div className="mt-4 flex items-start justify-between gap-2 border-t border-sage-deep/15 pt-3">
+                <div className="min-w-0">
+                  <p className="truncate font-medium text-forest">{t.name}</p>
+                  {t.role && (
+                    <p className="truncate text-xs text-muted">{t.role}</p>
+                  )}
                 </div>
                 <span className="grid size-7 shrink-0 place-items-center rounded-full bg-sage/70 text-xs font-medium text-forest">
                   {t.order}
                 </span>
               </div>
-              <blockquote className="flex-1 font-display text-[0.95rem] italic leading-relaxed text-forest/90">
-                {`“${t.quote}”`}
-              </blockquote>
-              <div className="mt-4 flex items-center justify-between border-t border-sage-deep/15 pt-3">
+              <div className="mt-3 flex items-center justify-between">
                 <span className="text-xs text-muted">
                   {t.published ? "Visible on site" : "Hidden"}
                 </span>
@@ -109,19 +116,16 @@ export default async function AdminTestimonialsPage({
           ))}
         </div>
       ) : (
-        <div className="rounded-2xl border border-dashed border-sage-deep/40 bg-paper/60 p-12 text-center">
-          <h2 className="font-display text-xl text-forest">No testimonials yet</h2>
-          <p className="mx-auto mt-2 max-w-sm text-muted">
-            Add a few anonymous words of encouragement from past clients.
-          </p>
-          <Link
-            href="/admin/testimonials/new"
-            className="mt-5 inline-flex items-center gap-2 rounded-full bg-forest px-5 py-2.5 text-sm font-medium text-paper hover:bg-forest/90"
-          >
-            <Plus className="size-4" aria-hidden="true" />
-            New testimonial
-          </Link>
-        </div>
+        <EmptyState
+          icon={Quote}
+          title="No testimonials yet"
+          description="Add a few anonymous words of encouragement from past clients."
+          action={{
+            href: "/admin/testimonials/new",
+            label: "New testimonial",
+            icon: Plus,
+          }}
+        />
       )}
     </>
   );

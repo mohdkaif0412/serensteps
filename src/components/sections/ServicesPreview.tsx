@@ -60,7 +60,7 @@ export function ServicesPreview() {
                   image={row.image}
                   mask="soft"
                   sizes="(max-width: 640px) 40vw, 22vw"
-                  className="h-80 w-full rounded-[1.25rem] transition-transform duration-500 ease-soft group-hover:-translate-y-1"
+                  className=" h-120 sm:h-96 w-full rounded-[1.25rem] transition-transform duration-500 ease-soft group-hover:-translate-y-1 "
                 />
 
                 <div className="mt-6 min-w-0 flex-1">

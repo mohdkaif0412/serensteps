@@ -1,7 +1,8 @@
-import { Mail, Phone, Check, Trash2, Circle } from "lucide-react";
+import { Mail, Phone, Check, Trash2, Circle, Inbox } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { ActionButton } from "@/components/admin/ActionButton";
+import { EmptyState } from "@/components/admin/EmptyState";
 import {
   toggleSubmissionHandled,
   deleteSubmission,
@@ -29,20 +30,20 @@ export default async function AdminSubmissionsPage() {
       />
 
       {submissions.length ? (
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           {submissions.map((s) => (
             <article
               key={s.id}
               className={cn(
-                "rounded-2xl border bg-paper p-5 shadow-soft sm:p-6",
+                "rounded-2xl border bg-paper p-4 shadow-soft transition-shadow sm:p-6",
                 s.handled
                   ? "border-sage-deep/20"
-                  : "border-mint-deep/60 ring-1 ring-mint-deep/25",
+                  : "border-mint-deep/60 ring-1 ring-mint-deep/25 hover:shadow-lift",
               )}
             >
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div className="min-w-0">
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-wrap items-center gap-2">
                     {!s.handled && (
                       <Circle
                         className="size-2 shrink-0 fill-mint-deep text-mint-deep"
@@ -59,7 +60,7 @@ export default async function AdminSubmissionsPage() {
                   <div className="mt-1.5 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted">
                     <a
                       href={`mailto:${s.email}`}
-                      className="inline-flex items-center gap-1.5 hover:text-forest"
+                      className="inline-flex items-center gap-1.5 transition-colors hover:text-forest"
                     >
                       <Mail className="size-3.5" aria-hidden="true" />
                       {s.email}
@@ -67,7 +68,7 @@ export default async function AdminSubmissionsPage() {
                     {s.phone && (
                       <a
                         href={`tel:${s.phone}`}
-                        className="inline-flex items-center gap-1.5 hover:text-forest"
+                        className="inline-flex items-center gap-1.5 transition-colors hover:text-forest"
                       >
                         <Phone className="size-3.5" aria-hidden="true" />
                         {s.phone}
@@ -110,13 +111,11 @@ export default async function AdminSubmissionsPage() {
           ))}
         </div>
       ) : (
-        <div className="rounded-2xl border border-dashed border-sage-deep/40 bg-paper/60 p-12 text-center">
-          <h2 className="font-display text-xl text-forest">No messages yet</h2>
-          <p className="mx-auto mt-2 max-w-sm text-muted">
-            When someone sends a message through the contact form, it will appear
-            here.
-          </p>
-        </div>
+        <EmptyState
+          icon={Inbox}
+          title="No messages yet"
+          description="When someone sends a message through the contact form, it will appear here."
+        />
       )}
     </>
   );

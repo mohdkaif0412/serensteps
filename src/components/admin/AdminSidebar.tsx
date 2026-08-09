@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   LayoutDashboard,
   FileText,
@@ -11,11 +11,10 @@ import {
   Inbox,
   LogOut,
   ExternalLink,
-  Footprints,
   Menu,
   X,
 } from "lucide-react";
-import { site } from "@/lib/site";
+import { Logo } from "@/components/ui/Logo";
 import { cn } from "@/lib/utils";
 
 const nav = [
@@ -36,6 +35,15 @@ export function AdminSidebar({
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
+  // Close the mobile drawer on route change and on Escape.
+  useEffect(() => setOpen(false), [pathname]);
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+
   const isActive = (href: string, exact?: boolean) =>
     exact ? pathname === href : pathname.startsWith(href);
 
@@ -51,13 +59,20 @@ export function AdminSidebar({
             onClick={() => setOpen(false)}
             aria-current={active ? "page" : undefined}
             className={cn(
-              "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors",
+              "group relative flex items-center gap-3 rounded-xl border-l-4 px-2.5 py-2.5 text-sm font-medium transition-all duration-200",
               active
-                ? "bg-forest text-paper"
-                : "text-forest/70 hover:bg-sage/60 hover:text-forest",
+                ? "border-mint bg-forest text-paper shadow-soft"
+                : "border-transparent text-forest/70 hover:translate-x-0.5 hover:bg-sage/60 hover:text-forest",
             )}
           >
-            <Icon className="size-5" strokeWidth={1.75} aria-hidden="true" />
+            <Icon
+              className={cn(
+                "size-5 transition-transform duration-200 group-hover:scale-110",
+                active ? "text-mint-pale" : "",
+              )}
+              strokeWidth={1.75}
+              aria-hidden="true"
+            />
             {item.label}
           </Link>
         );
@@ -91,43 +106,73 @@ export function AdminSidebar({
   return (
     <>
       {/* Mobile top bar */}
-      <div className="lg:hidden">
-        <div className="flex items-center justify-between border-b border-sage-deep/20 bg-paper px-5 py-3">
-          <Link href="/admin" className="flex items-center gap-2">
-            <span className="grid size-8 place-items-center rounded-full bg-forest text-paper">
-              <Footprints className="size-4" strokeWidth={1.75} aria-hidden="true" />
-            </span>
-            <span className="font-display text-lg text-forest">{site.name}</span>
+      <div className="sticky top-0 z-30 border-b border-sage-deep/20 bg-paper/95 backdrop-blur-sm lg:hidden">
+        <div className="flex items-center justify-between px-4 py-3 sm:px-5">
+          <Link href="/admin" aria-label="Go to dashboard">
+            <Logo priority className="h-7" />
           </Link>
           <button
             type="button"
-            onClick={() => setOpen((v) => !v)}
+            onClick={() => setOpen(true)}
             aria-expanded={open}
-            aria-label={open ? "Close menu" : "Open menu"}
-            className="rounded-lg p-2 text-forest hover:bg-sage/60"
+            aria-label="Open menu"
+            className="rounded-lg p-2 text-forest transition-colors hover:bg-sage/60"
           >
-            {open ? <X className="size-5" /> : <Menu className="size-5" />}
+            <Menu className="size-5" />
           </button>
         </div>
-        {open && (
-          <div className="space-y-4 border-b border-sage-deep/20 bg-paper px-4 py-4">
-            {navList}
-            {footerBlock}
-          </div>
+      </div>
+
+      {/* Mobile drawer */}
+      <div
+        className={cn(
+          "fixed inset-0 z-40 lg:hidden",
+          open ? "pointer-events-auto" : "pointer-events-none",
         )}
+      >
+        <div
+          onClick={() => setOpen(false)}
+          aria-hidden="true"
+          className={cn(
+            "absolute inset-0 bg-forest-deep/50 backdrop-blur-[2px] transition-opacity duration-300 ease-soft",
+            open ? "opacity-100" : "opacity-0",
+          )}
+        />
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Admin navigation"
+          className={cn(
+            "absolute inset-y-0 left-0 flex w-[85%] max-w-xs flex-col overflow-y-auto border-r border-sage-deep/20 bg-paper px-4 py-5 shadow-float transition-transform duration-300 ease-soft",
+            open ? "translate-x-0" : "-translate-x-full",
+          )}
+        >
+          <div className="flex items-center justify-between px-2">
+            <Link href="/admin" aria-label="Go to dashboard">
+              <Logo className="h-8" />
+            </Link>
+            <button
+              type="button"
+              onClick={() => setOpen(false)}
+              aria-label="Close menu"
+              className="rounded-lg p-2 text-forest transition-colors hover:bg-sage/60"
+            >
+              <X className="size-5" />
+            </button>
+          </div>
+          <div className="mt-8 flex-1">{navList}</div>
+          {footerBlock}
+        </div>
       </div>
 
       {/* Desktop sidebar */}
-      <aside className="sticky top-0 hidden h-dvh w-64 shrink-0 flex-col border-r border-sage-deep/20 bg-paper px-4 py-6 lg:flex">
-        <Link href="/admin" className="flex items-center gap-2.5 px-2">
-          <span className="grid size-9 place-items-center rounded-full bg-forest text-paper">
-            <Footprints className="size-4" strokeWidth={1.75} aria-hidden="true" />
-          </span>
-          <span className="font-display text-xl text-forest">{site.name}</span>
+      <aside className="sticky top-0 hidden h-dvh w-64 shrink-0 flex-col overflow-y-auto border-r border-sage-deep/20 bg-paper px-4 py-6 lg:flex">
+        <Link href="/admin" className="px-2" aria-label="Go to dashboard">
+          <Logo priority className="h-8" />
         </Link>
-        <p className="mt-1 px-2 text-[0.7rem] uppercase tracking-[0.16em] text-muted">
+        {/* <p className="mt-2 px-2 text-[0.7rem] uppercase tracking-[0.16em] text-muted">
           Content admin
-        </p>
+        </p> */}
         <div className="mt-8 flex-1">{navList}</div>
         {footerBlock}
       </aside>

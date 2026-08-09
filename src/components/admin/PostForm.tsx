@@ -32,7 +32,10 @@ export function PostForm({ post }: { post?: PostFormData }) {
   const [slugLocked, setSlugLocked] = useState(Boolean(post?.slug));
 
   return (
-    <form action={action} className="space-y-6">
+    <form
+      action={action}
+      className="mx-auto w-full max-w-4xl space-y-6 rounded-2xl border border-sage-deep/20 bg-paper p-5 shadow-soft sm:p-8"
+    >
       {post?.id && <input type="hidden" name="id" value={post.id} />}
       <FormError message={state.error} />
 
@@ -160,11 +163,14 @@ export function PostForm({ post }: { post?: PostFormData }) {
         </div>
       </details>
 
-      <div className="flex items-center gap-4 pt-2">
+      <div className="flex flex-wrap items-center gap-4 border-t border-sage-deep/15 pt-6">
         <SubmitButton pending={pending}>
           {post?.id ? "Save changes" : "Create post"}
         </SubmitButton>
-        <Link href="/admin/posts" className="text-sm text-muted hover:text-forest">
+        <Link
+          href="/admin/posts"
+          className="text-sm text-muted transition-colors hover:text-forest"
+        >
           Cancel
         </Link>
       </div>
