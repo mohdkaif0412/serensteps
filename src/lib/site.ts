@@ -42,15 +42,6 @@ const phoneLocal = fromEnv(process.env.NEXT_PUBLIC_CONTACT_PHONE) || "7006788155
 const phoneCountry = fromEnv(process.env.NEXT_PUBLIC_PHONE_COUNTRY) || "91";
 const phoneDigits = `${phoneCountry}${phoneLocal}`;
 
-// Booking: Cal.com wins if both are set; either one enables the live calendar.
-const calcomLink = fromEnv(process.env.NEXT_PUBLIC_CALCOM_LINK);
-const calendlyUrl = fromEnv(process.env.NEXT_PUBLIC_CALENDLY_URL);
-const bookingProvider: "calcom" | "calendly" | null = calcomLink
-  ? "calcom"
-  : calendlyUrl
-    ? "calendly"
-    : null;
-
 /**
  * The named practitioner, for Person / article-author schema.
  *
@@ -142,12 +133,13 @@ export const site = {
     width: 650,
     height: 260,
   },
+  /**
+   * The practice runs its own calendar at /book — availability, requests and
+   * client records all live in this app's database (see prisma/schema.prisma
+   * and src/lib/booking/). There is no third-party scheduler to configure.
+   */
   booking: {
-    provider: bookingProvider,
-    /** Whether a real calendar is connected (live embed vs. graceful fallback). */
-    configured: bookingProvider !== null,
-    calcomLink,
-    calendlyUrl,
+    path: "/book",
   },
   socials: {
     // Empty string = no account yet → the icon is hidden and the URL is left
@@ -222,12 +214,11 @@ export type NavItem = (typeof site.nav)[number];
 
 /**
  * The single booking call-to-action used by every "Book"-style button sitewide.
- * When a real calendar is connected it reads "Book Now" and jumps to the live
- * embed (#book). Otherwise it reads "Request a session" and routes to the
- * contact form (#enquiry) — so nothing promises instant booking the site can't
- * yet deliver.
+ * It reads "Book a session" and goes to the practice's own calendar at /book,
+ * where a request is made and confirmed by a person — so the wording promises
+ * exactly what happens, and no more.
  */
 export const bookingCta = {
-  label: site.booking.configured ? "Book Now" : "Request a session",
-  href: site.booking.configured ? "/contact#book" : "/contact#enquiry",
+  label: "Book a session",
+  href: site.booking.path,
 } as const;

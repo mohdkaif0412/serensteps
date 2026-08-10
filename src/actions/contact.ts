@@ -1,9 +1,9 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { Resend } from "resend";
 import { prisma } from "@/lib/db";
 import { contactSchema, type ContactInput } from "@/lib/validation";
+import { emailLayout, emailQuote, emailRow, escapeHtml, sendEmail } from "@/lib/email";
 import { site } from "@/lib/site";
 
 export type ContactResult = { ok: boolean; error?: string };
@@ -44,43 +44,19 @@ export async function submitContact(input: unknown): Promise<ContactResult> {
 }
 
 async function sendNotificationEmail(data: Omit<ContactInput, "website">) {
-  const apiKey = process.env.RESEND_API_KEY;
-  const to = process.env.CONTACT_NOTIFY_TO || site.email;
-  // Email is optional — if Resend isn't configured, the submission is still saved.
-  if (!apiKey || !to) return;
-
-  try {
-    const resend = new Resend(apiKey);
-    const from = process.env.CONTACT_FROM ?? `${site.name} <onboarding@resend.dev>`;
-    await resend.emails.send({
-      from,
-      to,
-      replyTo: data.email,
-      subject: `New enquiry from ${data.name} — ${data.concern}`,
-      html: `
-        <div style="font-family: sans-serif; line-height: 1.6; color: #174238;">
-          <h2 style="font-weight: 600;">New contact form submission</h2>
-          <p><strong>Name:</strong> ${escapeHtml(data.name)}</p>
-          <p><strong>Email:</strong> ${escapeHtml(data.email)}</p>
-          ${data.phone ? `<p><strong>Phone:</strong> ${escapeHtml(data.phone)}</p>` : ""}
-          <p><strong>Concern:</strong> ${escapeHtml(data.concern)}</p>
-          <p><strong>Message:</strong></p>
-          <p style="white-space: pre-line; background:#f6f3ec; padding:12px 16px; border-radius:8px;">${escapeHtml(
-            data.message,
-          )}</p>
-        </div>
-      `,
-    });
-  } catch (error) {
-    // Never fail the user's submission because of an email hiccup.
-    console.error("Resend notification failed:", error);
-  }
-}
-
-function escapeHtml(value: string) {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
+  await sendEmail({
+    to: process.env.CONTACT_NOTIFY_TO || site.email,
+    replyTo: data.email,
+    subject: `New enquiry from ${data.name} — ${data.concern}`,
+    html: emailLayout({
+      heading: "New contact form submission",
+      body: `<table style="width:100%;border-collapse:collapse;">
+          ${emailRow("Name", escapeHtml(data.name))}
+          ${emailRow("Email", escapeHtml(data.email))}
+          ${data.phone ? emailRow("Phone", escapeHtml(data.phone)) : ""}
+          ${emailRow("Concern", escapeHtml(data.concern))}
+        </table>
+        ${emailQuote(data.message)}`,
+    }),
+  });
 }

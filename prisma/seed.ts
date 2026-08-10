@@ -3,6 +3,10 @@ import { prisma } from "@/lib/db";
 import { posts } from "@/lib/content/posts";
 import { faqs } from "@/lib/content/faqs";
 import { testimonials } from "@/lib/content/testimonials";
+import {
+  seedSessionTypes,
+  seedAvailability,
+} from "@/lib/content/session-types";
 import { postCover } from "@/lib/images";
 
 /**
@@ -21,26 +25,31 @@ import { postCover } from "@/lib/images";
  * documented recovery path, but it means the env value should be the real one.
  */
 async function main() {
+  // ── Admin user ──────────────────────────────────────────────
+  // Missing credentials only stop the seed when there's no admin at all —
+  // otherwise the content below would be unreachable just because the recovery
+  // vars were cleared from .env after the first setup (which is good practice).
   const email = process.env.ADMIN_EMAIL;
   const password = process.env.ADMIN_PASSWORD;
-  if (!email || !password) {
+  if (email && password) {
+    const passwordHash = await bcrypt.hash(password, 12);
+    const admin = await prisma.user.upsert({
+      where: { email },
+      update: { password: passwordHash, name: process.env.ADMIN_NAME ?? "Admin" },
+      create: {
+        email,
+        password: passwordHash,
+        name: process.env.ADMIN_NAME ?? "Admin",
+      },
+    });
+    console.log(`✓ Admin user ready: ${admin.email}`);
+  } else if ((await prisma.user.count()) === 0) {
     throw new Error(
-      "ADMIN_EMAIL and ADMIN_PASSWORD must be set in the environment to seed the admin user.",
+      "ADMIN_EMAIL and ADMIN_PASSWORD must be set in the environment to seed the first admin user.",
     );
+  } else {
+    console.log("• ADMIN_EMAIL/ADMIN_PASSWORD unset — leaving the existing admin alone.");
   }
-
-  // ── Admin user ──────────────────────────────────────────────
-  const passwordHash = await bcrypt.hash(password, 12);
-  const admin = await prisma.user.upsert({
-    where: { email },
-    update: { password: passwordHash, name: process.env.ADMIN_NAME ?? "Admin" },
-    create: {
-      email,
-      password: passwordHash,
-      name: process.env.ADMIN_NAME ?? "Admin",
-    },
-  });
-  console.log(`✓ Admin user ready: ${admin.email}`);
 
   // ── Sample posts (upsert by slug; won't overwrite edits) ────
   for (const post of posts) {
@@ -107,6 +116,37 @@ async function main() {
   console.log(
     `✓ Testimonials: ${newTestimonials.length} added, ${existingQuotes.size} already present`,
   );
+
+  // ── Bookable session types (upsert by slug; won't overwrite edits) ──
+  for (const [i, type] of seedSessionTypes.entries()) {
+    await prisma.sessionType.upsert({
+      where: { slug: type.slug },
+      update: {},
+      create: {
+        slug: type.slug,
+        name: type.name,
+        blurb: type.blurb,
+        durationMin: type.durationMin,
+        bufferMin: type.bufferMin,
+        modes: type.modes,
+        price: type.price ?? null,
+        order: i,
+        active: true,
+      },
+    });
+  }
+  console.log(`✓ Session types seeded: ${seedSessionTypes.length}`);
+
+  // ── Working hours ────────────────────────────────────────────
+  // Only seeded into an empty table: once the practitioner has set their own
+  // hours, re-seeding must never quietly re-open a day they closed.
+  const ruleCount = await prisma.availabilityRule.count();
+  if (ruleCount === 0) {
+    await prisma.availabilityRule.createMany({ data: seedAvailability });
+    console.log(`✓ Availability seeded: ${seedAvailability.length} weekly rules`);
+  } else {
+    console.log(`✓ Availability: ${ruleCount} rules already set, left alone`);
+  }
 }
 
 main()

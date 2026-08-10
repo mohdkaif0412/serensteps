@@ -126,9 +126,10 @@ export function ContactForm() {
           <input
             id="phone"
             type="tel"
+            inputMode="tel"
             className={fieldStyles}
             autoComplete="tel"
-            placeholder="Optional"
+            placeholder="10-digit mobile number"
             {...register("phone")}
           />
         </Field>

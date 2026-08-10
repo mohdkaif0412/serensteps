@@ -209,6 +209,26 @@
 .rise-in {
   animation: rise-in 0.66s var(--ease-soft) backwards;
 }
+
+/* The booking assistant's launcher: a mint ring that breathes outward three
+   times shortly after arrival, then rests. An invitation to a first tap — not a
+   permanent flicker beside someone's reading. (The reduced-motion floor at the
+   bottom of this file collapses it to nothing, which is the right fallback: the
+   button is perfectly legible without it.) */
+@keyframes launcher-halo {
+  0% {
+    transform: scale(0.92);
+    opacity: 0.5;
+  }
+  65%,
+  100% {
+    transform: scale(1.32);
+    opacity: 0;
+  }
+}
+.launcher-halo {
+  animation: launcher-halo 2.6s var(--ease-soft) 1.4s 3 backwards;
+}
 .rise-delay-1 {
   animation-delay: 0.07s;
 }

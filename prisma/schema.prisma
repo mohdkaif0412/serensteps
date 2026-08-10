@@ -9,7 +9,14 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  // Pooled (PgBouncer) endpoint for the app itself. Neon suspends idle compute
+  // and kills direct connections with a FATAL 57P01; the pooler absorbs that,
+  // so a request that lands during a wake-up reconnects instead of failing.
   url      = env("DATABASE_URL")
+  // `db push` and migrations need a real session, which transaction-mode
+  // pooling can't give them — so they get the direct endpoint. Falls back to
+  // DATABASE_URL when unset, which keeps a single-URL setup working.
+  directUrl = env("DIRECT_DATABASE_URL")
 }
 
 model User {
@@ -65,4 +72,112 @@ model ContactSubmission {
   message   String
   handled   Boolean  @default(false)
   createdAt DateTime @default(now())
+}
+
+// ─── Booking ──────────────────────────────────────────────────────
+//
+// The practice owns its own calendar. Availability is stored as *practice-local
+// wall clock* (minutes from midnight in BOOKING_TIMEZONE) because "Tuesdays,
+// 10am–6pm" is what the practitioner actually means — it shouldn't drift with
+// the server's clock. Everything a booking pins down (startsAt/endsAt) is
+// stored in UTC. See src/lib/booking/timezone.ts for the conversion.
+
+/// A bookable offering: what it is, how long it runs, how it can be held.
+model SessionType {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  name        String
+  blurb       String?
+  /// Length of the session itself, in minutes.
+  durationMin Int       @default(50)
+  /// Quiet time reserved after the session before the next slot may start.
+  bufferMin   Int       @default(15)
+  /// Allowed delivery modes — a subset of ["ONLINE", "IN_PERSON", "PHONE"].
+  modes       String[]  @default(["ONLINE"])
+  /// Display only — no payment is taken online. e.g. "₹1,200" or "Free".
+  price       String?
+  order       Int       @default(0)
+  active      Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  bookings    Booking[]
+}
+
+/// Recurring weekly working hours, in practice-local minutes from midnight.
+model AvailabilityRule {
+  id          String   @id @default(cuid())
+  /// 0 = Sunday … 6 = Saturday.
+  weekday     Int
+  startMinute Int
+  endMinute   Int
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+
+  @@index([weekday])
+}
+
+/// A single dated override: a day off, or extra hours outside the weekly rules.
+model AvailabilityException {
+  id          String   @id @default(cuid())
+  /// Practice-local calendar date, stored at midnight UTC (date-only column).
+  date        DateTime @db.Date
+  /// true = nothing bookable that day. false = these hours are added.
+  blocked     Boolean  @default(true)
+  startMinute Int?
+  endMinute   Int?
+  note        String?
+  createdAt   DateTime @default(now())
+
+  @@index([date])
+}
+
+/// A person the practice sees — created on their first booking, matched by email.
+model Client {
+  id        String    @id @default(cuid())
+  email     String    @unique
+  name      String
+  phone     String?
+  /// Private practitioner notes. Never shown on the public site.
+  notes     String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  bookings  Booking[]
+}
+
+model Booking {
+  id     String @id @default(cuid())
+  /// Unguessable key for the client's own "manage your booking" link.
+  token  String @unique
+
+  clientId      String
+  client        Client      @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  sessionTypeId String
+  sessionType   SessionType @relation(fields: [sessionTypeId], references: [id])
+
+  /// UTC. `endsAt` covers the session only — the buffer lives in SessionType.
+  startsAt DateTime
+  endsAt   DateTime
+
+  /// "ONLINE" | "IN_PERSON" | "PHONE"
+  mode   String
+  /// "PENDING" | "CONFIRMED" | "COMPLETED" | "CANCELLED" | "NO_SHOW"
+  status String @default("PENDING")
+
+  firstTime Boolean @default(true)
+  concern   String?
+  message   String?
+
+  /// Filled in by the practitioner when confirming, per mode.
+  meetingLink  String?
+  locationNote String?
+
+  adminNote       String?
+  cancelledReason String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([startsAt])
+  @@index([status])
+  @@index([clientId])
 }

@@ -119,13 +119,14 @@ ${FRAMING_NOTE}
 - [Resources](${site.url}/resources): Plain-language definitions of the terms people search for — counselling, anxiety, overthinking, boundaries, burnout, attachment style, psychometric testing, reflective guidance.
 - [Journal / Blog](${site.url}/blog): Gentle, practical articles on anxiety, relationships, parenting, starting therapy, and reflective practice. Feed: ${site.url}/blog/feed.xml
 - [FAQ](${site.url}/faq): Common questions about first sessions, approach, booking, and confidentiality.
-- [Contact & Booking](${site.url}/contact): Get in touch or book a first session.
+- [Contact](${site.url}/contact): Get in touch by form, email, phone, or WhatsApp.
+- [Book a session](${site.url}${site.booking.path}): Live availability for counselling, assessments, and reflective sessions — online, in person, or by phone.
 
 ## Contact
 
 - Email: ${site.email}
 - Phone / WhatsApp: ${site.phone.display}
-- Booking: ${site.booking.configured ? `live calendar at ${site.url}/contact#book` : `available via the contact page (${site.url}/contact)`}.
+- Booking: choose a time at ${site.url}${site.booking.path}. Requests are confirmed by a person, usually within a couple of working days.
 
 ## Note
 
@@ -329,7 +330,7 @@ ${posts
 - Phone: ${site.phone.display}
 - WhatsApp: ${site.phone.whatsapp}
 - Contact form: ${site.url}/contact#enquiry
-- Booking: ${site.booking.configured ? `${site.url}/contact#book` : "arranged via the contact form, WhatsApp, or email"}
+- Booking: ${site.url}${site.booking.path} — pick a session type, a way to meet (online, in person, or by phone), and a time from live availability. The request is then confirmed by email; nothing is charged online.
 
 Reaching out isn't a commitment — it's a first conversation to see if we're the
 right fit. We usually respond within a couple of working days.

@@ -60,9 +60,9 @@ export default async function AdminSubmissionsPage() {
                   <div className="mt-1.5 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted">
                     <a
                       href={`mailto:${s.email}`}
-                      className="inline-flex items-center gap-1.5 transition-colors hover:text-forest"
+                      className="inline-flex max-w-full items-center gap-1.5 break-all transition-colors hover:text-forest"
                     >
-                      <Mail className="size-3.5" aria-hidden="true" />
+                      <Mail className="size-3.5 shrink-0" aria-hidden="true" />
                       {s.email}
                     </a>
                     {s.phone && (

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Mail, Phone, Clock, HeartHandshake, CalendarDays } from "lucide-react";
 import { PageHeader } from "@/components/sections/PageHeader";
 import { Section } from "@/components/ui/Section";
@@ -6,12 +7,10 @@ import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ContactForm } from "@/components/forms/ContactForm";
-import { CalEmbed } from "@/components/ui/CalEmbed";
-import { CalendlyEmbed } from "@/components/ui/CalendlyEmbed";
 import { InstagramIcon, WhatsAppIcon } from "@/components/ui/BrandIcons";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbJsonLd } from "@/lib/structured-data";
-import { site } from "@/lib/site";
+import { site, bookingCta } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Contact & Booking",
@@ -152,6 +151,8 @@ export default async function ContactPage() {
         </Container>
       </Section>
 
+      {/* The calendar itself lives at /book — one place that owns availability,
+          rather than a second copy of the flow embedded here. */}
       <Section id="book" surface="mist" spacing="md">
         <Container>
           <SectionHeading
@@ -161,50 +162,39 @@ export default async function ContactPage() {
                 Ready to <em>book a session?</em>
               </>
             }
-            intro="Choose a time that works for you and we'll take it from there."
+            intro="Pick a time from our live calendar. It takes about a minute, and nothing is confirmed until we've written back."
           />
-          <Reveal className="mt-8 max-w-4xl">
-            {site.booking.configured ? (
-              <div className="overflow-hidden rounded-[2rem] border border-sage-deep/20 bg-cream shadow-lift">
-                {site.booking.provider === "calcom" ? (
-                  <CalEmbed calLink={site.booking.calcomLink} />
-                ) : (
-                  <CalendlyEmbed url={site.booking.calendlyUrl} />
-                )}
+          <Reveal className="mt-8 max-w-3xl">
+            <div className="rounded-[2rem] border border-sage-deep/20 bg-cream p-7 shadow-lift sm:p-9">
+              <div className="grid size-14 place-items-center rounded-full bg-sage text-forest">
+                <CalendarDays className="size-7" strokeWidth={1.6} aria-hidden="true" />
               </div>
-            ) : (
-              <div className="rounded-[2rem] border border-dashed border-sage-deep/40 bg-cream/80 p-10">
-                <div className="grid size-14 place-items-center rounded-full bg-sage text-forest">
-                  <CalendarDays className="size-7" strokeWidth={1.6} aria-hidden="true" />
-                </div>
-                <h3 className="mt-5 font-display text-xl text-forest">
-                  Online booking is on its way
-                </h3>
-                <p className="mt-2 max-w-md leading-[1.75] text-muted">
-                  Our live calendar will appear here once it&rsquo;s connected. In the
-                  meantime, send a message above, WhatsApp us, or email and
-                  we&rsquo;ll find a time together.
-                </p>
-                <div className="mt-6 flex flex-wrap gap-3">
-                  <a
-                    href={site.phone.whatsapp}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-full bg-mint px-6 py-3 text-sm font-medium text-forest shadow-soft transition-all duration-300 ease-soft hover:-translate-y-0.5 hover:shadow-lift active:translate-y-0 active:scale-[0.985]"
-                  >
-                    <WhatsAppIcon className="size-4" />
-                    WhatsApp to book
-                  </a>
-                  <a
-                    href={`mailto:${site.email}`}
-                    className="inline-flex items-center gap-2 rounded-full bg-forest px-6 py-3 text-sm font-medium text-paper shadow-soft transition-all duration-300 ease-soft hover:-translate-y-0.5 hover:bg-forest-deep hover:shadow-lift active:translate-y-0 active:scale-[0.985]"
-                  >
-                    <Mail className="size-4" aria-hidden="true" />
-                    Email to book
-                  </a>
-                </div>
+              <h3 className="mt-5 font-display text-xl text-forest">
+                See what&rsquo;s free and choose your time
+              </h3>
+              <p className="mt-2 max-w-md leading-[1.75] text-muted">
+                Counselling, assessments and reflective sessions — online, in
+                person, or over the phone.
+              </p>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <Link
+                  href={bookingCta.href}
+                  className="inline-flex items-center gap-2 rounded-full bg-forest px-6 py-3 text-sm font-medium text-paper shadow-soft transition-all duration-300 ease-soft hover:-translate-y-0.5 hover:bg-forest-deep hover:shadow-lift active:translate-y-0 active:scale-[0.985]"
+                >
+                  <CalendarDays className="size-4" aria-hidden="true" />
+                  {bookingCta.label}
+                </Link>
+                <a
+                  href={site.phone.whatsapp}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full bg-mint px-6 py-3 text-sm font-medium text-forest shadow-soft transition-all duration-300 ease-soft hover:-translate-y-0.5 hover:shadow-lift active:translate-y-0 active:scale-[0.985]"
+                >
+                  <WhatsAppIcon className="size-4" />
+                  WhatsApp to book
+                </a>
               </div>
-            )}
+            </div>
           </Reveal>
         </Container>
       </Section>

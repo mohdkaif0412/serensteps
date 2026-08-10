@@ -180,6 +180,26 @@ function organizationNode(): Json {
       description: offer.description,
       url: offer.url,
     })),
+    // The practice takes its own bookings, so say where. `ReserveAction` is what
+    // turns a "book" intent in search and assistants into this page rather than
+    // a phone number.
+    potentialAction: {
+      "@type": "ReserveAction",
+      name: "Book a session",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${site.url}${site.booking.path}`,
+        inLanguage: "en",
+        actionPlatform: [
+          "https://schema.org/DesktopWebPlatform",
+          "https://schema.org/MobileWebPlatform",
+        ],
+      },
+      result: {
+        "@type": "Reservation",
+        name: "Counselling or reflective session",
+      },
+    },
     ...(site.practitioner
       ? { employee: { "@id": PERSON_ID }, founder: { "@id": PERSON_ID } }
       : {}),

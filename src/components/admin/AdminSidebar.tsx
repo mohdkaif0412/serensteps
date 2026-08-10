@@ -9,6 +9,10 @@ import {
   CircleHelp,
   Quote,
   Inbox,
+  CalendarDays,
+  Users,
+  Clock,
+  Sparkles,
   LogOut,
   ExternalLink,
   Menu,
@@ -17,12 +21,18 @@ import {
 import { Logo } from "@/components/ui/Logo";
 import { cn } from "@/lib/utils";
 
+// Two groups: the practice's day-to-day (who's coming, when, and who they are)
+// above the website's content.
 const nav = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
+  { href: "/admin/bookings", label: "Bookings", icon: CalendarDays },
+  { href: "/admin/clients", label: "Clients", icon: Users },
+  { href: "/admin/availability", label: "Availability", icon: Clock },
+  { href: "/admin/session-types", label: "Session types", icon: Sparkles },
+  { href: "/admin/submissions", label: "Messages", icon: Inbox },
   { href: "/admin/posts", label: "Blog posts", icon: FileText },
   { href: "/admin/faqs", label: "FAQs", icon: CircleHelp },
   { href: "/admin/testimonials", label: "Testimonials", icon: Quote },
-  { href: "/admin/submissions", label: "Messages", icon: Inbox },
 ];
 
 export function AdminSidebar({

@@ -61,6 +61,35 @@ name from `site.name` rather than hardcoding it.
 - Zod schemas in `src/lib`; infer types from them (`z.infer`). Validate every form.
 - Respect `prefers-reduced-motion` everywhere (see `Reveal` and `globals.css`).
 
+## Booking
+
+The practice runs its own calendar — there is no Cal.com/Calendly to configure.
+
+- **Availability is wall clock; bookings are instants.** `AvailabilityRule` stores
+  minutes from local midnight in one fixed practice timezone (`BOOKING_TIMEZONE`),
+  because "Tuesdays 10–6" is what the practitioner means. `Booking.startsAt` is
+  UTC. Convert only through `src/lib/booking/timezone.ts` — never `new Date()`
+  arithmetic on a local date.
+- `src/lib/booking/slots.ts` is pure and is the single definition of what's
+  offerable. The public picker, the submit-time re-check and the admin's
+  reschedule all call it, so a slot the browser sends back is always re-derived
+  server-side before anything is written. Never trust the posted time.
+- A booking arrives as `PENDING` and only becomes `CONFIRMED` when the
+  practitioner confirms it in the admin — that's also where the meeting link or
+  address is captured, because that action sends the confirmation email. Never
+  word anything on the public side as "confirmed" before then.
+- One state machine, two shells: `useBookingFlow` holds every question and every
+  validation; `BookingFlow` (the /book page) and `BookingChat` (the floating
+  assistant) only decide how it looks. Anything about *what* is asked goes in the
+  hook or a step component, never in a shell.
+- The assistant is scripted, not an LLM, and deliberately so — see the note in
+  `BookingChat.tsx`. The crisis line in `src/lib/content/booking.ts` is
+  load-bearing: keep it visible on the time step and in the assistant.
+- `/booking/[token]` is the client's own page. The token is the only credential,
+  so it stays out of the sitemap, carries `noindex`, and is disallowed in
+  `robots.ts`. Emails and page copy live in `src/lib/booking/emails.ts` and
+  `src/lib/content/booking.ts` respectively.
+
 ## Local dev
 
 - `npm run dev` — start the site at http://localhost:3000

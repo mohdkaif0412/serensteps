@@ -1,7 +1,10 @@
 import { prisma, withDbFallback } from "@/lib/db";
 import { postCover } from "@/lib/images";
 import { readingMinutes } from "@/lib/utils";
-import type { Post as DbPost } from "@/generated/prisma";
+import { bookingConfig } from "@/lib/booking/config";
+import { ACTIVE_STATUSES, type SessionMode } from "@/lib/booking/constants";
+import { buildSlots, type BusyInterval, type DaySlots } from "@/lib/booking/slots";
+import type { Post as DbPost, SessionType } from "@/generated/prisma";
 
 // Every read here is wrapped in `withDbFallback` because these queries also run
 // during `next build` (prerendering, sitemap, feed, generateStaticParams). With
@@ -185,5 +188,146 @@ export async function getPublishedTestimonials(): Promise<PublicTestimonial[]> {
       role: t.role,
       quote: t.quote,
     }));
+  }, []);
+}
+
+// ─── Booking ─────────────────────────────────────────────────────
+
+export type PublicSessionType = {
+  slug: string;
+  name: string;
+  blurb: string;
+  durationMin: number;
+  modes: SessionMode[];
+  /** Display only — no payment is taken online. Empty when unset. */
+  price: string;
+};
+
+function toPublicSessionType(type: SessionType): PublicSessionType {
+  return {
+    slug: type.slug,
+    name: type.name,
+    blurb: type.blurb ?? "",
+    durationMin: type.durationMin,
+    modes: type.modes as SessionMode[],
+    price: type.price ?? "",
+  };
+}
+
+/** The offerings shown in the booking flow, in the practitioner's order. */
+export async function getActiveSessionTypes(): Promise<PublicSessionType[]> {
+  return withDbFallback(async () => {
+    const types = await prisma.sessionType.findMany({
+      where: { active: true },
+      orderBy: [{ order: "asc" }, { createdAt: "asc" }],
+    });
+    return types.map(toPublicSessionType);
+  }, []);
+}
+
+/**
+ * Every time already spoken for, padded by the buffer of whatever is booked
+ * there. Anything cancelled or marked no-show frees its slot again.
+ */
+async function collectBusy(from: Date, until: Date): Promise<BusyInterval[]> {
+  const bookings = await prisma.booking.findMany({
+    where: {
+      status: { in: ACTIVE_STATUSES },
+      startsAt: { gte: new Date(from.getTime() - 24 * 3_600_000), lte: until },
+    },
+    select: {
+      id: true,
+      startsAt: true,
+      endsAt: true,
+      sessionType: { select: { bufferMin: true } },
+    },
+  });
+  return bookings.map((booking) => ({
+    startsAt: booking.startsAt,
+    endsAt: new Date(
+      booking.endsAt.getTime() + booking.sessionType.bufferMin * 60_000,
+    ),
+  }));
+}
+
+/**
+ * Offerable start times for a session type, day by day across the horizon.
+ *
+ * `excludeBookingId` lets the admin reschedule a booking into a window that its
+ * own current slot would otherwise appear to block.
+ */
+export async function computeSlotsFor(
+  type: Pick<SessionType, "durationMin" | "bufferMin">,
+  options: { excludeBookingId?: string; from?: Date } = {},
+): Promise<DaySlots[]> {
+  const from = options.from ?? new Date();
+  const until = new Date(
+    from.getTime() + (bookingConfig.horizonDays + 2) * 86_400_000,
+  );
+
+  const [rules, exceptions, busyAll] = await Promise.all([
+    prisma.availabilityRule.findMany({ where: { active: true } }),
+    prisma.availabilityException.findMany({
+      where: { date: { gte: new Date(from.getTime() - 86_400_000), lte: until } },
+    }),
+    collectBusy(from, until),
+  ]);
+
+  const busy = options.excludeBookingId
+    ? await excludeBooking(busyAll, options.excludeBookingId)
+    : busyAll;
+
+  return buildSlots({
+    timeZone: bookingConfig.timeZone,
+    rules,
+    exceptions,
+    busy,
+    durationMin: type.durationMin,
+    bufferMin: type.bufferMin,
+    slotStepMin: bookingConfig.slotStepMin,
+    leadTimeHours: bookingConfig.leadTimeHours,
+    horizonDays: bookingConfig.horizonDays,
+    from,
+  });
+}
+
+/** Drop one booking's own interval from the busy list, matched on its times. */
+async function excludeBooking(busy: BusyInterval[], bookingId: string) {
+  const booking = await prisma.booking.findUnique({
+    where: { id: bookingId },
+    select: { startsAt: true },
+  });
+  if (!booking) return busy;
+  return busy.filter(
+    (interval) => interval.startsAt.getTime() !== booking.startsAt.getTime(),
+  );
+}
+
+/**
+ * One booking, looked up by the unguessable token in the client's email. This
+ * is the only unauthenticated read of personal data on the site — the token is
+ * the credential, so it is never listed, linked, or put in a sitemap.
+ */
+export async function getBookingByToken(token: string) {
+  if (!token.trim()) return null;
+  return withDbFallback(
+    () =>
+      prisma.booking.findUnique({
+        where: { token },
+        include: { client: true, sessionType: true },
+      }),
+    null,
+  );
+}
+
+/** Public slot lookup by slug. Empty when the type is retired or unknown. */
+export async function getAvailableSlots(slug: string): Promise<DaySlots[]> {
+  return withDbFallback(async () => {
+    const type = await prisma.sessionType.findFirst({
+      where: { slug, active: true },
+      select: { durationMin: true, bufferMin: true },
+    });
+    if (!type) return [];
+    return computeSlotsFor(type);
   }, []);
 }

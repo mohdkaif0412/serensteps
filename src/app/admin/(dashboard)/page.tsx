@@ -7,20 +7,34 @@ import {
   Plus,
   ArrowRight,
   Circle,
+  CalendarDays,
+  CalendarClock,
+  Users,
 } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { bookingConfig } from "@/lib/booking/config";
+import { formatTime, utcToZoned } from "@/lib/booking/timezone";
 import { formatDate } from "@/lib/utils";
 
 export const metadata = { title: "Dashboard" };
 
 export default async function DashboardPage() {
+  const now = new Date();
+  const endOfToday = new Date(now);
+  endOfToday.setHours(23, 59, 59, 999);
+  const weekAhead = new Date(now.getTime() + 7 * 86_400_000);
+
   const [
     published,
     drafts,
     faqCount,
     testimonialCount,
     newMessages,
+    pendingBookings,
+    clientCount,
+    todaysSessions,
+    upcoming,
     recentPosts,
     recentMessages,
   ] = await Promise.all([
@@ -29,6 +43,23 @@ export default async function DashboardPage() {
     prisma.faq.count(),
     prisma.testimonial.count(),
     prisma.contactSubmission.count({ where: { handled: false } }),
+    prisma.booking.count({ where: { status: "PENDING" } }),
+    prisma.client.count(),
+    prisma.booking.count({
+      where: {
+        status: { in: ["PENDING", "CONFIRMED"] },
+        startsAt: { gte: now, lte: endOfToday },
+      },
+    }),
+    prisma.booking.findMany({
+      where: {
+        status: { in: ["PENDING", "CONFIRMED"] },
+        startsAt: { gte: now, lte: weekAhead },
+      },
+      include: { client: true, sessionType: true },
+      orderBy: { startsAt: "asc" },
+      take: 6,
+    }),
     prisma.post.findMany({ orderBy: { updatedAt: "desc" }, take: 5 }),
     prisma.contactSubmission.findMany({
       orderBy: { createdAt: "desc" },
@@ -36,12 +67,16 @@ export default async function DashboardPage() {
     }),
   ]);
 
+  // Booking first: it's what the practice actually runs on day to day.
   const stats = [
+    { label: "Requests waiting", value: pendingBookings, href: "/admin/bookings?view=pending", icon: CalendarDays, highlight: pendingBookings > 0 },
+    { label: "Sessions today", value: todaysSessions, href: "/admin/bookings?view=upcoming", icon: CalendarClock },
+    { label: "Clients", value: clientCount, href: "/admin/clients", icon: Users },
+    { label: "New messages", value: newMessages, href: "/admin/submissions", icon: Inbox, highlight: newMessages > 0 },
     { label: "Published posts", value: published, href: "/admin/posts", icon: FileText },
     { label: "Drafts", value: drafts, href: "/admin/posts", icon: FileText },
     { label: "FAQs", value: faqCount, href: "/admin/faqs", icon: CircleHelp },
     { label: "Testimonials", value: testimonialCount, href: "/admin/testimonials", icon: Quote },
-    { label: "New messages", value: newMessages, href: "/admin/submissions", icon: Inbox, highlight: newMessages > 0 },
   ];
 
   return (
@@ -90,7 +125,61 @@ export default async function DashboardPage() {
         })}
       </div>
 
-      <div className="mt-6 grid gap-5 sm:mt-8 sm:gap-6 lg:grid-cols-2">
+      {/* The next week of sessions — the thing worth seeing first each morning. */}
+      <section className="mt-6 min-w-0 overflow-hidden rounded-2xl border border-sage-deep/20 bg-paper p-5 shadow-soft sm:mt-8 sm:p-6">
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="font-display text-xl text-forest">Next seven days</h2>
+          <Link
+            href="/admin/bookings"
+            className="inline-flex items-center gap-1 text-sm text-muted transition-colors hover:text-forest"
+          >
+            All bookings <ArrowRight className="size-3.5" aria-hidden="true" />
+          </Link>
+        </div>
+        {upcoming.length ? (
+          <ul className="divide-y divide-sage-deep/15">
+            {upcoming.map((booking) => {
+              const when = utcToZoned(booking.startsAt, bookingConfig.timeZone);
+              return (
+                <li key={booking.id} className="min-w-0">
+                  <Link
+                    href={`/admin/bookings/${booking.id}`}
+                    className="flex min-w-0 items-center gap-3 py-3 transition-colors hover:text-mint-deep"
+                  >
+                    <span className="grid w-14 shrink-0 place-items-center rounded-lg bg-sage py-1 text-forest">
+                      <span className="font-display text-lg leading-none">
+                        {when.day}
+                      </span>
+                      <span className="text-[0.62rem] uppercase tracking-[0.12em]">
+                        {formatTime(booking.startsAt, bookingConfig.timeZone)}
+                      </span>
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block truncate text-sm text-forest">
+                        {booking.client.name}
+                      </span>
+                      <span className="block truncate text-xs text-muted">
+                        {booking.sessionType.name}
+                      </span>
+                    </span>
+                    {booking.status === "PENDING" && (
+                      <span className="shrink-0 rounded-full bg-sand px-2.5 py-0.5 text-xs font-medium text-forest">
+                        Needs confirming
+                      </span>
+                    )}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        ) : (
+          <p className="py-6 text-center text-sm text-muted">
+            Nothing booked in the next week.
+          </p>
+        )}
+      </section>
+
+      <div className="mt-6 grid gap-5 sm:gap-6 lg:grid-cols-2">
         {/* Recent posts */}
         <section className="min-w-0 overflow-hidden rounded-2xl border border-sage-deep/20 bg-paper p-5 shadow-soft sm:p-6">
           <div className="mb-4 flex items-center justify-between">

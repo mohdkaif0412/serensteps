@@ -23,7 +23,11 @@ export function Footer() {
       {/* Organic top edge — the footer rises out of whatever section precedes it. */}
       <WaveEdge className="-mb-px text-forest-deep" />
       <div className="bg-forest-deep text-paper">
-        <Container className="pb-12 pt-10 sm:pb-14 sm:pt-12">
+        {/* The bottom padding is deliberately generous: the booking assistant's
+            launcher is fixed to the bottom-right, and the legal links here are
+            right-aligned from sm up — without this the pill sits on top of them
+            once you reach the end of the page. */}
+        <Container className="pb-24 pt-10 sm:pt-12">
           {/* Closing moment: one quiet, confident line. */}
           <div className="flex flex-col gap-8 border-b border-sage/10 pb-12 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-xl">
