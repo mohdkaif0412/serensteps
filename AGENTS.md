@@ -12,7 +12,7 @@ name from `site.name` rather than hardcoding it.
 - Next.js 15 (App Router) + TypeScript (strict), React 19
 - Tailwind CSS v4 (tokens defined in `src/app/globals.css` via `@theme`)
 - Framer Motion (`motion/react`) — restrained, reduced-motion aware
-- Prisma + PostgreSQL, Auth.js (NextAuth v5) Credentials, Tiptap, Cloudinary, Resend, Cal.com
+- Prisma + PostgreSQL, Auth.js (NextAuth v5) Credentials, Tiptap, Cloudinary, Nodemailer (SMTP), Cal.com
 - Server Actions for mutations; Route Handlers only for webhooks/endpoints
 
 ## Conventions

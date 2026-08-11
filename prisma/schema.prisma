@@ -1,6 +1,19 @@
 // Serene Steps — data model.
 //
 // Postgres (Neon), shared by local dev and production via DATABASE_URL.
+//
+// One URL, deliberately. On Neon that URL should be the *pooled* (-pooler)
+// endpoint: idle compute is suspended and direct connections are then dropped
+// with a FATAL 57P01, which the pooler absorbs. `prisma db push` runs its DDL
+// through that pooled connection perfectly well — verified against this
+// database — so there is no `directUrl` here. That matters more than it looks:
+// a second env var would have to be defined in CI, the Dockerfile builder,
+// docker-compose and every host, and a single miss fails *every* prisma
+// command with P1012 rather than anything self-explanatory.
+//
+// If a future schema change ever does need a real session, pass the unpooled
+// URL for that one command instead of wiring a permanent variable:
+//   DATABASE_URL="<unpooled url>" npx prisma db push
 
 generator client {
   provider = "prisma-client-js"
@@ -9,14 +22,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  // Pooled (PgBouncer) endpoint for the app itself. Neon suspends idle compute
-  // and kills direct connections with a FATAL 57P01; the pooler absorbs that,
-  // so a request that lands during a wake-up reconnects instead of failing.
   url      = env("DATABASE_URL")
-  // `db push` and migrations need a real session, which transaction-mode
-  // pooling can't give them — so they get the direct endpoint. Falls back to
-  // DATABASE_URL when unset, which keeps a single-URL setup working.
-  directUrl = env("DIRECT_DATABASE_URL")
 }
 
 model User {

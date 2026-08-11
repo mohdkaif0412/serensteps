@@ -1,10 +1,13 @@
 /**
  * Outbound email, in one place.
  *
- * Resend is optional everywhere: with `RESEND_API_KEY` unset, `sendEmail` quietly
- * no-ops and returns `false`. Nothing user-facing may ever fail because of an
- * email — a contact message and a booking request are both saved first, then the
- * email is attempted.
+ * SMTP (via Nodemailer) is optional everywhere: with `SMTP_HOST` unset,
+ * `sendEmail` quietly no-ops and returns `false`. Nothing user-facing may ever
+ * fail because of an email — a contact message and a booking request are both
+ * saved first, then the email is attempted.
+ *
+ * The transporter is created once and reused across calls (Nodemailer pools
+ * connections internally), rather than reconnecting to the SMTP server per send.
  *
  * Note the hex codes below. Email clients have no access to the Tailwind theme,
  * so the palette has to be inlined here — these are the same values as the
@@ -12,7 +15,7 @@
  * the only place outside that stylesheet where they should appear.
  */
 
-import { Resend } from "resend";
+import nodemailer, { type Transporter } from "nodemailer";
 import { site } from "@/lib/site";
 
 const palette = {
@@ -50,6 +53,47 @@ export function escapeHtml(value: string) {
 }
 
 /**
+ * A plain-text alternative for the HTML body. Spam filters weight HTML-only
+ * mail (no `text/plain` part) heavily, so every send includes one.
+ */
+function htmlToText(html: string) {
+  return html
+    .replace(/<style[\s\S]*?<\/style>/gi, "")
+    .replace(/<a\s[^>]*href=["']([^"']+)["'][^>]*>(.*?)<\/a>/gi, "$2 ($1)")
+    .replace(/<\/(p|div|tr|h1|h2|h3)>/gi, "\n")
+    .replace(/<br\s*\/?>/gi, "\n")
+    .replace(/<[^>]+>/g, "")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/[ \t]+/g, " ")
+    .replace(/\n\s*\n\s*\n+/g, "\n\n")
+    .trim();
+}
+
+let transporter: Transporter | undefined;
+
+/** Built once per server process and reused — Nodemailer pools the SMTP connection. */
+function getTransporter(): Transporter | undefined {
+  const host = process.env.SMTP_HOST;
+  if (!host) return undefined;
+  if (transporter) return transporter;
+
+  const port = Number.parseInt(process.env.SMTP_PORT ?? "465", 10);
+  transporter = nodemailer.createTransport({
+    host,
+    port,
+    secure: port === 465,
+    auth: process.env.SMTP_USER
+      ? { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS }
+      : undefined,
+  });
+  return transporter;
+}
+
+/**
  * Send one email. Returns whether it actually went out, and never throws —
  * callers treat email as best-effort.
  */
@@ -60,23 +104,24 @@ export async function sendEmail({
   replyTo,
   attachments,
 }: SendEmailInput): Promise<boolean> {
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey || !to || (Array.isArray(to) && to.length === 0)) return false;
+  const smtp = getTransporter();
+  if (!smtp || !to || (Array.isArray(to) && to.length === 0)) return false;
 
   try {
-    const resend = new Resend(apiKey);
-    const from = process.env.CONTACT_FROM ?? `${site.name} <onboarding@resend.dev>`;
-    await resend.emails.send({
+    const from = process.env.SMTP_FROM ?? `${site.name} <${site.email}>`;
+    await smtp.sendMail({
       from,
       to,
       subject,
       html,
+      text: htmlToText(html),
       ...(replyTo ? { replyTo } : {}),
       ...(attachments?.length
         ? {
             attachments: attachments.map((file) => ({
               filename: file.filename,
               content: Buffer.from(file.content).toString("base64"),
+              encoding: "base64",
             })),
           }
         : {}),

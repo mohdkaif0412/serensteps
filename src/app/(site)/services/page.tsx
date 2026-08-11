@@ -235,12 +235,22 @@ function ServiceCard({ service, video }: { service: Service; video: SiteVideo })
           ))}
         </ul>
 
-        <span className="mt-6 inline-flex items-center gap-2 pt-1 text-sm font-medium text-mint-deep">
-          Explore this service
-          <ArrowRight
-            className="size-4 transition-transform duration-300 group-hover:translate-x-1"
-            aria-hidden="true"
-          />
+        {/* `mt-auto` pins this to the bottom of the card. Without it the three
+            cards' calls-to-action sit at different heights, because the chip
+            lists above wrap to a different number of rows.
+
+            A span, not a button: the whole card is already the <Link>, and a
+            nested interactive element would be invalid and confuse the keyboard
+            order. It only has to *read* as pressable — the group-hover states
+            below come from the card, so the pill fills the moment the card is
+            hovered or focused. */}
+        <span className="mt-auto block pt-6">
+          <span className="inline-flex items-center gap-3 rounded-full border border-mint-deep/40 bg-paper py-1.5 pl-5 pr-1.5 text-sm font-semibold text-forest shadow-soft transition-all duration-500 ease-soft group-hover:border-forest group-hover:bg-forest group-hover:text-paper group-hover:shadow-lift">
+            Explore this service
+            <span className="grid size-8 shrink-0 place-items-center rounded-full bg-mint text-forest transition-transform duration-500 ease-soft group-hover:translate-x-0.5">
+              <ArrowRight className="size-4" strokeWidth={2.2} aria-hidden="true" />
+            </span>
+          </span>
         </span>
       </div>
     </Link>

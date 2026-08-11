@@ -72,12 +72,15 @@ export function ServicesPreview() {
                   <p className="mt-3 line-clamp-3 leading-relaxed text-muted">{row.blurb}</p>
                 </div>
 
-                <span className="w-full flex item-center justify-center mt-6 inline-flex items-center gap-2 self-start rounded-full bg-mint-soft px-5 py-2.5 text-sm font-semibold text-forest transition-all duration-300 ease-soft group-hover:bg-mint group-hover:shadow-soft">
-                  Learn more
-                  <ArrowRight
-                    className="size-4 transition-transform duration-300 group-hover:translate-x-0.5"
-                    aria-hidden="true"
-                  />
+                {/* Same pill as the cards on /services, so the two pages agree
+                    on what "there's more behind this" looks like. */}
+                <span className="mt-6 flex justify-center">
+                  <span className="inline-flex items-center gap-3 rounded-full border border-mint-deep/40 bg-paper py-1.5 pl-5 pr-1.5 text-sm font-semibold text-forest shadow-soft transition-all duration-500 ease-soft group-hover:border-forest group-hover:bg-forest group-hover:text-paper group-hover:shadow-lift">
+                    Learn more
+                    <span className="grid size-8 shrink-0 place-items-center rounded-full bg-mint text-forest transition-transform duration-500 ease-soft group-hover:translate-x-0.5">
+                      <ArrowRight className="size-4" strokeWidth={2.2} aria-hidden="true" />
+                    </span>
+                  </span>
                 </span>
               </Link>
             </Reveal>
