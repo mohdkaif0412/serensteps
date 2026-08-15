@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { fetchSlots, requestBooking } from "@/actions/booking";
-import type { DaySlots } from "@/lib/booking/slots";
+import { slotsFromGrid, EMPTY_SLOT_GRID, type SlotGrid } from "@/lib/booking/slots";
 import type { PublicSessionType } from "@/lib/queries";
 import type { SessionMode } from "@/lib/booking/constants";
 import { bookingSchema } from "@/lib/validation";
@@ -49,7 +49,8 @@ export function useBookingFlow(sessionTypes: PublicSessionType[]) {
   const [startsAt, setStartsAt] = useState<string | null>(null);
   const [details, setDetails] = useState<BookingDetails>(emptyDetails);
 
-  const [days, setDays] = useState<DaySlots[]>([]);
+  // The chart is the source of truth; `days` below is just it, filtered.
+  const [grid, setGrid] = useState<SlotGrid>(EMPTY_SLOT_GRID);
   const [loadingSlots, setLoadingSlots] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -65,13 +66,15 @@ export function useBookingFlow(sessionTypes: PublicSessionType[]) {
     setLoadingSlots(true);
     try {
       const result = await fetchSlots(slug);
-      if (requestId.current === id) setDays(result);
+      if (requestId.current === id) setGrid(result);
     } catch {
-      if (requestId.current === id) setDays([]);
+      if (requestId.current === id) setGrid(EMPTY_SLOT_GRID);
     } finally {
       if (requestId.current === id) setLoadingSlots(false);
     }
   }, []);
+
+  const days = useMemo(() => slotsFromGrid(grid), [grid]);
 
   const chooseSessionType = useCallback(
     (type: PublicSessionType) => {
@@ -197,7 +200,7 @@ export function useBookingFlow(sessionTypes: PublicSessionType[]) {
     setMode(null);
     setStartsAt(null);
     setDetails(emptyDetails);
-    setDays([]);
+    setGrid(EMPTY_SLOT_GRID);
     setError(null);
     setFieldErrors({});
     setToken(null);
@@ -226,6 +229,9 @@ export function useBookingFlow(sessionTypes: PublicSessionType[]) {
     mode,
     startsAt,
     details,
+    /** Every candidate time with its status — what the chart draws. */
+    grid,
+    /** The same thing, narrowed to what's bookable. */
     days,
     loadingSlots,
     submitting,

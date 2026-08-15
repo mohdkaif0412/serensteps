@@ -10,6 +10,7 @@ import {
   Quote,
   Inbox,
   CalendarDays,
+  CalendarRange,
   Users,
   Clock,
   Sparkles,
@@ -25,6 +26,7 @@ import { cn } from "@/lib/utils";
 // above the website's content.
 const nav = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
+  { href: "/admin/calendar", label: "Calendar", icon: CalendarRange },
   { href: "/admin/bookings", label: "Bookings", icon: CalendarDays },
   { href: "/admin/clients", label: "Clients", icon: Users },
   { href: "/admin/availability", label: "Availability", icon: Clock },
@@ -69,7 +71,7 @@ export function AdminSidebar({
             onClick={() => setOpen(false)}
             aria-current={active ? "page" : undefined}
             className={cn(
-              "group relative flex items-center gap-3 rounded-xl border-l-4 px-2.5 py-2.5 text-sm font-medium transition-all duration-200",
+              "group relative flex items-center gap-3 rounded-lg border-l-4 px-2.5 py-2 text-sm font-medium transition-all duration-200",
               active
                 ? "border-mint bg-forest text-paper shadow-soft"
                 : "border-transparent text-forest/70 hover:translate-x-0.5 hover:bg-sage/60 hover:text-forest",
@@ -170,7 +172,7 @@ export function AdminSidebar({
               <X className="size-5" />
             </button>
           </div>
-          <div className="mt-8 flex-1">{navList}</div>
+          <div className="mt-4 flex-1">{navList}</div>
           {footerBlock}
         </div>
       </div>
@@ -183,7 +185,7 @@ export function AdminSidebar({
         {/* <p className="mt-2 px-2 text-[0.7rem] uppercase tracking-[0.16em] text-muted">
           Content admin
         </p> */}
-        <div className="mt-8 flex-1">{navList}</div>
+        <div className="mt-4 flex-1">{navList}</div>
         {footerBlock}
       </aside>
     </>

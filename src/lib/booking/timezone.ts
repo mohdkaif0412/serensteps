@@ -194,6 +194,17 @@ export function sameWallClock(date: Date, a: string, b: string) {
   return formatTime(date, a) === formatTime(date, b);
 }
 
+/**
+ * Minutes from practice-local midnight → "10:00 am".
+ *
+ * The chart's time axis is wall clock, not an instant — there is no single date
+ * behind a row that spans a whole week. Formatting a fixed UTC date *as* UTC
+ * turns the minutes into a label without inventing a day for them.
+ */
+export function formatMinutes(minutes: number) {
+  return formatTime(new Date(Date.UTC(2000, 0, 1, 0, minutes)), "UTC");
+}
+
 /** Minutes from midnight → "10:00" / "6:30 pm"-free 24h label for the admin. */
 export function minutesToLabel(minutes: number) {
   const h = Math.floor(minutes / 60);

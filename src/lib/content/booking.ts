@@ -90,6 +90,41 @@ export const bookingLabels = {
 } as const;
 
 /**
+ * The availability chart's own words.
+ *
+ * The chart shows taken times as well as free ones, which is a deliberate
+ * choice: three lonely slots look arbitrary, where three slots among a week of
+ * "booked" reads as a working diary and tells someone whether it's worth
+ * waiting for a Tuesday. That only helps if the states are named plainly, so
+ * they're named here rather than left to colour alone.
+ */
+export const chartLabels = {
+  legend: {
+    free: "Free to book",
+    booked: "Already booked",
+    unavailable: "Unavailable",
+  },
+  /** Read out to screen readers, and shown on hover. */
+  status: {
+    free: "free to book",
+    booked: "already booked",
+    past: "too soon to book",
+  },
+  freeCell: "Free",
+  /**
+   * A day with no hours at all gets one label down the whole column rather than
+   * a stack of identical empty cells — it reads as a closed day instead of as a
+   * gap in the data, and it costs a column of noise to say it any other way.
+   */
+  closedColumn: "Closed",
+  holidayColumn: "Holiday",
+  weekEmpty: "Nothing free this week — try the next one",
+  dayClosed: "We're closed this day. Try another — the chart shows the whole week.",
+  dayNothing: "Nothing runs on this day. Try another.",
+  note: "Only free times can be chosen — booked ones are shown so you can see the whole week.",
+} as const;
+
+/**
  * Load-bearing, not boilerplate. A booking form is not a crisis service, and
  * saying so plainly — with somewhere else to go — matters more than the flow
  * looking tidy. Keep this visible on the time step and in the assistant.

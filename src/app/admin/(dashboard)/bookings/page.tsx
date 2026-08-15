@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CalendarDays } from "lucide-react";
+import { CalendarDays, CalendarRange } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { EmptyState } from "@/components/admin/EmptyState";
@@ -85,12 +85,21 @@ export default async function AdminBookingsPage({
             : "Every session requested through the site."
         }
         action={
-          <Link
-            href="/admin/availability"
-            className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-sage-deep/30 px-5 py-2.5 text-sm font-medium text-forest transition hover:bg-sage/50 sm:w-auto"
-          >
-            Edit availability
-          </Link>
+          <div className="flex flex-wrap gap-2">
+            <Link
+              href="/admin/calendar"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-sage-deep/30 px-5 py-2.5 text-sm font-medium text-forest transition hover:bg-sage/50"
+            >
+              <CalendarRange className="size-4" aria-hidden="true" />
+              Calendar view
+            </Link>
+            <Link
+              href="/admin/availability"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-sage-deep/30 px-5 py-2.5 text-sm font-medium text-forest transition hover:bg-sage/50"
+            >
+              Edit availability
+            </Link>
+          </div>
         }
       />
 

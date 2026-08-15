@@ -5,8 +5,8 @@ import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { Prisma } from "@/generated/prisma";
 import { prisma } from "@/lib/db";
-import { computeSlotsFor, getAvailableSlots } from "@/lib/queries";
-import { isOfferedSlot } from "@/lib/booking/slots";
+import { computeSlotsFor, getAvailabilityGrid } from "@/lib/queries";
+import { isOfferedSlot, EMPTY_SLOT_GRID } from "@/lib/booking/slots";
 import { ACTIVE_STATUSES } from "@/lib/booking/constants";
 import {
   sendBookingCancelledEmail,
@@ -14,7 +14,7 @@ import {
   type BookingWithDetails,
 } from "@/lib/booking/emails";
 import { bookingSchema, cancelBookingSchema } from "@/lib/validation";
-import type { DaySlots } from "@/lib/booking/slots";
+import type { SlotGrid } from "@/lib/booking/slots";
 
 export type BookingResult =
   | { ok: true; token: string }
@@ -23,10 +23,17 @@ export type BookingResult =
 const GENERIC_ERROR =
   "Something went wrong on our side. Please try again, or WhatsApp us and we'll book you in ourselves.";
 
-/** Free times for a session type. Called by the flow whenever the type changes. */
-export async function fetchSlots(slug: string): Promise<DaySlots[]> {
-  if (typeof slug !== "string" || !slug.trim()) return [];
-  return getAvailableSlots(slug);
+/**
+ * The availability chart for a session type — free, booked and unavailable
+ * times alike. Called by the flow whenever the chosen type changes.
+ *
+ * Deliberately the whole picture and not just the free times: someone looking
+ * at an empty morning should be able to see whether it's taken or simply not a
+ * day we work. No client identity is included — only that a time is spoken for.
+ */
+export async function fetchSlots(slug: string): Promise<SlotGrid> {
+  if (typeof slug !== "string" || !slug.trim()) return EMPTY_SLOT_GRID;
+  return getAvailabilityGrid(slug);
 }
 
 // ─── A light per-IP throttle ─────────────────────────────────────

@@ -17,6 +17,19 @@ function positiveInt(value: string | undefined, fallback: number) {
   return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
 }
 
+/**
+ * Like `positiveInt`, but 0 is a real answer rather than "unset".
+ *
+ * Notice needed is the one setting where zero is meaningful and wanted: it says
+ * "same day is fine, just not a time that has already gone". Running it through
+ * `positiveInt` would silently swallow a deliberate 0 and fall back to the
+ * default, which is exactly the sort of quiet wrong answer that's hard to spot.
+ */
+function nonNegativeInt(value: string | undefined, fallback: number) {
+  const parsed = Number.parseInt(fromEnv(value), 10);
+  return Number.isFinite(parsed) && parsed >= 0 ? parsed : fallback;
+}
+
 /** A zone the runtime doesn't recognise would break every slot — check early. */
 function validTimeZone(value: string, fallback: string) {
   if (!value) return fallback;
@@ -32,8 +45,11 @@ function validTimeZone(value: string, fallback: string) {
 export const bookingConfig = {
   /** The one zone the practice's working hours are expressed in. */
   timeZone: validTimeZone(fromEnv(process.env.BOOKING_TIMEZONE), "Asia/Kolkata"),
-  /** How much notice is needed — slots sooner than this aren't offered. */
-  leadTimeHours: positiveInt(process.env.BOOKING_LEAD_TIME_HOURS, 12),
+  /**
+   * How much notice is needed — slots sooner than this aren't offered.
+   * 0 means same-day booking is open right up to the next free time.
+   */
+  leadTimeHours: nonNegativeInt(process.env.BOOKING_LEAD_TIME_HOURS, 12),
   /** How far ahead people can book. */
   horizonDays: positiveInt(process.env.BOOKING_HORIZON_DAYS, 45),
   /** Slot granularity within a working window. */
