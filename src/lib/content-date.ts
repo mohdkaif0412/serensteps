@@ -1,11 +1,11 @@
 /**
  * When the site's own copy last changed.
  *
- * Set `SITE_LAST_MODIFIED` to an ISO date (the release commit date is a good
- * choice in CI) and everything that needs to state a freshness date — the
- * sitemap's static routes, llms.txt, llms-full.txt — agrees on it. Without it,
- * the deploy/render time is used, which is the honest answer for hand-written
- * pages that ship with the build.
+ * Everything that states a freshness date — the sitemap's static routes,
+ * llms.txt, llms-full.txt — agrees on `SITE_LAST_MODIFIED`. next.config.ts
+ * fixes it at build time (an explicit env value, else the commit date, else
+ * the build time), so it stays put between deploys. The `new Date()` below is
+ * only a last resort for code run outside `next` (scripts, tests).
  */
 export function contentLastModified(): Date {
   const fromEnv = process.env.SITE_LAST_MODIFIED?.trim();
