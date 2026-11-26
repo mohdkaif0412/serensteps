@@ -1,5 +1,6 @@
-import type { Metadata } from "next";
 import Link from "next/link";
+import { pageMetadata } from "@/lib/seo";
+import { site } from "@/lib/site";
 import { ArrowRight } from "lucide-react";
 import { PageHeader } from "@/components/sections/PageHeader";
 import { Section } from "@/components/ui/Section";
@@ -10,12 +11,11 @@ import { getPublishedFaqGroups } from "@/lib/queries";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbJsonLd, faqPageJsonLd } from "@/lib/structured-data";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "FAQ",
-  description:
-    "Answers to common questions about starting therapy at Serene Steps — first sessions, our approach, booking, confidentiality, and how astrology and tarot are used.",
-  alternates: { canonical: "/faq" },
-};
+  description: `Answers to common questions about starting therapy at ${site.name}: first sessions, our approach, booking, confidentiality and how astrology and tarot are used.`,
+  path: "/faq",
+});
 
 // Safety net for a build that ran without a database — see the note in
 // src/app/(site)/page.tsx.

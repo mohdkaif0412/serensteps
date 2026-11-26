@@ -27,7 +27,7 @@ import {
   type Service,
 } from "@/lib/content/services";
 import { getPublishedTestimonials } from "@/lib/queries";
-import { site } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 
 type Params = { params: Promise<{ slug: string }> };
@@ -54,17 +54,11 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const service = getService(slug);
   if (!service) return {};
 
-  const title = `${service.title} Counselling`;
-  const description = summarise(service.intro);
-  const url = servicePath(service.slug);
-
-  return {
-    title,
-    description,
-    alternates: { canonical: url },
-    openGraph: { type: "website", title, description, url, siteName: site.name },
-    twitter: { card: "summary_large_image", title, description },
-  };
+  return pageMetadata({
+    title: `${service.title} Counselling`,
+    description: summarise(service.intro),
+    path: servicePath(service.slug),
+  });
 }
 
 /* ── Per-audience composition ─────────────────────────────────────── */

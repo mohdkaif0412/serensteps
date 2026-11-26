@@ -8,6 +8,19 @@ import { TestimonialsShowcase } from "@/components/sections/Testimonials";
 import { LatestPosts } from "@/components/sections/LatestPosts";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { getLatestPosts, getPublishedTestimonials } from "@/lib/queries";
+import { pageMetadata } from "@/lib/seo";
+import { site } from "@/lib/site";
+
+export const metadata = pageMetadata({
+  // With a service area configured, the title leads with the local search
+  // intent; without one it leads with the brand promise.
+  title: site.serviceArea
+    ? `${site.name} — Counselling & Therapy in ${site.serviceArea}`
+    : `${site.name} — ${site.tagline}`,
+  absoluteTitle: true,
+  description: `${site.name} offers counselling and psychological testing for children, teens, adults, couples and families, online and in person. Book your first session.`,
+  path: "/",
+});
 
 // Static-fast, but self-healing: admin edits already push through instantly via
 // revalidatePath, and this is the safety net for a build that ran without a

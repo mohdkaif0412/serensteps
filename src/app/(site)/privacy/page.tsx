@@ -1,14 +1,14 @@
-import type { Metadata } from "next";
 import { PageHeader } from "@/components/sections/PageHeader";
 import { Section } from "@/components/ui/Section";
 import { Container } from "@/components/ui/Container";
+import { pageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Privacy Notice",
-  description:
-    `How ${site.name} collects, uses, and protects your personal information.`,
-};
+  description: `How ${site.name} collects, uses and protects the personal information you share through this website, how long we keep it, and the rights you have over it.`,
+  path: "/privacy",
+});
 
 const html = `
 <p><em>Last updated 18 July 2026.</em></p>

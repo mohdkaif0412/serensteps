@@ -1,13 +1,14 @@
-import type { Metadata } from "next";
 import { PageHeader } from "@/components/sections/PageHeader";
 import { Section } from "@/components/ui/Section";
 import { Container } from "@/components/ui/Container";
+import { pageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Terms of Use",
-  description: `The terms that apply when you use the ${site.name} website, including how astrology and tarot are and aren't used.`,
-};
+  description: `The terms for using the ${site.name} website: why it isn't a crisis service, how astrology and tarot are used, and how bookings and cancellations work.`,
+  path: "/terms",
+});
 
 const html = `
 <p><em>Last updated 18 July 2026.</em></p>

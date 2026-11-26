@@ -10,11 +10,11 @@ import { PostCard } from "@/components/ui/PostCard";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { blogJsonLd, breadcrumbJsonLd } from "@/lib/structured-data";
 import { getPublishedPosts } from "@/lib/queries";
+import { pageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
-const DESCRIPTION =
-  "Gentle, practical writing on anxiety, relationships, parenting, starting therapy, and reflective practice — from the Serene Steps journal.";
+const DESCRIPTION = `Gentle, practical writing on anxiety, relationships, parenting, starting therapy and reflective practice, from the ${site.name} journal on mental wellness.`;
 
 /**
  * Self-referencing canonicals on paginated pages (page 2 shouldn't claim to be
@@ -28,14 +28,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { page: pageParam } = await searchParams;
   const page = Math.max(1, Number(pageParam) || 1);
-  return {
+  return pageMetadata({
     title: page > 1 ? `Journal — page ${page}` : "Journal",
     description: DESCRIPTION,
-    alternates: {
-      canonical: page > 1 ? `/blog?page=${page}` : "/blog",
-      types: { "application/rss+xml": `${site.url}/blog/feed.xml` },
-    },
-  };
+    path: page > 1 ? `/blog?page=${page}` : "/blog",
+    alternateTypes: { "application/rss+xml": `${site.url}/blog/feed.xml` },
+  });
 }
 
 export default async function BlogPage({

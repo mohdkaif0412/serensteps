@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
 import Link from "next/link";
+import { pageMetadata } from "@/lib/seo";
 import { Info } from "lucide-react";
 import { StepsPath } from "@/components/ui/StepsPath";
 import { PageHeader } from "@/components/sections/PageHeader";
@@ -19,12 +19,12 @@ import {
 } from "@/lib/content/resources";
 import { contentLastModifiedDate } from "@/lib/content-date";
 
-export const metadata: Metadata = {
-  title: "Resources — a plain-language guide to therapy terms",
+export const metadata = pageMetadata({
+  title: "Therapy Terms in Plain Language",
   description:
-    "What counselling, anxiety, boundaries, burnout, psychometric testing and reflective guidance actually mean — short, plain-language definitions from Serene Steps, with what each one looks like in a real session.",
-  alternates: { canonical: "/resources" },
-};
+    "Plain-language definitions of therapy terms like counselling, anxiety, boundaries, burnout and psychometric testing, and what each looks like in a session.",
+  path: "/resources",
+});
 
 /**
  * The definitional hub.

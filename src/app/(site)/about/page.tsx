@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
 import { ArrowRight } from "lucide-react";
+import { pageMetadata } from "@/lib/seo";
 import { StepsPath } from "@/components/ui/StepsPath";
 import { PageHeader } from "@/components/sections/PageHeader";
 import { FinalCta } from "@/components/sections/FinalCta";
@@ -17,12 +17,11 @@ import { aboutIntro, ourStory } from "@/lib/content/about";
 import { img } from "@/lib/images";
 import { bookingCta, site } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "About Us",
-  description:
-    "Serene Steps is a warm, non-clinical practice built on one belief: the strength to heal is already inside you. Read our story and the six values that shape every session.",
-  alternates: { canonical: "/about" },
-};
+  description: `${site.name} is built on one belief: the strength to heal is already inside you. Read our story and the six values that shape every counselling session.`,
+  path: "/about",
+});
 
 export default function AboutPage() {
   return (

@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
 import Link from "next/link";
+import { pageMetadata } from "@/lib/seo";
 import { Mail, Phone } from "lucide-react";
 import { PageHeader } from "@/components/sections/PageHeader";
 import { Section } from "@/components/ui/Section";
@@ -14,12 +14,11 @@ import { bookingConfig } from "@/lib/booking/config";
 import { bookingPage } from "@/lib/content/booking";
 import { site } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Book a session",
-  description:
-    "Choose a time for counselling, an assessment, or a reflective session with Serene Steps. Pick what suits you, tell us a little about what's bringing you here, and we'll confirm by email.",
-  alternates: { canonical: "/book" },
-};
+  description: `Book counselling, an assessment or a reflective session with ${site.name}. Pick a time that suits you, tell us what brings you here, and we'll confirm by email.`,
+  path: "/book",
+});
 
 // Session types are database-backed, so a database-less build self-heals.
 export const revalidate = 300;

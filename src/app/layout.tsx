@@ -17,11 +17,8 @@ const jakarta = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    // With a service area configured, the home title leads with the local
-    // search intent; without one it leads with the brand promise.
-    default: site.serviceArea
-      ? `${site.name} — Counselling & Therapy in ${site.serviceArea}`
-      : `${site.name} — ${site.tagline}`,
+    // Fallback only — the homepage sets its own (see app/(site)/page.tsx).
+    default: `${site.name} — ${site.tagline}`,
     template: `%s — ${site.name}`,
   },
   description: site.description,
@@ -48,18 +45,18 @@ export const metadata: Metadata = {
     shortcut: "/favicon.ico",
     apple: "/apple-icon.png",
   },
-  alternates: { canonical: "/" },
+  // Deliberately no `alternates.canonical`, og:title/og:url or twitter:title
+  // here. Next merges metadata shallowly, so anything set at the root is
+  // inherited by every page that doesn't override it — a root canonical of "/"
+  // once told Google that /privacy and /terms were duplicates of the homepage,
+  // and nine pages shared the homepage's og:title and og:url. Each page sets
+  // all of these together through `pageMetadata` (src/lib/seo.ts).
   openGraph: {
     type: "website",
     siteName: site.name,
-    title: `${site.name} — ${site.tagline}`,
-    description: site.description,
-    url: site.url,
   },
   twitter: {
     card: "summary_large_image",
-    title: `${site.name} — ${site.tagline}`,
-    description: site.description,
   },
 };
 

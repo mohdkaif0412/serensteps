@@ -16,6 +16,7 @@ import { PostCard } from "@/components/ui/PostCard";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { blogPostingJsonLd, breadcrumbJsonLd } from "@/lib/structured-data";
+import { pageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
 
 type Params = { params: Promise<{ slug: string }> };
@@ -34,30 +35,18 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const post = await getPublishedPostBySlug(slug);
   if (!post) return {};
 
-  const title = post.seoTitle || post.title;
-  const description = post.seoDescription || post.excerpt;
-  return {
-    title,
-    description,
-    alternates: { canonical: `/blog/${post.slug}` },
-    openGraph: {
-      type: "article",
-      title,
-      description,
-      url: `/blog/${post.slug}`,
+  return pageMetadata({
+    title: post.seoTitle || post.title,
+    description: post.seoDescription || post.excerpt,
+    path: `/blog/${post.slug}`,
+    images: [{ url: post.coverImage, alt: post.coverAlt }],
+    article: {
       publishedTime: post.publishedAt,
       modifiedTime: post.updatedAt,
       section: post.category,
       authors: [site.practitioner?.name ?? site.name],
-      images: [{ url: post.coverImage, alt: post.coverAlt }],
     },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: [post.coverImage],
-    },
-  };
+  });
 }
 
 export default async function PostPage({ params }: Params) {

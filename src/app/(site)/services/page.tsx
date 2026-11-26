@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
 import Link from "next/link";
+import { pageMetadata } from "@/lib/seo";
 import { ArrowRight, HeartHandshake, Sparkles } from "lucide-react";
 import { StepsPath } from "@/components/ui/StepsPath";
 import { PageHeader } from "@/components/sections/PageHeader";
@@ -31,12 +31,12 @@ import {
 import { img } from "@/lib/images";
 import { getPublishedTestimonials } from "@/lib/queries";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Services",
   description:
-    "Counselling and psychological testing for children & teens, individuals, and couples & families — plus optional reflective guidance through astrology and tarot. Explore how Serene Steps can support you, one step at a time.",
-  alternates: { canonical: "/services" },
-};
+    "Counselling and psychological testing for children & teens, individuals, and couples & families, plus optional astrology and tarot as reflective tools.",
+  path: "/services",
+});
 
 // Safety net for a build that ran without a database — see the note in
 // src/app/(site)/page.tsx.

@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
 import { StepsPath } from "@/components/ui/StepsPath";
+import { pageMetadata } from "@/lib/seo";
 import { Section } from "@/components/ui/Section";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
@@ -28,26 +28,11 @@ import {
 import { img } from "@/lib/images";
 import { site } from "@/lib/site";
 
-const DESCRIPTION =
-  "At Serene Steps, astrology and tarot are reflective tools, never predictions and never a substitute for mental-health treatment. Birth chart, year-ahead and relationship readings, and five tarot guidance sessions — each paired with psychological understanding.";
-
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Astrology & Tarot",
-  description: DESCRIPTION,
-  alternates: { canonical: REFLECTIVE_PATH },
-  openGraph: {
-    type: "website",
-    title: "Astrology & Tarot",
-    description: DESCRIPTION,
-    url: REFLECTIVE_PATH,
-    siteName: site.name,
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Astrology & Tarot",
-    description: DESCRIPTION,
-  },
-};
+  description: `At ${site.name}, astrology and tarot are reflective tools, never predictions and never a substitute for therapy. Explore chart readings and tarot sessions.`,
+  path: REFLECTIVE_PATH,
+});
 
 /**
  * The reflective offering, on a page of its own.

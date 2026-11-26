@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
 import Link from "next/link";
+import { pageMetadata } from "@/lib/seo";
 import { Mail, Phone, Clock, HeartHandshake, CalendarDays } from "lucide-react";
 import { PageHeader } from "@/components/sections/PageHeader";
 import { Section } from "@/components/ui/Section";
@@ -12,12 +12,11 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbJsonLd } from "@/lib/structured-data";
 import { site, bookingCta } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Contact & Booking",
-  description:
-    "Reach out to Serene Steps by email, phone, or WhatsApp — or book your first session. Take a step forward; we're here whenever you're ready.",
-  alternates: { canonical: "/contact" },
-};
+  description: `Reach ${site.name} by email, phone or WhatsApp, or book your first session. Take a step forward: there's no pressure, and we're here whenever you're ready.`,
+  path: "/contact",
+});
 
 const reassurances = [
   {
