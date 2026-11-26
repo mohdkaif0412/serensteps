@@ -44,9 +44,10 @@ export const revalidate = 300;
 
 const iconClass = "size-4.5";
 
-// A short, silent loop per audience in place of a still photograph — the
-// still photos remain each service's `poster` frame, so a slow connection or
-// `prefers-reduced-motion` still shows a graded, on-brand image.
+// A short, silent loop per audience in place of a still photograph. The still
+// is the poster, and it's all most readers download until a clip scrolls into
+// view — see components/ui/Video.tsx. Slow connections, Data Saver and
+// `prefers-reduced-motion` keep the graded still and never load the clip.
 const SERVICE_VIDEOS: Record<Service["slug"], SiteVideo> = {
   "children-teens": {
     src: "/videos/service-children-teens.mp4",
@@ -209,6 +210,7 @@ function ServiceCard({ service, video }: { service: Service; video: SiteVideo })
         <Video
           video={video}
           mask="soft"
+          sizes="(max-width: 1024px) 100vw, 30vw"
           className="aspect-[4/5] w-full rounded-[1.6rem] transition-transform duration-700 ease-soft group-hover:scale-[1.02]"
         />
       </div>
@@ -272,7 +274,12 @@ function AstrologyPanel({
     <div className="pt-10">
       <div className="grid gap-8 lg:grid-cols-12 lg:items-center lg:gap-12">
         <Reveal className="lg:col-span-5">
-          <Video video={video} mask="soft" className="aspect-[4/5] w-full shadow-soft" />
+          <Video
+            video={video}
+            mask="soft"
+            sizes="(max-width: 1024px) 100vw, 40vw"
+            className="aspect-[4/5] w-full shadow-soft"
+          />
         </Reveal>
 
         <Reveal delay={0.06} className="lg:col-span-7">
