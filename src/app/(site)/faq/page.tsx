@@ -23,10 +23,13 @@ export const revalidate = 300;
 
 export default async function FaqPage() {
   const groups = await getPublishedFaqGroups();
+  // An FAQPage with no questions is invalid markup — skip it when the database
+  // is empty or unreachable (e.g. a database-less build) rather than emit one.
+  const hasQuestions = groups.some((group) => group.items.length > 0);
 
   return (
     <>
-      <JsonLd data={faqPageJsonLd(groups)} />
+      {hasQuestions && <JsonLd data={faqPageJsonLd(groups)} />}
       <JsonLd data={breadcrumbJsonLd([{ name: "FAQ", path: "/faq" }])} />
       <PageHeader
         eyebrow="Questions & answers"

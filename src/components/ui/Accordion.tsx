@@ -1,7 +1,6 @@
 "use client";
 
 import { useId, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -12,7 +11,8 @@ export type AccordionItem = {
 
 /**
  * Accessible single-open disclosure list. Keyboard operable (native buttons),
- * proper aria-expanded / aria-controls wiring, reduced-motion aware.
+ * proper aria-expanded / aria-controls wiring, reduced-motion aware. Every
+ * answer is server-rendered, open or not — see the panel below.
  * One icon, one gesture: the plus rotates into a close mark.
  */
 export function Accordion({
@@ -23,7 +23,6 @@ export function Accordion({
   defaultOpen?: number | null;
 }) {
   const [open, setOpen] = useState<number | null>(defaultOpen);
-  const reduceMotion = useReducedMotion();
   const baseId = useId();
 
   return (
@@ -65,24 +64,30 @@ export function Accordion({
               </button>
             </h3>
 
-            <AnimatePresence initial={false}>
-              {isOpen && (
-                <motion.div
-                  id={panelId}
-                  role="region"
-                  aria-labelledby={buttonId}
-                  initial={reduceMotion ? false : { height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={reduceMotion ? { opacity: 0 } : { height: 0, opacity: 0 }}
-                  transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                  className="overflow-hidden"
-                >
-                  <p className="max-w-[62ch] px-1 pb-7 pr-8 leading-[1.8] text-muted sm:px-2 sm:pr-14">
-                    {item.answer}
-                  </p>
-                </motion.div>
+            {/* Always in the DOM, collapsed with CSS. The answer used to be
+                unmounted while closed, so the server HTML carried one answer
+                out of thirteen — crawlers that don't run JavaScript (most AI
+                bots) saw questions with no answers, and the FAQPage JSON-LD
+                described text that wasn't on the page. `inert` keeps a closed
+                answer out of the tab order and the accessibility tree, exactly
+                as unmounting did. Reduced motion is handled by the global
+                transition floor in globals.css. */}
+            <div
+              id={panelId}
+              role="region"
+              aria-labelledby={buttonId}
+              inert={!isOpen}
+              className={cn(
+                "grid transition-[grid-template-rows,opacity] duration-[350ms] ease-soft",
+                isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
               )}
-            </AnimatePresence>
+            >
+              <div className="overflow-hidden">
+                <p className="max-w-[62ch] px-1 pb-7 pr-8 leading-[1.8] text-muted sm:px-2 sm:pr-14">
+                  {item.answer}
+                </p>
+              </div>
+            </div>
           </div>
         );
       })}
