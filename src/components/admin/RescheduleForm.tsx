@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import { toast } from "sonner";
 import { rescheduleBooking } from "@/actions/admin-booking";
 import { initialFormState } from "@/lib/form-state";
@@ -39,9 +40,9 @@ export function RescheduleForm({
     return (
       <p className="text-sm text-muted">
         There are no free times to move this into. Open some hours in{" "}
-        <a href="/admin/availability" className="underline underline-offset-4">
+        <Link href="/admin/availability" className="underline underline-offset-4">
           Availability
-        </a>{" "}
+        </Link>{" "}
         first.
       </p>
     );

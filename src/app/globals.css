@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------ */
-/* Serene Step — design tokens                                         */
+/* Serene Steps — design tokens                                         */
 /*                                                                     */
 /* Sampled straight from the client's logo files: forest #174238 is the */
 /* dark green ink, mint #4DBB94 the accent. Paper stays a warm off-white */
@@ -572,6 +572,51 @@ html[data-booted] .boot {
   float: left;
   height: 0;
   pointer-events: none;
+}
+
+/* ------------------------------------------------------------------ */
+/* 404 — see components/sections/NotFound.tsx                          */
+/*                                                                     */
+/* The lost face bobs and tilts, its eyes blink now and then, and the  */
+/* dashed trail drifts on. All transform / stroke-dashoffset only; the  */
+/* reduced-motion floor below stops every one of them.                 */
+/* ------------------------------------------------------------------ */
+@keyframes lost-bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-7deg);
+  }
+  50% {
+    transform: translateY(-5%) rotate(5deg);
+  }
+}
+.lost-bob {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: lost-bob 5.5s ease-in-out infinite;
+}
+@keyframes lost-blink {
+  0%,
+  90%,
+  100% {
+    transform: scaleY(1);
+  }
+  94% {
+    transform: scaleY(0.1);
+  }
+}
+.lost-blink {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: lost-blink 4.6s ease-in-out 1.2s infinite;
+}
+@keyframes trail-drift {
+  to {
+    stroke-dashoffset: -22;
+  }
+}
+.trail-drift {
+  animation: trail-drift 2.4s linear infinite;
 }
 
 /* Honor reduced-motion globally as an accessibility floor.

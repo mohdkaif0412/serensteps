@@ -51,7 +51,7 @@ export async function GET() {
   return new Response(`﻿${rows.join("\r\n")}`, {
     headers: {
       "Content-Type": "text/csv; charset=utf-8",
-      "Content-Disposition": 'attachment; filename="serene-step-clients.csv"',
+      "Content-Disposition": 'attachment; filename="serene-steps-clients.csv"',
       "Cache-Control": "private, no-store",
     },
   });

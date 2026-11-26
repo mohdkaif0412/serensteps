@@ -5,7 +5,7 @@ import { ImageResponse } from "next/og";
 /**
  * The one social-card template, shared by the root card and every per-route
  * `opengraph-image.tsx`, so a link shared from any page looks deliberate and
- * unmistakably Serene Step.
+ * unmistakably Serene Steps.
  *
  * Brand tokens can't be read from CSS here (Satori has no cascade), so the
  * three brand greens are repeated literally. Keep them in step with globals.css.
@@ -25,7 +25,7 @@ const MINT_PALE = "#a9dcc8";
  */
 async function logoDataUri() {
   const logo = await readFile(
-    join(process.cwd(), "public", "brand", "serene-step-mint.png"),
+    join(process.cwd(), "public", "brand", "serene-steps-mint.png"),
   );
   return `data:image/png;base64,${logo.toString("base64")}`;
 }
@@ -78,7 +78,7 @@ export async function renderOgImage({ eyebrow, headline }: OgImageOptions) {
 
         <div style={{ display: "flex", flexDirection: "column", gap: 30 }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={logoSrc} alt="" width={620} height={248} />
+          <img src={logoSrc} alt="" width={620} height={238} />
           <div
             style={{
               display: "flex",

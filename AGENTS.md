@@ -1,11 +1,10 @@
-# Serene Step — agent notes
+# Serene Steps — agent notes
 
 Warm, editorial marketing site + content admin for a mental-wellness practice.
 
-**Naming:** the brand displays as **Serene Step** (singular, matching the logo),
-while the domain and mailbox stay `serenesteps.net` / `steps@serenesteps.net`.
-That mismatch is intentional — don't "fix" either side. Always read the display
-name from `site.name` rather than hardcoding it.
+**Naming:** the brand is **Serene Steps** (plural, matching the logo, the
+domain `serenesteps.net` and the mailbox `steps@serenesteps.net`). Always read
+the display name from `site.name` rather than hardcoding it.
 
 ## Stack
 

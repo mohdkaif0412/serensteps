@@ -14,7 +14,7 @@ import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 const DESCRIPTION =
-  "Gentle, practical writing on anxiety, relationships, parenting, starting therapy, and reflective practice — from the Serene Step journal.";
+  "Gentle, practical writing on anxiety, relationships, parenting, starting therapy, and reflective practice — from the Serene Steps journal.";
 
 /**
  * Self-referencing canonicals on paginated pages (page 2 shouldn't claim to be

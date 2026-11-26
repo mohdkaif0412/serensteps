@@ -30,9 +30,7 @@ const listFromEnv = (value: string | undefined) =>
     .filter(Boolean);
 
 const siteUrl = fromEnv(process.env.NEXT_PUBLIC_SITE_URL) || "https://serenesteps.net";
-// NOTE: the display name is "Serene Step" (singular, per the logo) while the
-// domain and mailbox remain serenesteps.net — that mismatch is intentional and
-// confirmed; don't "fix" one to match the other.
+// The display name "Serene Steps" matches the logo, domain and mailbox.
 const contactEmail =
   fromEnv(process.env.NEXT_PUBLIC_CONTACT_EMAIL) || "steps@serenesteps.net";
 
@@ -99,10 +97,10 @@ const openingHours = listFromEnv(process.env.NEXT_PUBLIC_OPENING_HOURS);
 const serviceArea = fromEnv(process.env.NEXT_PUBLIC_SERVICE_AREA);
 
 const baseDescription =
-  "Serene Step is a warm, human mental-wellness practice offering counselling and psychological testing for children & teens, individuals, and couples & families — plus optional reflective guidance through astrology and tarot. We walk alongside you, one gentle step at a time.";
+  "Serene Steps is a warm, human mental-wellness practice offering counselling and psychological testing for children & teens, individuals, and couples & families — plus optional reflective guidance through astrology and tarot. We walk alongside you, one gentle step at a time.";
 
 export const site = {
-  name: "Serene Step",
+  name: "Serene Steps",
   tagline: "Step into your light",
   description: serviceArea
     ? `${baseDescription} Based in ${serviceArea}, with sessions online and in person.`
@@ -117,21 +115,21 @@ export const site = {
     tel: `tel:+${phoneDigits}`,
     /** Click-to-chat. A prefilled note lowers the bar to that first message. */
     whatsapp: `https://wa.me/${phoneDigits}?text=${encodeURIComponent(
-      "Hi Serene Step, I'd like to know more about your sessions.",
+      "Hi Serene Steps, I'd like to know more about your sessions.",
     )}`,
   },
   /** Logo lockups, keyed by the surface they sit on. */
   logo: {
     /** Dark-green ink — for paper and other light surfaces. */
-    onLight: "/brand/serene-step-forest.png",
+    onLight: "/brand/serene-steps-forest.png",
     /** Mint ink — for deep forest surfaces. */
-    onDark: "/brand/serene-step-mint.png",
+    onDark: "/brand/serene-steps-mint.png",
     /** The wave-of-faces mark on its own. */
     markOnLight: "/brand/mark-forest.png",
     markOnDark: "/brand/mark-mint.png",
     /** Intrinsic size of the lockups, for next/image. */
-    width: 650,
-    height: 260,
+    width: 795,
+    height: 305,
   },
   /**
    * The practice runs its own calendar at /book — availability, requests and

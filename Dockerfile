@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 #
-# Serene Step — production image.
+# Serene Steps — production image.
 #
 #   deps    → install the full dependency tree (dev deps included; the build
 #             needs TypeScript, Tailwind and the Prisma CLI)
@@ -13,8 +13,8 @@
 # so `next build` completes with a placeholder DATABASE_URL and the DB-backed
 # content fills in at runtime.
 #
-#   docker build -t serene-step .
-#   docker run -p 3000:3000 -e DATABASE_URL=... -e AUTH_SECRET=... serene-step
+#   docker build -t serene-steps .
+#   docker run -p 3000:3000 -e DATABASE_URL=... -e AUTH_SECRET=... serene-steps
 
 # ── Shared base ───────────────────────────────────────────────────
 FROM node:20-alpine AS base

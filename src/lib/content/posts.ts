@@ -54,7 +54,7 @@ export const posts: Post[] = [
 </ul>
 <p>These conversations can support self-awareness when approached thoughtfully, rather than as certainty.</p>
 <h2>Tarot: a mirror, not a prediction</h2>
-<p>Tarot cards are often misunderstood. At Serene Step, tarot is not used to predict fixed outcomes. Instead, the images and symbols on the cards act as prompts for reflection and conversation.</p>
+<p>Tarot cards are often misunderstood. At Serene Steps, tarot is not used to predict fixed outcomes. Instead, the images and symbols on the cards act as prompts for reflection and conversation.</p>
 <p>For example, a card may encourage someone to think about:</p>
 <ul>
 <li>Fear versus courage</li>
@@ -68,7 +68,7 @@ export const posts: Post[] = [
 <p>Imagine someone struggling with career uncertainty. A counselling session may identify self-doubt, perfectionism, or fear of failure. An optional astrology discussion might explore personality themes that resonate with the client. A tarot reflection could open a conversation about hopes, fears, and possible paths forward.</p>
 <p>Together, these approaches can encourage deeper self-reflection while keeping practical decision-making grounded in psychological principles.</p>
 <h2>What we believe</h2>
-<p>At Serene Step, your mental health comes first.</p>
+<p>At Serene Steps, your mental health comes first.</p>
 <p>Psychological counselling provides the foundation for emotional well-being. Astrology and tarot are available only for clients who find them personally meaningful and wish to use them as reflective tools — <strong>not as scientific assessments, and not as guarantees about the future.</strong></p>
 <p>Every meaningful journey begins with understanding yourself. And sometimes, the first step toward healing is simply giving yourself permission to pause, reflect, and grow.</p>
 <blockquote>Healing isn't about predicting tomorrow. It's about understanding yourself today.</blockquote>

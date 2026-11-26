@@ -88,7 +88,7 @@ function icsAttachment(booking: BookingWithDetails, cancelled = false) {
     sequence: cancelled ? 1 : 0,
     cancelled,
   });
-  return [{ filename: "serene-step-session.ics", content: ics }];
+  return [{ filename: "serene-steps-session.ics", content: ics }];
 }
 
 // ─── On request ──────────────────────────────────────────────────

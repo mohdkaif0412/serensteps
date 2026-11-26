@@ -17,7 +17,7 @@ import { site } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Book a session",
   description:
-    "Choose a time for counselling, an assessment, or a reflective session with Serene Step. Pick what suits you, tell us a little about what's bringing you here, and we'll confirm by email.",
+    "Choose a time for counselling, an assessment, or a reflective session with Serene Steps. Pick what suits you, tell us a little about what's bringing you here, and we'll confirm by email.",
   alternates: { canonical: "/book" },
 };
 

@@ -22,7 +22,7 @@ import { contentLastModifiedDate } from "@/lib/content-date";
 export const metadata: Metadata = {
   title: "Resources — a plain-language guide to therapy terms",
   description:
-    "What counselling, anxiety, boundaries, burnout, psychometric testing and reflective guidance actually mean — short, plain-language definitions from Serene Step, with what each one looks like in a real session.",
+    "What counselling, anxiety, boundaries, burnout, psychometric testing and reflective guidance actually mean — short, plain-language definitions from Serene Steps, with what each one looks like in a real session.",
   alternates: { canonical: "/resources" },
 };
 

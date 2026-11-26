@@ -100,7 +100,7 @@ export function GlossaryExplorer({
   const clear = useCallback(() => setQuery(""), []);
 
   return (
-    <div className="grid gap-10 lg:grid-cols-[15rem_1fr] lg:gap-14">
+    <div className="grid grid-cols-[minmax(0,1fr)] gap-10 lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-14">
       {/* ── Rail (desktop) / segmented scroller (mobile) ─────────── */}
       <div className="lg:sticky lg:top-28 lg:self-start">
         <label htmlFor={searchId} className="sr-only">

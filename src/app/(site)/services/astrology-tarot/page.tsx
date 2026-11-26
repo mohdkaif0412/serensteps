@@ -29,7 +29,7 @@ import { img } from "@/lib/images";
 import { site } from "@/lib/site";
 
 const DESCRIPTION =
-  "At Serene Step, astrology and tarot are reflective tools, never predictions and never a substitute for mental-health treatment. Birth chart, year-ahead and relationship readings, and five tarot guidance sessions — each paired with psychological understanding.";
+  "At Serene Steps, astrology and tarot are reflective tools, never predictions and never a substitute for mental-health treatment. Birth chart, year-ahead and relationship readings, and five tarot guidance sessions — each paired with psychological understanding.";
 
 export const metadata: Metadata = {
   title: "Astrology & Tarot",

@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   keywords: [
     ...site.topics.map((topic) => topic.toLowerCase()),
     ...(site.serviceArea ? [`therapist in ${site.serviceArea}`] : []),
-    "Serene Step",
+    "Serene Steps",
   ],
   manifest: "/manifest.webmanifest",
   // Search Console / Bing Webmaster verification, set per environment.

@@ -20,7 +20,7 @@ import { bookingCta, site } from "@/lib/site";
 export const metadata: Metadata = {
   title: "About Us",
   description:
-    "Serene Step is a warm, non-clinical practice built on one belief: the strength to heal is already inside you. Read our story and the six values that shape every session.",
+    "Serene Steps is a warm, non-clinical practice built on one belief: the strength to heal is already inside you. Read our story and the six values that shape every session.",
   alternates: { canonical: "/about" },
 };
 

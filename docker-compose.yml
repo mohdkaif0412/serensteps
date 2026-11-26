@@ -1,4 +1,4 @@
-# Serene Step — local dev/prod parity.
+# Serene Steps — local dev/prod parity.
 #
 #   cp .env.example .env      # then set AUTH_SECRET (npx auth secret)
 #   docker compose up --build
@@ -8,7 +8,7 @@
 # NEXT_PUBLIC_* variables are inlined into the browser bundle at BUILD time, so
 # they are passed as build args too — change one and rebuild (`--build`).
 
-name: serene-step
+name: serene-steps
 
 services:
   db:

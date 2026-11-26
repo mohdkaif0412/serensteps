@@ -338,7 +338,7 @@ export const glossary: GlossaryCluster[] = [
         short:
           "A reflective tool is a prompt for self-examination — something to think with — rather than a source of information about the future.",
         detail: [
-          "At Serene Step, astrology and tarot are used only in this sense. They are never a substitute for mental-health treatment, and are never used to predict what will happen.",
+          "At Serene Steps, astrology and tarot are used only in this sense. They are never a substitute for mental-health treatment, and are never used to predict what will happen.",
           "Any client who would rather not use them simply says so, and they never come up. Counselling stands entirely on its own.",
         ],
         related: [

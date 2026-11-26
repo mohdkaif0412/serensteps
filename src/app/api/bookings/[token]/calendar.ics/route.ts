@@ -32,7 +32,7 @@ export async function GET(
   return new Response(ics, {
     headers: {
       "Content-Type": "text/calendar; charset=utf-8",
-      "Content-Disposition": 'attachment; filename="serene-step-session.ics"',
+      "Content-Disposition": 'attachment; filename="serene-steps-session.ics"',
       // Personal, and it changes whenever the practitioner does.
       "Cache-Control": "private, no-store",
     },

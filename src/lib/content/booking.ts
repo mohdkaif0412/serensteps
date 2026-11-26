@@ -79,7 +79,7 @@ export const bookingLabels = {
   messagePlaceholder:
     "As much or as little as you feel comfortable with. You can leave this blank.",
   consent:
-    "I'm happy for Serene Step to use these details to contact me about this session.",
+    "I'm happy for Serene Steps to use these details to contact me about this session.",
   submit: "Request this session",
   submitting: "Sending…",
   noTimes:

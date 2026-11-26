@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
  * deep forest bands. Pick with `tone`, which names the *surface*, not the ink.
  *
  * Height is set by the caller (`className="h-10 w-auto"`); width follows the
- * intrinsic 650×260 ratio.
+ * intrinsic 795×305 ratio.
  */
 export function Logo({
   tone = "light",
@@ -50,8 +50,8 @@ export function LogoMark({
       src={tone === "dark" ? site.logo.markOnDark : site.logo.markOnLight}
       alt=""
       aria-hidden="true"
-      width={356}
-      height={88}
+      width={426}
+      height={103}
       className={cn("w-auto object-contain", className)}
     />
   );

@@ -1,6 +1,6 @@
 import { renderOgImage, OG_SIZE, OG_CONTENT_TYPE } from "@/lib/og-image";
 
-export const alt = "The Serene Step journal — gentle reads for the journey";
+export const alt = "The Serene Steps journal — gentle reads for the journey";
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
 export const dynamic = "force-static";

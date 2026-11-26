@@ -1,14 +1,14 @@
-# Serene Step
+# Serene Steps
 
 [![CI](https://github.com/mohdkaif0412/serensteps/actions/workflows/ci.yml/badge.svg)](https://github.com/mohdkaif0412/serensteps/actions/workflows/ci.yml)
 [![Docker image](https://github.com/mohdkaif0412/serensteps/actions/workflows/docker-image.yml/badge.svg)](https://github.com/mohdkaif0412/serensteps/actions/workflows/docker-image.yml)
 
-A warm, editorial website and content admin panel for **Serene Step** ("Step into your light"), a mental-wellness / therapy practice. Built to feel gentle, human, and trustworthy — with a signature wave-of-faces path that traces the journey down each page, brightening as you scroll.
+A warm, editorial website and content admin panel for **Serene Steps** ("Step into your light"), a mental-wellness / therapy practice. Built to feel gentle, human, and trustworthy — with a signature wave-of-faces path that traces the journey down each page, brightening as you scroll.
 
 - **Public site:** Home, About, Services (tabbed — Counselling & Testing / Astrology & Tarot), Blog, FAQ, Contact (+ booking), Privacy, Terms.
 - **Admin panel** (`/admin`): manage blog posts, FAQs, testimonials, and contact messages — no code required.
 
-> **Naming:** the brand displays as *Serene Step* (singular, matching the logo) while the domain and mailbox keep the plural — `serenesteps.net`, `steps@serenesteps.net`. That's intentional. Everything the owner might change (name, tagline, email, phone/WhatsApp, socials) lives in [`src/lib/site.ts`](src/lib/site.ts) and is env-overridable.
+> **Naming:** the brand is *Serene Steps* (plural), matching the logo, the domain `serenesteps.net` and the mailbox `steps@serenesteps.net`. Everything the owner might change (name, tagline, email, phone/WhatsApp, socials) lives in [`src/lib/site.ts`](src/lib/site.ts) and is env-overridable.
 
 ---
 
@@ -121,11 +121,11 @@ docker compose up --build     # web + postgres:16-alpine with a named volume
 Standalone image, without Compose:
 
 ```bash
-docker build -t serene-step .
+docker build -t serene-steps .
 docker run -p 3000:3000 \
   -e DATABASE_URL="postgresql://…" \
   -e AUTH_SECRET="…" -e AUTH_TRUST_HOST=true \
-  serene-step
+  serene-steps
 ```
 
 ### The build does not need a database

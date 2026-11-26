@@ -15,7 +15,7 @@ import { site, bookingCta } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Contact & Booking",
   description:
-    "Reach out to Serene Step by email, phone, or WhatsApp — or book your first session. Take a step forward; we're here whenever you're ready.",
+    "Reach out to Serene Steps by email, phone, or WhatsApp — or book your first session. Take a step forward; we're here whenever you're ready.",
   alternates: { canonical: "/contact" },
 };
 

@@ -8,13 +8,13 @@
 
 export const aboutIntro = [
   "Don't you think that we humans have a mind to think and solve our problems?",
-  "Recognise and recall your ability, step by step, with Serene Step.",
+  "Recognise and recall your ability, step by step, with Serene Steps.",
   "Find your beat, and be in flow.",
 ] as const;
 
 export const ourStory = [
-  "Hey — I'm Serene Step, here to help you move forward with clarity, confidence, and balance, and to navigate life's challenges by offering guidance and evidence-based support.",
-  "At Serene Step, we believe that healing and growth are processes that take time, trust, care, and deep involvement of emotion. Whether you are seeking direction in your career, harmony in your relationships, or peace within yourself, we are here to walk alongside you — step by step.",
+  "Hey — I'm Serene Steps, here to help you move forward with clarity, confidence, and balance, and to navigate life's challenges by offering guidance and evidence-based support.",
+  "At Serene Steps, we believe that healing and growth are processes that take time, trust, care, and deep involvement of emotion. Whether you are seeking direction in your career, harmony in your relationships, or peace within yourself, we are here to walk alongside you — step by step.",
   "Our unprocessed emotions, beliefs, and traumas are still operating and controlling our lives. We need to address them — to look at them, admit they are there, and work through them — in order to clear them.",
 ] as const;
 

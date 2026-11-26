@@ -134,7 +134,6 @@ function organizationNode(): Json {
     "@type": ["Organization", "MedicalBusiness"],
     "@id": ORG_ID,
     name: site.name,
-    alternateName: "Serene Steps",
     slogan: site.tagline,
     description: site.description,
     url: site.url,

@@ -13,7 +13,7 @@ import { breadcrumbJsonLd, faqPageJsonLd } from "@/lib/structured-data";
 export const metadata: Metadata = {
   title: "FAQ",
   description:
-    "Answers to common questions about starting therapy at Serene Step — first sessions, our approach, booking, confidentiality, and how astrology and tarot are used.",
+    "Answers to common questions about starting therapy at Serene Steps — first sessions, our approach, booking, confidentiality, and how astrology and tarot are used.",
   alternates: { canonical: "/faq" },
 };
 

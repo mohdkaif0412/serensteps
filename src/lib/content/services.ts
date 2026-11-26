@@ -200,7 +200,7 @@ export const serviceJourney: JourneyStep[] = [
 export const reflectiveIntro = {
   heading: "Reflective Guidance Through a Unique Integrative Approach",
   body: [
-    "At Serene Step, astrology and tarot are not used to predict or control your future. Instead, they are used as reflective tools that help you explore patterns, emotions, relationships, strengths, fears, and life decisions alongside evidence-based psychological understanding.",
+    "At Serene Steps, astrology and tarot are not used to predict or control your future. Instead, they are used as reflective tools that help you explore patterns, emotions, relationships, strengths, fears, and life decisions alongside evidence-based psychological understanding.",
     "By combining psychology, astrology, and tarot, we help clients gain deeper self-awareness, emotional clarity, and practical direction for personal growth.",
   ],
 } as const;
@@ -269,7 +269,7 @@ export type TarotService = {
 };
 
 export const tarotIntro =
-  "Tarot at Serene Step is used as a guided reflection tool to explore thoughts, emotions, and life situations.";
+  "Tarot at Serene Steps is used as a guided reflection tool to explore thoughts, emotions, and life situations.";
 
 export const tarotServices: TarotService[] = [
   {
@@ -321,7 +321,7 @@ export const whatWeBelieve = {
  * footer or an accordion.
  */
 export const reflectiveTerms = [
-  "At Serene Step, astrology and tarot are never used as substitutes for mental health treatment, or as tools to predict the future. When clients choose them, they are used as reflective conversations that complement professional counselling.",
+  "At Serene Steps, astrology and tarot are never used as substitutes for mental health treatment, or as tools to predict the future. When clients choose them, they are used as reflective conversations that complement professional counselling.",
   "We don't tell you what your future will be.",
   "We help you understand yourself, strengthen your resilience, and make decisions with greater awareness.",
   "Because the most powerful answers often come from within — you simply need the right guidance to discover them.",

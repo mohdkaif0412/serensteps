@@ -34,7 +34,7 @@ import { getPublishedTestimonials } from "@/lib/queries";
 export const metadata: Metadata = {
   title: "Services",
   description:
-    "Counselling and psychological testing for children & teens, individuals, and couples & families — plus optional reflective guidance through astrology and tarot. Explore how Serene Step can support you, one step at a time.",
+    "Counselling and psychological testing for children & teens, individuals, and couples & families — plus optional reflective guidance through astrology and tarot. Explore how Serene Steps can support you, one step at a time.",
   alternates: { canonical: "/services" },
 };
 
