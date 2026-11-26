@@ -101,6 +101,14 @@ const baseDescription =
 
 export const site = {
   name: "Serene Steps",
+  /**
+   * The name the site was published under until November 2026. Kept as
+   * `alternateName` in JSON-LD and named in llms.txt so search and answer
+   * engines merge the two into one entity instead of treating the rename as a
+   * new business. Safe to drop once the old name has dropped out of results
+   * (roughly 6–12 months).
+   */
+  formerName: "Serene Step",
   tagline: "Step into your light",
   description: serviceArea
     ? `${baseDescription} Based in ${serviceArea}, with sessions online and in person.`

@@ -134,6 +134,8 @@ function organizationNode(): Json {
     "@type": ["Organization", "MedicalBusiness"],
     "@id": ORG_ID,
     name: site.name,
+    // The previous public name — see `formerName` in src/lib/site.ts.
+    alternateName: site.formerName,
     slogan: site.tagline,
     description: site.description,
     url: site.url,
@@ -152,7 +154,9 @@ function organizationNode(): Json {
     geo: geoCoordinates(),
     hasMap: site.location?.mapUrl,
     openingHoursSpecification: openingHoursSpecification(),
-    medicalSpecialty: ["Psychiatric", "Public Health"],
+    // No `medicalSpecialty`: "Psychiatric" claimed psychiatry (medical doctors)
+    // and "Public Health" didn't describe the practice at all. Restore a
+    // specialty only once the practitioner's registration is confirmed.
     knowsAbout: site.topics,
     availableLanguage: ["English", "Hindi", "Urdu"],
     contactPoint: [
@@ -299,8 +303,6 @@ function serviceNode(service: Service): Json {
     provider: { "@id": ORG_ID },
     areaServed,
     audience: { "@type": "PeopleAudience", name: service.audience },
-    // What people arrive carrying — the concerns this work addresses.
-    relevantSpecialty: { "@type": "MedicalSpecialty", name: "Psychiatric" },
     hasOfferCatalog: {
       "@type": "OfferCatalog",
       name: `What we help with — ${service.title}`,

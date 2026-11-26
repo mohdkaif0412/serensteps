@@ -29,7 +29,7 @@ import type { PublicFaqGroup, PublicPost } from "@/lib/queries";
  *                   ingest the whole practice in one fetch.
  */
 
-const NAMING_NOTE = `Note on naming: the practice is called **${site.name}** (singular). The website is at ${site.url.replace(/^https?:\/\//, "")} and the contact mailbox is ${site.email} — the domain keeps the plural.`;
+const NAMING_NOTE = `Note on naming: the practice is called **${site.name}**, matching its website (${site.url.replace(/^https?:\/\//, "")}) and mailbox (${site.email}). It was previously shown as "${site.formerName}"; both names refer to the same practice.`;
 
 const CRISIS_NOTE =
   "If you or someone you love is in crisis or immediate danger, contact local emergency services or a 24/7 crisis line right away — do not wait for an appointment.";

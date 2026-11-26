@@ -53,12 +53,10 @@ export default function TermsPage() {
       />
       <Section spacing="md">
         <Container size="prose">
+          {/* A plain-language starting template — have it reviewed by a
+              qualified professional for the practice's jurisdiction. That note
+              is for the practice, so it lives here rather than on the page. */}
           <div className="prose-serene" dangerouslySetInnerHTML={{ __html: html }} />
-          <p className="mt-12 rounded-2xl border border-sage-deep/25 bg-sage/40 p-5 text-sm leading-relaxed text-muted">
-            <strong className="text-forest">Note for the practice:</strong> this is a
-            plain-language starting template. Please have it reviewed by a qualified
-            professional for your jurisdiction before you rely on it.
-          </p>
         </Container>
       </Section>
     </>
