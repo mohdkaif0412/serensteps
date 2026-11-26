@@ -13,7 +13,7 @@ import { breadcrumbJsonLd } from "@/lib/structured-data";
 import { site, bookingCta } from "@/lib/site";
 
 export const metadata = pageMetadata({
-  title: "Contact & Booking",
+  title: "Contact Us by Email, Phone or WhatsApp",
   description: `Reach ${site.name} by email, phone or WhatsApp, or book your first session. Take a step forward: there's no pressure, and we're here whenever you're ready.`,
   path: "/contact",
 });

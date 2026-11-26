@@ -28,9 +28,12 @@ export function TermsCallout({
   className,
   /** Unique per instance — the astrology page shows the callout twice. */
   headingId = "reflective-terms-heading",
+  /** Distinct per instance too, so one page never repeats the same h2. */
+  heading = "Please read this first",
 }: {
   className?: string;
   headingId?: string;
+  heading?: string;
 }) {
   return (
     <aside
@@ -54,7 +57,7 @@ export function TermsCallout({
             Important
           </p>
           <h2 id={headingId} className="mt-0.5 font-display text-xl text-paper sm:text-2xl">
-            Please read this first
+            {heading}
           </h2>
         </div>
       </div>

@@ -29,7 +29,10 @@ export async function generateMetadata({
   const { page: pageParam } = await searchParams;
   const page = Math.max(1, Number(pageParam) || 1);
   return pageMetadata({
-    title: page > 1 ? `Journal — page ${page}` : "Journal",
+    title:
+      page > 1
+        ? `Mental Wellness Articles — page ${page}`
+        : "Mental Wellness Articles on Anxiety & Therapy",
     description: DESCRIPTION,
     path: page > 1 ? `/blog?page=${page}` : "/blog",
     alternateTypes: { "application/rss+xml": `${site.url}/blog/feed.xml` },
@@ -56,7 +59,7 @@ export default async function BlogPage({
       <JsonLd data={blogJsonLd(posts)} />
       <JsonLd data={breadcrumbJsonLd([{ name: "Journal", path: "/blog" }])} />
       <PageHeader
-        eyebrow="The journal"
+        eyebrow="Mental wellness journal"
         title={
           <>
             Gentle reads <em>for the journey</em>

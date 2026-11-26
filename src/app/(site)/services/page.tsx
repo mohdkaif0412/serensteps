@@ -32,7 +32,7 @@ import { img } from "@/lib/images";
 import { getPublishedTestimonials } from "@/lib/queries";
 
 export const metadata = pageMetadata({
-  title: "Services",
+  title: "Counselling, Assessment & Reflective Services",
   description:
     "Counselling and psychological testing for children & teens, individuals, and couples & families, plus optional astrology and tarot as reflective tools.",
   path: "/services",
@@ -115,7 +115,7 @@ export default async function ServicesPage() {
       <JsonLd data={breadcrumbJsonLd([{ name: "Services", path: "/services" }])} />
 
       <PageHeader
-        eyebrow="Our services"
+        eyebrow="Counselling & assessment services"
         title={
           <>
             Support for every step, <em>whichever way you begin</em>

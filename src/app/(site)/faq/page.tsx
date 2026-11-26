@@ -12,7 +12,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbJsonLd, faqPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
-  title: "FAQ",
+  title: "Starting Therapy: Common Questions Answered",
   description: `Answers to common questions about starting therapy at ${site.name}: first sessions, our approach, booking, confidentiality and how astrology and tarot are used.`,
   path: "/faq",
 });
@@ -32,7 +32,7 @@ export default async function FaqPage() {
       {hasQuestions && <JsonLd data={faqPageJsonLd(groups)} />}
       <JsonLd data={breadcrumbJsonLd([{ name: "FAQ", path: "/faq" }])} />
       <PageHeader
-        eyebrow="Questions & answers"
+        eyebrow="Starting therapy FAQ"
         title={
           <>
             Questions, <em>gently answered</em>

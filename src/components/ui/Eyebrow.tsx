@@ -12,16 +12,25 @@ export function Eyebrow({
   children,
   tone = "dark",
   className,
+  as: Tag = "p",
 }: {
   children: ReactNode;
   /** `light` for forest surfaces. */
   tone?: "dark" | "light";
   className?: string;
+  /**
+   * `span` when the eyebrow sits *inside* a heading as its kicker — it then
+   * becomes part of the heading text (e.g. "About Serene Steps: A gentle place
+   * to heal and grow"), which is what search engines and screen readers read.
+   * Laid out as its own line so it looks identical to the standalone `p`.
+   */
+  as?: "p" | "span";
 }) {
   return (
-    <p
+    <Tag
       className={cn(
-        "mb-3 inline-flex items-center gap-3 text-[0.72rem] font-semibold uppercase tracking-[0.24em]",
+        "mb-3 items-center gap-3 text-[0.72rem] font-semibold uppercase tracking-[0.24em]",
+        Tag === "span" ? "flex w-fit leading-normal" : "inline-flex",
         tone === "light" ? "text-sage" : "text-muted",
         className,
       )}
@@ -34,6 +43,30 @@ export function Eyebrow({
         aria-hidden="true"
       />
       {children}
-    </p>
+    </Tag>
+  );
+}
+
+/**
+ * An `Eyebrow` set inside a heading as its kicker, plus a separator only
+ * assistive tech and text extractors see — so the heading reads
+ * "Kicker: Title" rather than "Kicker Title".
+ */
+export function HeadingKicker({
+  children,
+  className,
+  tone,
+}: {
+  children: ReactNode;
+  className?: string;
+  tone?: "dark" | "light";
+}) {
+  return (
+    <>
+      <Eyebrow as="span" tone={tone} className={className}>
+        {children}
+      </Eyebrow>
+      <span className="sr-only">: </span>
+    </>
   );
 }

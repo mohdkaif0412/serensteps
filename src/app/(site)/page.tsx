@@ -12,11 +12,11 @@ import { pageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
 
 export const metadata = pageMetadata({
-  // With a service area configured, the title leads with the local search
-  // intent; without one it leads with the brand promise.
+  // Keyword first, brand last. With a service area configured it leads with
+  // the local search intent instead.
   title: site.serviceArea
-    ? `${site.name} — Counselling & Therapy in ${site.serviceArea}`
-    : `${site.name} — ${site.tagline}`,
+    ? `Counselling & Therapy in ${site.serviceArea} — ${site.name}`
+    : `Counselling & Psychological Testing — ${site.name}`,
   absoluteTitle: true,
   description: `${site.name} offers counselling and psychological testing for children, teens, adults, couples and families, online and in person. Book your first session.`,
   path: "/",

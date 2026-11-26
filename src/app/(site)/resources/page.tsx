@@ -20,7 +20,7 @@ import {
 import { contentLastModifiedDate } from "@/lib/content-date";
 
 export const metadata = pageMetadata({
-  title: "Therapy Terms in Plain Language",
+  title: "Therapy Terms Explained in Plain Language",
   description:
     "Plain-language definitions of therapy terms like counselling, anxiety, boundaries, burnout and psychometric testing, and what each looks like in a session.",
   path: "/resources",
@@ -51,7 +51,7 @@ export default function ResourcesPage() {
       <JsonLd data={breadcrumbJsonLd([{ name: "Resources", path: "/resources" }])} />
 
       <PageHeader
-        eyebrow="Resources"
+        eyebrow="Therapy terms explained"
         title={
           <>
             The words for it, <em>in plain language</em>

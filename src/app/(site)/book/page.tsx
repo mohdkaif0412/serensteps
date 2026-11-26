@@ -15,7 +15,7 @@ import { bookingPage } from "@/lib/content/booking";
 import { site } from "@/lib/site";
 
 export const metadata = pageMetadata({
-  title: "Book a session",
+  title: "Book a Counselling or Assessment Session",
   description: `Book counselling, an assessment or a reflective session with ${site.name}. Pick a time that suits you, tell us what brings you here, and we'll confirm by email.`,
   path: "/book",
 });

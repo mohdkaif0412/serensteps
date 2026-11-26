@@ -20,7 +20,19 @@ export type SubServiceGroup = {
 
 export type Service = {
   slug: "children-teens" | "individuals" | "couples-families";
+  /** Short name for cards, breadcrumbs and links. */
   title: string;
+  /**
+   * The detail page's H1, as `lead` + an italic `accent` (the site's display
+   * heading style). It names the service in the words people search for —
+   * "Individual" alone told neither readers nor search engines what the page
+   * was about.
+   */
+  heading: { lead: string; accent: string };
+  /** <title> text, before the " — <brand>" template. Aim for 35–45 chars. */
+  metaTitle: string;
+  /** Meta description, 140–160 chars. */
+  metaDescription: string;
   /** Short audience label for chips/nav. */
   audience: string;
   intro: string;
@@ -37,6 +49,10 @@ export const services: Service[] = [
   {
     slug: "children-teens",
     title: "Children & Teens",
+    heading: { lead: "Counselling & assessment", accent: "for children and teens" },
+    metaTitle: "Child & Teen Counselling and Assessment",
+    metaDescription:
+      "Counselling, developmental assessment and psychometric career testing for children and teens, helping them build resilience, confidence and coping skills.",
     audience: "Children & Teens",
     intro:
       "We support children and adolescents in building emotional resilience, confidence, and healthy relationships, while helping them navigate the challenges of growing up. We provide a safe, compassionate, and non-judgmental space where young people can express themselves, understand their emotions, and develop practical coping skills.",
@@ -91,6 +107,10 @@ export const services: Service[] = [
   {
     slug: "individuals",
     title: "Individual",
+    heading: { lead: "Individual counselling", accent: "for adults" },
+    metaTitle: "Individual Counselling for Anxiety & Stress",
+    metaDescription:
+      "Individual counselling for adults facing anxiety, stress, low mood, grief, relationship problems or life changes, in a safe, confidential and supportive space.",
     audience: "Individuals",
     intro:
       "Life can be overwhelming, and you don't have to face it alone. We provide a safe, confidential, and supportive space where adults can explore their thoughts, emotions, and life experiences without judgment. Together, we work to understand the root of your concerns, develop healthy coping strategies, and build resilience for lasting emotional well-being.",
@@ -125,6 +145,10 @@ export const services: Service[] = [
   {
     slug: "couples-families",
     title: "Couples & Family",
+    heading: { lead: "Couples &", accent: "family counselling" },
+    metaTitle: "Couples & Family Relationship Counselling",
+    metaDescription:
+      "Couples and family counselling for communication breakdowns, recurring conflict, trust issues, parenting stress and life transitions, to help you reconnect.",
     audience: "Couples & Families",
     intro:
       "Strong relationships are built on trust, understanding, and meaningful communication — but every family and couple experiences challenges along the way. We provide a safe, compassionate, and non-judgmental space where couples and families can work through conflicts, strengthen emotional connections, and build healthier relationships. Whether you're facing communication difficulties, recurring conflicts, parenting challenges, major life transitions, or the impact of past emotional wounds, our goal is to help every family member feel heard, respected, and supported.",

@@ -74,11 +74,18 @@ function decorate(node: ReactNode, counter: { i: number }): ReactNode {
 export function RevealText({
   children,
   className,
+  offset = 0,
 }: {
   children: ReactNode;
   className?: string;
+  /**
+   * Words already revealed before this block — lets a line that lives in its
+   * own element continue the wave of the heading above it instead of
+   * restarting at zero.
+   */
+  offset?: number;
 }) {
-  return <span className={className}>{decorate(children, { i: 0 })}</span>;
+  return <span className={className}>{decorate(children, { i: offset })}</span>;
 }
 
 /**

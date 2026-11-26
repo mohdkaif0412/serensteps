@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { Container } from "@/components/ui/Container";
-import { Eyebrow } from "@/components/ui/Eyebrow";
+import { HeadingKicker } from "@/components/ui/Eyebrow";
 import { RevealText, RiseIn } from "@/components/ui/RevealText";
 import { cn } from "@/lib/utils";
 
@@ -34,12 +34,16 @@ export function PageHeader({
       />
       <Container>
         <div className={cn("max-w-3xl", centered && "mx-auto text-center")}>
-          {eyebrow && (
-            <Eyebrow className={cn("rise-in", centered && "justify-center")}>
-              {eyebrow}
-            </Eyebrow>
-          )}
+          {/* The eyebrow is the h1's kicker, not a separate paragraph: the
+              display titles are deliberately poetic ("A gentle place to heal
+              and grow"), so the kicker is what tells search engines and
+              screen readers what the page actually is. */}
           <h1 className="font-display text-[clamp(2.5rem,5.4vw,3.9rem)] leading-[1.05] text-forest">
+            {eyebrow && (
+              <HeadingKicker className={cn("rise-in", centered && "mx-auto justify-center")}>
+                {eyebrow}
+              </HeadingKicker>
+            )}
             <RevealText>{title}</RevealText>
           </h1>
           {intro && (

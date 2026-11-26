@@ -3,7 +3,7 @@ import { pageMetadata } from "@/lib/seo";
 import { Section } from "@/components/ui/Section";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
-import { Eyebrow } from "@/components/ui/Eyebrow";
+import { Eyebrow, HeadingKicker } from "@/components/ui/Eyebrow";
 import { WaveEdge } from "@/components/ui/WaveEdge";
 import { WaveMark } from "@/components/ui/WaveMark";
 import { Photo } from "@/components/ui/Photo";
@@ -29,7 +29,7 @@ import { img } from "@/lib/images";
 import { site } from "@/lib/site";
 
 export const metadata = pageMetadata({
-  title: "Astrology & Tarot",
+  title: "Astrology & Tarot as Reflective Guidance",
   description: `At ${site.name}, astrology and tarot are reflective tools, never predictions and never a substitute for therapy. Explore chart readings and tarot sessions.`,
   path: REFLECTIVE_PATH,
 });
@@ -65,10 +65,11 @@ export default function AstrologyTarotPage() {
 
           <div className="mt-8 grid gap-10 lg:grid-cols-12 lg:gap-12">
             <div className="lg:col-span-5">
-              <RiseIn>
-                <Eyebrow>A unique integrative approach</Eyebrow>
-              </RiseIn>
+              {/* The kicker names the offering, so the h1 reads "Astrology &
+                  tarot: Reflective guidance, not prediction" — the framing
+                  and the subject together. */}
               <h1 className="font-display text-[clamp(2.3rem,5vw,3.5rem)] leading-[1.06] text-forest">
+                <HeadingKicker className="rise-in">Astrology &amp; tarot</HeadingKicker>
                 <RevealText>
                   Reflective guidance, <em>not prediction</em>
                 </RevealText>
@@ -156,7 +157,10 @@ export default function AstrologyTarotPage() {
       <Section surface="sand" spacing="md">
         <Container size="prose">
           <Reveal>
-            <TermsCallout headingId="reflective-terms-heading-footer" />
+            <TermsCallout
+              headingId="reflective-terms-heading-footer"
+              heading="Before you book a reading"
+            />
           </Reveal>
         </Container>
       </Section>

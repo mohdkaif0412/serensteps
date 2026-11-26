@@ -176,10 +176,14 @@ export function ServiceHero({
         <div className="mt-8 grid items-center gap-10 lg:grid-cols-12 lg:gap-14">
           <div className={cn("lg:col-span-7", left && "lg:order-2 lg:col-start-6")}>
             <RiseIn>
-              <Eyebrow>{service.audience}</Eyebrow>
+              <Eyebrow>Counselling &amp; testing</Eyebrow>
             </RiseIn>
-            <h1 className="font-display text-[clamp(2.4rem,5.2vw,3.7rem)] leading-[1.05] text-forest">
-              <RevealText>{service.title}</RevealText>
+            {/* Names the service in searchable words; the scale steps down a
+                touch from the old one-word title so it still sets in 2–3 lines. */}
+            <h1 className="font-display text-[clamp(2.2rem,4.6vw,3.3rem)] leading-[1.08] text-forest">
+              <RevealText>
+                {service.heading.lead} <em>{service.heading.accent}</em>
+              </RevealText>
             </h1>
             <RiseIn as="p" delay={3} className="mt-6 max-w-[56ch] text-lg leading-[1.8] text-muted">
               {service.intro}

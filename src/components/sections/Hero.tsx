@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
-import { Eyebrow } from "@/components/ui/Eyebrow";
+import { HeadingKicker } from "@/components/ui/Eyebrow";
 import { Photo } from "@/components/ui/Photo";
 import { Parallax } from "@/components/ui/Parallax";
 import { Magnetic } from "@/components/ui/Magnetic";
@@ -39,22 +39,29 @@ export function Hero() {
         <div className="grid items-center gap-14 lg:grid-cols-12 lg:gap-8">
           {/* Copy — deliberately wider than half, so the composition is off-center */}
           <div className="relative z-10 lg:col-span-7">
-            <Eyebrow className="rise-in">A gentle place to begin</Eyebrow>
-
             {/* The tagline leads — it's the brand's promise, so it gets the
-                display scale rather than being tucked under the logo. */}
+                display scale rather than being tucked under the logo. The
+                kicker inside the h1 is what says, in searchable words, what the
+                practice does: the h1 reads "Counselling & therapy: Step into
+                your light." Kept short enough to stay on one line on a phone. */}
             <h1 className="font-display text-[clamp(2.6rem,5.4vw,4.3rem)] leading-[1.04] text-forest">
+              <HeadingKicker className="rise-in">Counselling &amp; therapy</HeadingKicker>
               <RevealText>
-                <>
-                  Step into <em className="font-light">your light.</em>
-                  {/* The philosophy steps inward — an editorial indent, not a centered stack */}
-                  <span className="mt-4 block pl-6 text-[clamp(1.35rem,2.6vw,1.9rem)] leading-[1.35] text-forest-soft sm:pl-14">
-                    Healing isn&rsquo;t about fixing what&rsquo;s broken — it&rsquo;s
-                    about discovering the strength that was already inside you.
-                  </span>
-                </>
+                Step into <em className="font-light">your light.</em>
               </RevealText>
             </h1>
+            {/* The philosophy steps inward — an editorial indent, not a centered
+                stack. Its own paragraph rather than part of the h1, so the
+                heading stays a heading; `offset` continues the word wave from
+                the tagline's four words. */}
+            {/* font-normal / tracking / text-balance restate what the global
+                h1 rule gave this line when it lived inside the heading. */}
+            <p className="mt-4 block pl-6 font-display font-normal tracking-[-0.015em] text-balance text-[clamp(1.35rem,2.6vw,1.9rem)] leading-[1.35] text-forest-soft sm:pl-14">
+              <RevealText offset={4}>
+                Healing isn&rsquo;t about fixing what&rsquo;s broken — it&rsquo;s
+                about discovering the strength that was already inside you.
+              </RevealText>
+            </p>
 
             <RiseIn
               as="p"

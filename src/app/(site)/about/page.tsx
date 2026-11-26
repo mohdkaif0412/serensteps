@@ -18,7 +18,7 @@ import { img } from "@/lib/images";
 import { bookingCta, site } from "@/lib/site";
 
 export const metadata = pageMetadata({
-  title: "About Us",
+  title: "About Our Counselling Practice & Values",
   description: `${site.name} is built on one belief: the strength to heal is already inside you. Read our story and the six values that shape every counselling session.`,
   path: "/about",
 });

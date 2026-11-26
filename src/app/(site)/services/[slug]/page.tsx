@@ -42,21 +42,16 @@ export function generateStaticParams() {
   return serviceSlugs.map((slug) => ({ slug }));
 }
 
-/** ~155 characters, cut at a word boundary — a description, not a truncation. */
-function summarise(text: string, limit = 155) {
-  if (text.length <= limit) return text;
-  const cut = text.slice(0, limit);
-  return `${cut.slice(0, cut.lastIndexOf(" "))}…`;
-}
-
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params;
   const service = getService(slug);
   if (!service) return {};
 
+  // Written per service in src/lib/content/services.ts rather than cut from
+  // the intro, which ended every description mid-sentence with "…".
   return pageMetadata({
-    title: `${service.title} Counselling`,
-    description: summarise(service.intro),
+    title: service.metaTitle,
+    description: service.metaDescription,
     path: servicePath(service.slug),
   });
 }
