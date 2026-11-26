@@ -1,4 +1,5 @@
-import { Clock, Heart, Sprout } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, Clock, Heart, Sprout } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
@@ -82,6 +83,18 @@ export function ApproachBand() {
                   );
                 })}
               </ol>
+
+              {/* The one way from the home page into the full story. */}
+              <Link
+                href="/about"
+                className="group mt-9 inline-flex items-center gap-2 text-[0.95rem] font-medium text-paper underline decoration-mint/60 underline-offset-4 transition-colors hover:decoration-paper"
+              >
+                Read our story and the six values behind it
+                <ArrowRight
+                  className="size-4 transition-transform duration-300 group-hover:translate-x-0.5"
+                  aria-hidden="true"
+                />
+              </Link>
             </div>
           </div>
         </Container>

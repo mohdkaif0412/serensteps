@@ -7,9 +7,10 @@ import { Section } from "@/components/ui/Section";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
 import { Accordion } from "@/components/ui/Accordion";
+import { ExploreServices } from "@/components/sections/InternalLinks";
 import { getPublishedFaqGroups } from "@/lib/queries";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { breadcrumbJsonLd, faqPageJsonLd } from "@/lib/structured-data";
+import { faqPageJsonLd } from "@/lib/structured-data";
 
 export const metadata = pageMetadata({
   title: "Starting Therapy: Common Questions Answered",
@@ -30,8 +31,8 @@ export default async function FaqPage() {
   return (
     <>
       {hasQuestions && <JsonLd data={faqPageJsonLd(groups)} />}
-      <JsonLd data={breadcrumbJsonLd([{ name: "FAQ", path: "/faq" }])} />
       <PageHeader
+        trail={[{ name: "FAQ", path: "/faq" }]}
         eyebrow="Starting therapy FAQ"
         title={
           <>
@@ -94,6 +95,21 @@ export default async function FaqPage() {
           </Reveal>
         </Container>
       </Section>
+
+      <ExploreServices
+        surface="mist"
+        eyebrow="The work itself"
+        heading={
+          <>
+            Read more about <em>how we help</em>
+          </>
+        }
+        extra={[
+          { href: "/resources", label: "Therapy terms in plain language" },
+          { href: "/blog", label: "Read the journal" },
+          { href: "/about", label: "Our approach and values" },
+        ]}
+      />
     </>
   );
 }

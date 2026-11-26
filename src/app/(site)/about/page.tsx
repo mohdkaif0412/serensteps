@@ -3,6 +3,7 @@ import { pageMetadata } from "@/lib/seo";
 import { StepsPath } from "@/components/ui/StepsPath";
 import { PageHeader } from "@/components/sections/PageHeader";
 import { FinalCta } from "@/components/sections/FinalCta";
+import { ExploreServices } from "@/components/sections/InternalLinks";
 import { ValuesWave } from "@/components/sections/ValuesWave";
 import { Section } from "@/components/ui/Section";
 import { Container } from "@/components/ui/Container";
@@ -11,8 +12,6 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Photo } from "@/components/ui/Photo";
 import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { JsonLd } from "@/components/seo/JsonLd";
-import { breadcrumbJsonLd } from "@/lib/structured-data";
 import { aboutIntro, ourStory } from "@/lib/content/about";
 import { img } from "@/lib/images";
 import { bookingCta, site } from "@/lib/site";
@@ -26,8 +25,8 @@ export const metadata = pageMetadata({
 export default function AboutPage() {
   return (
     <StepsPath steps={5}>
-      <JsonLd data={breadcrumbJsonLd([{ name: "About", path: "/about" }])} />
       <PageHeader
+        trail={[{ name: "About", path: "/about" }]}
         eyebrow={`About ${site.name}`}
         title={
           <>
@@ -138,6 +137,21 @@ export default function AboutPage() {
           <ValuesWave />
         </Container>
       </Section>
+
+      <ExploreServices
+        eyebrow="In practice"
+        heading={
+          <>
+            See how this looks <em>in a session</em>
+          </>
+        }
+        intro="The same six values run through every kind of work we offer. Choose the one closest to where you are."
+        extra={[
+          { href: "/faq", label: "Questions about starting therapy" },
+          { href: "/resources", label: "Therapy terms in plain language" },
+          { href: "/blog", label: "Read the journal" },
+        ]}
+      />
 
       <FinalCta />
     </StepsPath>

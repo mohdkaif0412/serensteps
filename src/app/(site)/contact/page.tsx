@@ -8,8 +8,6 @@ import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { InstagramIcon, WhatsAppIcon } from "@/components/ui/BrandIcons";
-import { JsonLd } from "@/components/seo/JsonLd";
-import { breadcrumbJsonLd } from "@/lib/structured-data";
 import { site, bookingCta } from "@/lib/site";
 
 export const metadata = pageMetadata({
@@ -34,8 +32,8 @@ const reassurances = [
 export default async function ContactPage() {
   return (
     <>
-      <JsonLd data={breadcrumbJsonLd([{ name: "Contact", path: "/contact" }])} />
       <PageHeader
+        trail={[{ name: "Contact", path: "/contact" }]}
         eyebrow="Contact & booking"
         title={
           <>

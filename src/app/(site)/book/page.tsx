@@ -7,8 +7,6 @@ import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
 import { BookingFlow } from "@/components/booking/BookingFlow";
 import { WhatsAppIcon } from "@/components/ui/BrandIcons";
-import { JsonLd } from "@/components/seo/JsonLd";
-import { breadcrumbJsonLd } from "@/lib/structured-data";
 import { getActiveSessionTypes } from "@/lib/queries";
 import { bookingConfig } from "@/lib/booking/config";
 import { bookingPage } from "@/lib/content/booking";
@@ -28,8 +26,8 @@ export default async function BookPage() {
 
   return (
     <>
-      <JsonLd data={breadcrumbJsonLd([{ name: "Book a session", path: "/book" }])} />
       <PageHeader
+        trail={[{ name: "Book a session", path: "/book" }]}
         eyebrow={bookingPage.eyebrow}
         title={
           <>

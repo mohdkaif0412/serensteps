@@ -198,7 +198,7 @@ export function Tabs({
                   <span
                     className={cn(
                       "relative block text-[0.7rem] leading-tight transition-colors duration-300",
-                      selected ? "text-forest/80" : "text-muted",
+                      selected ? "text-forest" : "text-muted",
                     )}
                   >
                     {tab.hint}

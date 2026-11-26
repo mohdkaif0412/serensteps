@@ -9,6 +9,7 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { WaveEdge } from "@/components/ui/WaveEdge";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { TestimonialDuo } from "@/components/sections/Testimonials";
+import { KeepReading } from "@/components/sections/InternalLinks";
 import {
   ServiceHero,
   ConcernChips,
@@ -19,14 +20,15 @@ import {
   RelatedServices,
 } from "@/components/sections/ServiceBlocks";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/structured-data";
+import { serviceJsonLd } from "@/lib/structured-data";
 import {
   getService,
   serviceSlugs,
   servicePath,
   type Service,
 } from "@/lib/content/services";
-import { getPublishedTestimonials } from "@/lib/queries";
+import { getPublishedPosts, getPublishedTestimonials } from "@/lib/queries";
+import { glossaryForService, postsForService } from "@/lib/links";
 import { pageMetadata } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 
@@ -185,7 +187,11 @@ export default async function ServiceDetailPage({ params }: Params) {
   if (!service) notFound();
 
   const variant = variants[service.slug];
-  const testimonials = await getPublishedTestimonials();
+  const [testimonials, { posts }] = await Promise.all([
+    getPublishedTestimonials(),
+    // A dozen is plenty to pick the three most relevant from.
+    getPublishedPosts({ pageSize: 12 }),
+  ]);
   const voices =
     testimonials.length > 2 ? testimonials.slice(1, 3) : testimonials.slice(0, 2);
 
@@ -197,12 +203,6 @@ export default async function ServiceDetailPage({ params }: Params) {
   return (
     <StepsPath steps={5}>
       <JsonLd data={serviceJsonLd(service)} />
-      <JsonLd
-        data={breadcrumbJsonLd([
-          { name: "Services", path: "/services" },
-          { name: service.title, path: servicePath(service.slug) },
-        ])}
-      />
 
       <ServiceHero service={service} {...variant.hero} />
 
@@ -213,6 +213,10 @@ export default async function ServiceDetailPage({ params }: Params) {
       <ClosingQuote text={service.closing} />
 
       <TestimonialDuo items={voices} />
+      <KeepReading
+        posts={postsForService(service, posts)}
+        terms={glossaryForService(servicePath(service.slug))}
+      />
       <RelatedServices currentSlug={service.slug} />
       <FinalCta />
     </StepsPath>

@@ -10,7 +10,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { WaveEdge } from "@/components/ui/WaveEdge";
 import { GlossaryExplorer, GlossaryTerm } from "@/components/sections/Glossary";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { breadcrumbJsonLd, glossaryJsonLd } from "@/lib/structured-data";
+import { glossaryJsonLd } from "@/lib/structured-data";
 import {
   glossary,
   glossaryEntries,
@@ -48,9 +48,9 @@ export default function ResourcesPage() {
   return (
     <StepsPath steps={glossary.length}>
       <JsonLd data={glossaryJsonLd(glossaryEntries)} />
-      <JsonLd data={breadcrumbJsonLd([{ name: "Resources", path: "/resources" }])} />
 
       <PageHeader
+        trail={[{ name: "Resources", path: "/resources" }]}
         eyebrow="Therapy terms explained"
         title={
           <>

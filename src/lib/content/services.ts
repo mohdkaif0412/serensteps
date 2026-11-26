@@ -22,6 +22,8 @@ export type Service = {
   slug: "children-teens" | "individuals" | "couples-families";
   /** Short name for cards, breadcrumbs and links. */
   title: string;
+  /** Breadcrumb label: descriptive on its own, short enough for a phone. */
+  breadcrumb: string;
   /**
    * The detail page's H1, as `lead` + an italic `accent` (the site's display
    * heading style). It names the service in the words people search for —
@@ -49,6 +51,7 @@ export const services: Service[] = [
   {
     slug: "children-teens",
     title: "Children & Teens",
+    breadcrumb: "Child & teen counselling",
     heading: { lead: "Counselling & assessment", accent: "for children and teens" },
     metaTitle: "Child & Teen Counselling and Assessment",
     metaDescription:
@@ -107,6 +110,7 @@ export const services: Service[] = [
   {
     slug: "individuals",
     title: "Individual",
+    breadcrumb: "Individual counselling",
     heading: { lead: "Individual counselling", accent: "for adults" },
     metaTitle: "Individual Counselling for Anxiety & Stress",
     metaDescription:
@@ -145,6 +149,7 @@ export const services: Service[] = [
   {
     slug: "couples-families",
     title: "Couples & Family",
+    breadcrumb: "Couples & family counselling",
     heading: { lead: "Couples &", accent: "family counselling" },
     metaTitle: "Couples & Family Relationship Counselling",
     metaDescription:

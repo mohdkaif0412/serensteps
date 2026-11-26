@@ -10,8 +10,19 @@ import {
   WhatsAppIcon,
 } from "@/components/ui/BrandIcons";
 import { site, bookingCta } from "@/lib/site";
+import { services, servicePath, REFLECTIVE_PATH } from "@/lib/content/services";
 
 const explore = site.nav.filter((item) => item.href !== "/");
+
+// Every service by name, on every page: the detail pages are where the depth is,
+// and the header only reaches the index. Short labels, so they fit the column.
+const serviceNav = [
+  ...services.map((service) => ({
+    href: servicePath(service.slug),
+    label: service.breadcrumb,
+  })),
+  { href: REFLECTIVE_PATH, label: "Astrology & tarot" },
+];
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -99,6 +110,22 @@ export function Footer() {
               </h2>
               <ul className="mt-5 space-y-3">
                 {explore.map((item) => (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      className="link-underline text-sage/85 transition-colors hover:text-paper"
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+
+              <h3 className="mt-8 text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-mint-pale/80">
+                Services
+              </h3>
+              <ul className="mt-5 space-y-3">
+                {serviceNav.map((item) => (
                   <li key={item.href}>
                     <Link
                       href={item.href}

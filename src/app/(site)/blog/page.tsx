@@ -3,12 +3,13 @@ import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { PageHeader } from "@/components/sections/PageHeader";
 import { FinalCta } from "@/components/sections/FinalCta";
+import { ExploreServices } from "@/components/sections/InternalLinks";
 import { Section } from "@/components/ui/Section";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
 import { PostCard } from "@/components/ui/PostCard";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { blogJsonLd, breadcrumbJsonLd } from "@/lib/structured-data";
+import { blogJsonLd } from "@/lib/structured-data";
 import { getPublishedPosts } from "@/lib/queries";
 import { pageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
@@ -57,8 +58,8 @@ export default async function BlogPage({
   return (
     <>
       <JsonLd data={blogJsonLd(posts)} />
-      <JsonLd data={breadcrumbJsonLd([{ name: "Journal", path: "/blog" }])} />
       <PageHeader
+        trail={[{ name: "Journal", path: "/blog" }]}
         eyebrow="Mental wellness journal"
         title={
           <>
@@ -72,10 +73,16 @@ export default async function BlogPage({
         <Container>
           {posts.length ? (
             <>
+              {/* The cards are h3s, so the list needs an h2 above them. */}
+              <h2 className="sr-only">Latest articles</h2>
+
+              {/* Not wrapped in <Reveal>, and `priority`: the lead cover is the
+                  LCP element, and a Reveal holds it at near-zero opacity until
+                  the bundle hydrates — which put LCP at ~4.7s on a phone. */}
               {showFeature && (
-                <Reveal className="mb-10">
-                  <PostCard post={lead} variant="feature" />
-                </Reveal>
+                <div className="mb-10">
+                  <PostCard post={lead} variant="feature" priority />
+                </div>
               )}
 
               <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -135,6 +142,20 @@ export default async function BlogPage({
           )}
         </Container>
       </Section>
+
+      <ExploreServices
+        surface="mist"
+        heading={
+          <>
+            Prefer to talk it <em>through</em>?
+          </>
+        }
+        intro="If something here sounds familiar, these are the ways we can help."
+        extra={[
+          { href: "/faq", label: "Questions about starting therapy" },
+          { href: "/resources", label: "Therapy terms in plain language" },
+        ]}
+      />
 
       <FinalCta />
     </>

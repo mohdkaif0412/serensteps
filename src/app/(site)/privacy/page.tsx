@@ -46,6 +46,7 @@ export default function PrivacyPage() {
   return (
     <>
       <PageHeader
+        trail={[{ name: "Privacy notice", path: "/privacy" }]}
         eyebrow="Legal"
         title="Privacy notice"
         intro="How we look after the information you share with us."

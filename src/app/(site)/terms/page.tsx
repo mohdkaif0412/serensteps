@@ -47,6 +47,7 @@ export default function TermsPage() {
   return (
     <>
       <PageHeader
+        trail={[{ name: "Terms of use", path: "/terms" }]}
         eyebrow="Legal"
         title="Terms of use"
         intro="The simple terms that apply when you use this website."

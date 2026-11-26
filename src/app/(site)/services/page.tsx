@@ -15,7 +15,6 @@ import { TermsCallout } from "@/components/sections/ReflectiveBlocks";
 import { TestimonialDuo } from "@/components/sections/Testimonials";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
-  breadcrumbJsonLd,
   servicesJsonLd,
   servicesItemListJsonLd,
 } from "@/lib/structured-data";
@@ -112,9 +111,9 @@ export default async function ServicesPage() {
           offering — each `@id`'d at its own page. */}
       <JsonLd data={servicesJsonLd()} />
       <JsonLd data={servicesItemListJsonLd()} />
-      <JsonLd data={breadcrumbJsonLd([{ name: "Services", path: "/services" }])} />
 
       <PageHeader
+        trail={[{ name: "Services", path: "/services" }]}
         eyebrow="Counselling & assessment services"
         title={
           <>

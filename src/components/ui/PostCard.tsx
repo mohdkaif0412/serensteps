@@ -32,9 +32,12 @@ function Meta({ post, className }: { post: PublicPost; className?: string }) {
 export function PostCard({
   post,
   variant = "card",
+  priority = false,
 }: {
   post: PublicPost;
   variant?: Variant;
+  /** The card's image is the page's LCP — set on the lead card of an index. */
+  priority?: boolean;
 }) {
   const cover = { src: post.coverImage, alt: post.coverAlt };
 
@@ -47,6 +50,7 @@ export function PostCard({
         <div className="relative min-h-64 overflow-hidden md:min-h-full">
           <Photo
             image={cover}
+            priority={priority}
             sizes="(max-width: 768px) 100vw, 55vw"
             className="absolute inset-0 h-full rounded-none transition-transform duration-700 ease-soft group-hover:scale-[1.03]"
           />

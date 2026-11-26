@@ -1,7 +1,6 @@
 import Link from "next/link";
 import {
   ArrowRight,
-  ArrowLeft,
   Blocks,
   Check,
   ClipboardCheck,
@@ -24,6 +23,7 @@ import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
 import { Eyebrow } from "@/components/ui/Eyebrow";
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Photo } from "@/components/ui/Photo";
 import { Button } from "@/components/ui/Button";
 import { Magnetic } from "@/components/ui/Magnetic";
@@ -115,22 +115,6 @@ export function MicroLabel({
   );
 }
 
-/** The quiet "‹ All services" step back up the tree. Mirrors the breadcrumbs. */
-export function BackToServices({ label = "All services" }: { label?: string }) {
-  return (
-    <Link
-      href="/services"
-      className="group inline-flex items-center gap-2 text-sm font-medium text-muted transition-colors hover:text-forest"
-    >
-      <ArrowLeft
-        className="size-4 transition-transform duration-300 group-hover:-translate-x-1"
-        aria-hidden="true"
-      />
-      <span className="link-underline group-hover:bg-[length:100%_1px]">{label}</span>
-    </Link>
-  );
-}
-
 /* ── Hero ─────────────────────────────────────────────────────────── */
 
 /**
@@ -169,9 +153,12 @@ export function ServiceHero({
         )}
       />
       <Container className="relative">
-        <RiseIn>
-          <BackToServices />
-        </RiseIn>
+        <Breadcrumbs
+          trail={[
+            { name: "Services", path: "/services" },
+            { name: service.breadcrumb, path: servicePath(service.slug) },
+          ]}
+        />
 
         <div className="mt-8 grid items-center gap-10 lg:grid-cols-12 lg:gap-14">
           <div className={cn("lg:col-span-7", left && "lg:order-2 lg:col-start-6")}>

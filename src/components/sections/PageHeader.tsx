@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
 import { Container } from "@/components/ui/Container";
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
+import type { Crumb } from "@/lib/structured-data";
 import { HeadingKicker } from "@/components/ui/Eyebrow";
 import { RevealText, RiseIn } from "@/components/ui/RevealText";
 import { cn } from "@/lib/utils";
@@ -18,7 +20,13 @@ export function PageHeader({
   title,
   intro,
   align = "left",
+  trail,
 }: {
+  /**
+   * The page's own breadcrumb trail (Home is added). Renders the visible
+   * breadcrumb and its BreadcrumbList markup together — see Breadcrumbs.
+   */
+  trail?: Crumb[];
   eyebrow?: string;
   /** Pass <em>…</em> around a phrase for an italic display accent. */
   title: ReactNode;
@@ -33,6 +41,12 @@ export function PageHeader({
         className="wash-drift pointer-events-none absolute -right-40 -top-32 h-[24rem] w-[24rem] rounded-full bg-mint/10 blur-3xl"
       />
       <Container>
+        {trail && (
+          <Breadcrumbs
+            trail={trail}
+            className={cn("mb-6", centered && "flex justify-center")}
+          />
+        )}
         <div className={cn("max-w-3xl", centered && "mx-auto text-center")}>
           {/* The eyebrow is the h1's kicker, not a separate paragraph: the
               display titles are deliberately poetic ("A gentle place to heal

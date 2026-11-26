@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
 import {
   getPublishedPostBySlug,
   getAllPublishedSlugs,
-  getLatestPosts,
+  getPublishedPosts,
 } from "@/lib/queries";
 import { formatDate } from "@/lib/utils";
 import { Container } from "@/components/ui/Container";
@@ -14,8 +13,15 @@ import { Reveal } from "@/components/ui/Reveal";
 import { Photo } from "@/components/ui/Photo";
 import { PostCard } from "@/components/ui/PostCard";
 import { FinalCta } from "@/components/sections/FinalCta";
+import { PostNextSteps } from "@/components/sections/InternalLinks";
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { blogPostingJsonLd, breadcrumbJsonLd } from "@/lib/structured-data";
+import { blogPostingJsonLd } from "@/lib/structured-data";
+import {
+  glossaryMentionedIn,
+  rankRelatedPosts,
+  servicesForPost,
+} from "@/lib/links";
 import { pageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
 
@@ -54,34 +60,27 @@ export default async function PostPage({ params }: Params) {
   const post = await getPublishedPostBySlug(slug);
   if (!post) notFound();
 
-  const more = (await getLatestPosts(4))
-    .filter((p) => p.slug !== post.slug)
-    .slice(0, 3);
+  // "Keep reading" picks the most related pieces — same category first, then
+  // the same service — rather than just whatever was published last.
+  const { posts: recent } = await getPublishedPosts({ pageSize: 12 });
+  const more = rankRelatedPosts(post, recent, 3);
+  const relatedServices = servicesForPost(post);
+  const mentionedTerms = glossaryMentionedIn(
+    `${post.title} ${post.excerpt} ${post.content}`,
+  );
 
   return (
     <article className="pt-10">
       <JsonLd data={blogPostingJsonLd(post)} />
-      <JsonLd
-        data={breadcrumbJsonLd([
-          { name: "Journal", path: "/blog" },
-          { name: post.title, path: `/blog/${post.slug}` },
-        ])}
-      />
 
       {/* Article opener — set like a well-composed title page */}
       <Container size="prose">
-        <Link
-          href="/blog"
-          className="group inline-flex items-center gap-2 text-sm font-medium text-muted transition-colors hover:text-forest"
-        >
-          <ArrowLeft
-            className="size-4 transition-transform duration-300 group-hover:-translate-x-1"
-            aria-hidden="true"
-          />
-          <span className="link-underline group-hover:bg-[length:100%_1px]">
-            Back to the journal
-          </span>
-        </Link>
+        <Breadcrumbs
+          trail={[
+            { name: "Journal", path: "/blog" },
+            { name: post.title, path: `/blog/${post.slug}` },
+          ]}
+        />
 
         <div className="mt-10 flex flex-wrap items-center gap-x-3 gap-y-2 text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-muted">
           <span className="rounded-full bg-sage px-3 py-1 text-forest">
@@ -134,6 +133,8 @@ export default async function PostPage({ params }: Params) {
           className="prose-serene prose-article"
           dangerouslySetInnerHTML={{ __html: post.content }}
         />
+
+        <PostNextSteps services={relatedServices} terms={mentionedTerms} />
 
         <div className="relative mt-16 rounded-[2rem] bg-sand p-8 sm:p-10">
           <span

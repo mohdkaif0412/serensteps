@@ -9,7 +9,9 @@ import { WaveMark } from "@/components/ui/WaveMark";
 import { Photo } from "@/components/ui/Photo";
 import { RevealText, RiseIn } from "@/components/ui/RevealText";
 import { FinalCta } from "@/components/sections/FinalCta";
-import { BackToServices, RelatedServices } from "@/components/sections/ServiceBlocks";
+import { RelatedServices } from "@/components/sections/ServiceBlocks";
+import { KeepReading } from "@/components/sections/InternalLinks";
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import {
   TermsCallout,
   AstrologyBlock,
@@ -17,7 +19,9 @@ import {
   WhatWeBelieveBand,
 } from "@/components/sections/ReflectiveBlocks";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { breadcrumbJsonLd, reflectiveServiceJsonLd } from "@/lib/structured-data";
+import { reflectiveServiceJsonLd } from "@/lib/structured-data";
+import { getPublishedPosts } from "@/lib/queries";
+import { glossaryForService, postsForService } from "@/lib/links";
 import {
   astrologyServices,
   tarotServices,
@@ -41,16 +45,16 @@ export const metadata = pageMetadata({
  * opener, above every reading, at the heaviest border weight on the site. It is
  * never an accordion and never moves to the foot of the page.
  */
-export default function AstrologyTarotPage() {
+// The journal strip underneath reads the database — same short revalidate as
+// every other content page, so a database-less build self-heals.
+export const revalidate = 300;
+
+export default async function AstrologyTarotPage() {
+  const { posts } = await getPublishedPosts({ pageSize: 12 });
+
   return (
     <StepsPath steps={5}>
       <JsonLd data={reflectiveServiceJsonLd()} />
-      <JsonLd
-        data={breadcrumbJsonLd([
-          { name: "Services", path: "/services" },
-          { name: "Astrology & Tarot", path: REFLECTIVE_PATH },
-        ])}
-      />
 
       {/* ── Opener ───────────────────────────────────────────────── */}
       <section className="relative overflow-hidden pb-6 pt-8 sm:pt-12">
@@ -59,9 +63,12 @@ export default function AstrologyTarotPage() {
           className="wash-drift pointer-events-none absolute -right-40 -top-32 size-[26rem] rounded-full bg-mint/10 blur-3xl"
         />
         <Container className="relative">
-          <RiseIn>
-            <BackToServices />
-          </RiseIn>
+          <Breadcrumbs
+            trail={[
+              { name: "Services", path: "/services" },
+              { name: "Astrology & tarot", path: REFLECTIVE_PATH },
+            ]}
+          />
 
           <div className="mt-8 grid gap-10 lg:grid-cols-12 lg:gap-12">
             <div className="lg:col-span-5">
@@ -166,6 +173,10 @@ export default function AstrologyTarotPage() {
       </Section>
 
       <WhatWeBelieveBand />
+      <KeepReading
+        posts={postsForService("astrology-tarot", posts)}
+        terms={glossaryForService(REFLECTIVE_PATH)}
+      />
       <RelatedServices currentSlug="astrology-tarot" />
       <FinalCta />
     </StepsPath>
