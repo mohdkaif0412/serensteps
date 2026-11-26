@@ -357,8 +357,23 @@
 /* layout on the way out. A session flag set before the element is      */
 /* parsed skips it entirely on every subsequent page.                   */
 /* ------------------------------------------------------------------ */
+/* The CSS fallback is what makes it a curtain and not a gate. JS normally
+   dismisses it (fonts ready, 420–1100ms after hydration), but on a slow phone
+   hydration alone can take seconds — and with JS blocked or failed it would
+   never leave, covering the whole page. `boot-out` clears it on its own at
+   1.2s regardless. Before the animation starts, the JS transition below still
+   works (fill-mode `forwards` doesn't apply during the delay); after it, the
+   curtain holds at opacity 0 whatever React does. */
+@keyframes boot-out {
+  to {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
 .boot {
   transition: opacity 0.45s var(--ease-soft);
+  animation: boot-out 0.45s var(--ease-soft) 1.2s forwards;
 }
 .boot[data-done="true"] {
   opacity: 0;

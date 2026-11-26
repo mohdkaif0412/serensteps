@@ -13,6 +13,9 @@ import { site } from "@/lib/site";
  *   · It must not delay the hero. The page underneath renders normally; this is
  *     a fixed overlay that fades the instant the fonts resolve, with a hard cap
  *     so a slow font can never hold it open.
+ *   · It must not depend on JavaScript to leave. A CSS animation (`boot-out`
+ *     in globals.css) clears it at 1.2s on its own, so slow hydration or a
+ *     failed bundle can never leave the page covered.
  *   · It must not become the LCP element. There is no <img> in here and no
  *     large block of text — only an inline SVG, which Chrome never treats as an
  *     LCP candidate, and one small caption.
