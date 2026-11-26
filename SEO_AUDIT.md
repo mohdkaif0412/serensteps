@@ -185,7 +185,7 @@ C1 (unpublish), H1, H2, H3, H7, M3, M7, M8, M2.
 
 ## 6. Performance / Core Web Vitals
 
-**Baseline:** Lighthouse 12.8.2, **mobile** preset (simulated 4G + 4× CPU), local `next start` build. The README's 99–100 scores were measured on the **desktop** preset.
+**Baseline:** Lighthouse 12.8.2, **mobile** preset (simulated 4G + 4× CPU), local `next start` build. The README's 99–100 scores were measured on the **desktop** preset. Note: Lighthouse's *simulated* throttling reports ~3.3 s LCP on most pages here, while *applied* throttling reports 1.6–1.8 s (score 98) — real devices on slow connections track the second.
 
 | Page | Perf | A11y | BP | SEO | LCP | CLS | TBT |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -206,7 +206,7 @@ C1 (unpublish), H1, H2, H3, H7, M3, M7, M8, M2.
 | ID | Finding | Fix |
 | --- | --- | --- |
 | **H6** | `/services` transfers **7.35 MB**. Four autoplaying MP4s download on load: couples 3.0 MB, individual 1.5 MB, teens 0.97 MB, astrology 0.59 MB. The astrology clip sits in the **hidden** tab. Posters are raw `/images/*.jpg` (up to 256 KB) that bypass `next/image`. | `preload="none"`. Attach `src` and play only when in view (IntersectionObserver), and never inside a hidden tab panel. Show a static poster on mobile/`saveData`. Re-encode clips (≤ 600 KB, 720p H.264/AV1). Serve optimised posters (AVIF/WebP). |
-| H6 | Render-blocking CSS: 270–450 ms estimated savings. | Tailwind v4 output is one stylesheet; inline critical CSS or trim `globals.css`. Re-measure after the video fix first, since that is the dominant cost. |
+| H6 | Render-blocking CSS: 270–450 ms estimated savings. | **Tested, no change needed (26 Nov).** The CSS is 17 KB gzipped in two files. Inlining it (Next `inlineCss`) cut first paint 1.2 s → 0.9 s but left LCP at 3.3 s and doubled every page's HTML (35 → 71 KB gzipped, no cross-page caching), so it was not adopted. The ~3.3 s simulated LCP is a Lighthouse-model figure: with applied mobile throttling, LCP is 1.6–1.8 s and the performance score is 98 (`/`, `/faq`). |
 | H7 | Boot curtain (see §1). It covers the page on first visit until hydration. | CSS auto-dismiss, or skip it on mobile. |
 | L2 | Unused JS ~21–27 KiB, legacy polyfills 12 KiB, responsive-image savings 23–46 KiB, Plus Jakarta Sans loaded as 4 weights × 2 styles. | Set a `browserslist` to modern browsers. Use the variable font axis or drop the italic weights you don't need. Tighten `sizes`. |
 | H9 | Blog covers fall back to `https://picsum.photos/...` (third-party, uncached, placeholder). | Real covers through Cloudinary or `next/image`, with descriptive alt text. |
